@@ -37,7 +37,7 @@ void	PhoneBook::search_phonebook(void)
 
 	while (1)
 	{
-		index = std::stoi(this->contacts[0].get_contact("index"));
+		index = std::stoi(this->contacts[0].get_contact("index", TRUE));
 		if (index < this->index && index < PBMAX)
 		{
 			this->contacts[index].display_contact(TRUE);
@@ -48,13 +48,11 @@ void	PhoneBook::search_phonebook(void)
 	}
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
 	PhoneBook	phonebook;
 	std::string command;
 
-	(void) argc;
-	(void) argv;
 	while (1)
 	{
 		std::cout << "Enter Command: 1.ADD 2.SEARCH 3.EXIT" << std::endl;
@@ -74,7 +72,6 @@ int main(int argc, char **argv)
 		else if (command == "SEARCH")
 		{
 			phonebook.display_phonebook();
-			printf("pass\n");
 			phonebook.search_phonebook();
 		}
 		else if (command == "EXIT")

@@ -3,7 +3,7 @@
 
 # include <iostream>
 # include <iomanip>
-# include <stdio.h>
+# include <sstream>
 
 //Contact members
 # define FN "FirstName"
@@ -35,7 +35,7 @@ class Contact
 		~Contact();
 		void		add_contact(int index);
 		void		display_contact(int attribute_on);
-		std::string get_contact(std::string str);
+		std::string get_contact(const std::string str, int intopt);
 		void		display_column(std::string str);
 		void		display_attribute(void);
 };
