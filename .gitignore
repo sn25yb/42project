@@ -1,0 +1,12 @@
+!*.cpp
+!*.hpp
+!Makefile
+
+
+*test*
+*infile*
+*outfile*
+.vscode
+.DS_store
+*.o
+

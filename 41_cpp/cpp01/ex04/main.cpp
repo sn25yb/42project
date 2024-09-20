@@ -1,45 +1,88 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+
 #include <stdio.h>
 
-int valid_argv(int argc)
+int valid_argv(int argc, char **argv)
 {
 	if (argc != 4)
 	{
-		std::cerr << "The number of factors should be 4" << std::endl;
+		std::cerr << "You need to enter 4 arguments." << std::endl;
 		return (1);
+	}
+	if (!**(argv + 1) || !**(argv + 2))
+	{
+		std::cerr << "You can't enter empty argument." << std::endl;
+		return (1);		
 	}
 	return (0);
 }
 
+std::string	replace_string(const std::string str, const std::string old_str, const std::string new_str)
+{
+	std::string result;
+	std::string::size_type pos, old_pos;
+
+	pos = 0;
+	old_pos = 0;
+	while (1)
+	{
+		pos = str.find(old_str, old_pos);
+		if (pos == std::string::npos)
+			break ;
+		result.append(str, old_pos, pos - old_pos);
+		result += new_str;
+		old_pos = pos + old_str.length();
+	}
+	result.append(str, old_pos, std::string::npos);
+	return (result);
+}
 
 int	main(int argc, char **argv)
 {
 	std::string filename;
 	std::string s1;
 	std::string s2;
-	std::string file;
+	std::string text;
 
-	if (valid_argv(argc))
+	//valid arguments
+	if (valid_argv(argc, argv))
 		return (1);
+	//save arguments
 	filename = *(argv + 1);
 	s1 = *(argv + 2);
 	s2 = *(argv + 3);
-	
 	//open file for read
-	std::ifstream fin;
-	fin.open(filename);
-	if (!fin)
+	std::ifstream infile;
+	infile.open(filename);
+	if (infile.fail())
 	{
-		std::cerr << "file open is falied." << std::endl;
+		std::cerr << "We failed to open the file." << std::endl;
 		return (1);
 	}
-	//read file
-	fin >> file;
-	printf("%s\n", file.c_str());
-	fin >> file;
-
-
-	fin.close();
+	//open file for write
+	std::ofstream outfile(filename + ".replace");
+	if (outfile.fail())
+	{
+		std::cerr << "We failed to open the file." << std::endl;
+		return (1);
+	}
+	//read file & replace s1 to s2 & write file.replace
+	while (1)
+	{
+		infile >> text;
+		//write file 
+		outfile << replace_string(text, s1, s2).c_str() << std::endl;
+		if (infile.eof())
+			break ;
+		else if(infile.fail())
+		{
+			std::cout << "We failed to read the file." << std::endl;
+			break ;
+		}
+	}
+	infile.close();
+	outfile.close();
 	return (0);
 }

@@ -1,22 +1,23 @@
-NAME = harlFilter
+NAME = fixed
 
-CXX = g++
-CXXFLAG = -std=c++98 -pedantic
-WFALG = -Wall -Wextra -Werror
+CPP = g++
+CPPFLAGS = -std=c++98 -pedantic
+WFLAGS = -Wall -Wextra -Werror
 
 SRC = \
-	./Harl.cpp\
+	./Fixed.cpp \
 	./main.cpp
+
 OBJ = $(SRC:.cpp=.o)
 
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CXX) $(CXXFLAG) $(WFALG) $^ -o $@
+	$(CPP) $(CPPFLAGS) $(WFLAGS) $^ -o $@
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAG) $(WFALG) -c $< -o $@
-	
+%.o : %.cpp
+	$(CPP) $(CPPFLAGS) $(WFLAGS) -c $< -o $@
+
 clean:
 	rm -f $(OBJ)
 

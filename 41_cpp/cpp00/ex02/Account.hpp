@@ -23,34 +23,34 @@ public:
 
 	typedef Account		t;
 
-	static int	getNbAccounts( void );
-	static int	getTotalAmount( void );
-	static int	getNbDeposits( void );
-	static int	getNbWithdrawals( void );
-	static void	displayAccountsInfos( void );
+	static int	getNbAccounts( void ); //계좌
+	static int	getTotalAmount( void ); //총액
+	static int	getNbDeposits( void ); //예금
+	static int	getNbWithdrawals( void ); // 출금
+	static void	displayAccountsInfos( void ); //계좌정보
 
 	Account( int initial_deposit );
 	~Account( void );
 
-	void	makeDeposit( int deposit );
-	bool	makeWithdrawal( int withdrawal );
-	int		checkAmount( void ) const;
-	void	displayStatus( void ) const;
+	void	makeDeposit( int deposit ); //예금 
+	bool	makeWithdrawal( int withdrawal ); //출금
+	int		checkAmount( void ) const; //총액
+	void	displayStatus( void ) const; //상태? 
 
 
 private:
 
-	static int	_nbAccounts;
-	static int	_totalAmount;
-	static int	_totalNbDeposits;
-	static int	_totalNbWithdrawals;
+	static int	_nbAccounts; //계좌
+	static int	_totalAmount; //총액
+	static int	_totalNbDeposits; //총 예금액?
+	static int	_totalNbWithdrawals; //총 출금액?
 
-	static void	_displayTimestamp( void );
+	static void	_displayTimestamp( void ); //timestamp 찍는 함수 
 
-	int				_accountIndex;
-	int				_amount;
-	int				_nbDeposits;
-	int				_nbWithdrawals;
+	int				_accountIndex; //계좌 인덱스
+	int				_amount; //총액
+	int				_nbDeposits; //예금
+	int				_nbWithdrawals; //출금
 
 	Account( void );
 
