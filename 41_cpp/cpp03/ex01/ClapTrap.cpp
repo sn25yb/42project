@@ -2,58 +2,58 @@
 
 /* ************************************************************************** */
 /*                           ORTHODOX CANONICAL FORM                          */
-/* : Default constructor                                                      */
-/* : Copy constructor                                                         */
-/* : Copy assignment operator                                                 */
-/* : Destructor                                                               */
 /* ************************************************************************** */
 
 ClapTrap::ClapTrap()
 {
-	std::cout << "Default constructor called" << std::endl;
+	this->classname = "[ClapTrap]";
 	this->name = "Default";
 	this->hit_points = 10;
 	this->energy_points = 10;
 	this->attack_damage = 0;
+	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap& claptrap)
 {
-	std::cout << "Copy constructor called" << std::endl;
 	*this = claptrap;
+	std::cout << this->classname << this->name << OCCF1 << std::endl;
 }
 
 ClapTrap& ClapTrap::operator = (const ClapTrap& claptrap)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
+	this->classname = claptrap.classname;
 	this->name = claptrap.name;
 	this->hit_points = claptrap.hit_points;
 	this->energy_points = claptrap.energy_points;
 	this->attack_damage = claptrap.attack_damage;
+	std::cout << this->classname << this->name << OCCF2 << std::endl;
 	return (*this);
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << this->name << " destructor called" << std::endl;
+	std::cout << this->classname << this->name << OCCF3 << std::endl;
 }
 
 /* ************************************************************************** */
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
+
 ClapTrap::ClapTrap(std::string name)
 {
-	std::cout << name << " constructor called" << std::endl;
+	this->classname = "[ClapTrap]";
 	this->name = name;
 	this->hit_points = 10;
 	this->energy_points = 10;
 	this->attack_damage = 0;
+	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
-
 
 /* ************************************************************************** */
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
+
 void ClapTrap::attack(const std::string& target)
 {
 	unsigned int	pre_ep;
@@ -62,11 +62,11 @@ void ClapTrap::attack(const std::string& target)
 	if (pre_ep)
 	{
 		this->energy_points--;
-		std::cout << " ❯ ClapTrap " << this->name << " attacks " << target << "!" << std::endl;
+		std::cout << NOTICE << this->classname << this->name << " attacks " << target << "!" << std::endl;
 	}
 	else
-		std::cout << " ❯ ClapTrap " << this->name << " can't attack." << std::endl;
-	std::cout  << "   ClapTrap " << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
+		std::cout << NOTICE << this->classname << this->name << " can't attack." << std::endl;
+	std::cout  << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
@@ -78,8 +78,8 @@ void ClapTrap::takeDamage(unsigned int amount)
 		this->hit_points -= amount;
 	else 
 		this->hit_points = 0;
-	std::cout << "   " << this->name << " is damaged!" << std::endl;
-	std::cout << "   " << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
+	std::cout << NSPACE << this->classname << this->name << " is damaged!" << std::endl;
+	std::cout << NSPACE << this->classname << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
@@ -93,10 +93,10 @@ void ClapTrap::beRepaired(unsigned int amount)
 	{
 		this->energy_points--;
 		this->hit_points += amount;
-		std::cout << " ❯ " << this->name << " repairs " << this->name << "." << std::endl;
+		std::cout << NOTICE << this->classname << this->name << " repairs itself." << std::endl;
 	}
 	else
-		std::cout << " ❯ " << this->name << " can't repair." << std::endl;
-	std::cout  << "   " << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
-	std::cout << "   " << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
+		std::cout << NOTICE << this->classname << this->name << " can't repair." << std::endl;
+	std::cout << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
+	std::cout << NSPACE << this->classname << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
 }
