@@ -71,3 +71,14 @@ void ScavTrap::guardGate()
 {
 	std::cout << NOTICE << this->classname << this->name << " is now in Gatekeeper mode." << std::endl;
 }
+
+void ScavTrap::getstat()
+{
+	std::cout << "================================" << std::endl;
+	std::cout << "    classname:" << this->classname << std::endl;
+	std::cout << "         name:" << this->name << std::endl;
+	std::cout << "    hit_point:" << this->hit_points << std::endl;
+	std::cout << "energy_points:" << this->energy_points << std::endl;
+	std::cout << "attack_damage:" << this->attack_damage << std::endl;
+	std::cout << "================================" << std::endl;
+}

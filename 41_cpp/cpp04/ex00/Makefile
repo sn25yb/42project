@@ -1,15 +1,16 @@
-NAME = diamondtrap
+NAME = animal
 
 CPP = g++
-CPPFLAGS = -std=c++98 -pedantic
-WFLAGS = -Wall -Wextra -Werror -Wshadow
+CPPFLAGS = -std=c++98
+WFLAGS = -Wall -Wextra -Werror
 
 SRC = \
-	./ClapTrap.cpp \
-	./ScavTrap.cpp \
-	./FragTrap.cpp \
-	./DiamondTrap.cpp \
-	./main.cpp
+	./Animal.cpp \
+	./Dog.cpp \
+	./Cat.cpp \
+	./WrongAnimal.cpp \
+	./WrongCat.cpp \
+	./main.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all : $(NAME)

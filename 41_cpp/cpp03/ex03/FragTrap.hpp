@@ -3,7 +3,7 @@
 
 #include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {	
 	private:
 		std::string	classname;
@@ -18,7 +18,7 @@ class FragTrap : public ClapTrap
 
 		/* FUNCTION */
 		void highFivesGuys(void);
-
+		virtual void	getstat();
 };
 
 #endif 

@@ -58,3 +58,14 @@ void FragTrap::highFivesGuys(void)
 {
 	std::cout << NOTICE << this->classname << this->name << "request a positive high fives!" << std::endl;
 }
+
+void FragTrap::getstat()
+{
+	std::cout << "================================" << std::endl;
+	std::cout << "    classname:" << this->classname << std::endl;
+	std::cout << "         name:" << this->name << std::endl;
+	std::cout << "    hit_point:" << this->hit_points << std::endl;
+	std::cout << "energy_points:" << this->energy_points << std::endl;
+	std::cout << "attack_damage:" << this->attack_damage << std::endl;
+	std::cout << "================================" << std::endl;
+}

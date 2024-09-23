@@ -1,11 +1,12 @@
-#include "FragTrap.hpp"
+#include "DiamondTrap.hpp"
 
 int	main(void)
 {
-	FragTrap A("A");
-	FragTrap B("B");
-	FragTrap C(A);
+	DiamondTrap A("A");
+	DiamondTrap B("B");
+	DiamondTrap C(A);
 
+	A.getstat();
 	A.attack("B");
 	B.takeDamage(5);
 	B.beRepaired(10);
@@ -17,6 +18,6 @@ int	main(void)
 	B.attack("A");
 	A.takeDamage(101);
 	A.beRepaired(10);
-	A.highFivesGuys();
+	A.whoAmI();
 	return (0);
 }

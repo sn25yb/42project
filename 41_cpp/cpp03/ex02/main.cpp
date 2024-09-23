@@ -6,6 +6,7 @@ int	main(void)
 	FragTrap B("B");
 	FragTrap C(A);
 
+	A.getstat();
 	A.attack("B");
 	B.takeDamage(5);
 	B.beRepaired(10);

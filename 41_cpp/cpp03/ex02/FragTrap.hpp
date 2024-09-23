@@ -18,7 +18,7 @@ class FragTrap : public ClapTrap
 
 		/* FUNCTION */
 		void highFivesGuys(void);
-
+		void	getstat();
 };
 
 #endif 

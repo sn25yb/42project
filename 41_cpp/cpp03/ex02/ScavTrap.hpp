@@ -20,6 +20,7 @@ class ScavTrap : public ClapTrap
 		/* FUNCTION */
 		void guardGate();
 		void attack(const std::string& target);
+		void	getstat();
 };
 
 #endif

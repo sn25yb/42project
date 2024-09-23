@@ -100,3 +100,14 @@ void ClapTrap::beRepaired(unsigned int amount)
 	std::cout << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
 	std::cout << NSPACE << this->classname << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
 }
+
+void ClapTrap::getstat()
+{
+	std::cout << "================================" << std::endl;
+	std::cout << "    classname:" << this->classname << std::endl;
+	std::cout << "         name:" << this->name << std::endl;
+	std::cout << "    hit_point:" << this->hit_points << std::endl;
+	std::cout << "energy_points:" << this->energy_points << std::endl;
+	std::cout << "attack_damage:" << this->attack_damage << std::endl;
+	std::cout << "================================" << std::endl;
+}

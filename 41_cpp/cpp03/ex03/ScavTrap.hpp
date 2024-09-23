@@ -5,7 +5,7 @@
 
 #define SCAVTRAP "[ScavTrap]"
 
-class ScavTrap : public ClapTrap
+class ScavTrap : virtual public ClapTrap
 {
 	private:
 		std::string classname;
@@ -20,6 +20,7 @@ class ScavTrap : public ClapTrap
 		/* FUNCTION */
 		void guardGate();
 		void attack(const std::string& target);
+		virtual void	getstat();
 };
 
 #endif
