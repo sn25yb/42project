@@ -7,7 +7,6 @@ class Dog : public Animal
 {
 	private:
 		std::string classname;
-		/* data */
 	public:
 		/* ORTHODOX CANONICAL FORM */
 		Dog();

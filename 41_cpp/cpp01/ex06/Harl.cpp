@@ -2,10 +2,13 @@
 
 Harl::Harl()
 {
+	this->classname = "[Harl]";
+	std::cout << this->classname << OCCF0 << std::endl;
 }
 
 Harl::~Harl()
 {
+	std::cout << this->classname << OCCF3 << std::endl;
 }
 
 void Harl::debug( void )
@@ -33,8 +36,6 @@ void Harl::error( void )
 	std::cout << "Error messages indicate an unrecoverable error has occurred. This is usually a critical issue that requires manual intervention." << std::endl;
 }
 
-
-#define levelsnum 4
 void Harl::complain(std::string level)
 {
 	int	index;

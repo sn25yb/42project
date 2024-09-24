@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cctype> //isalpha
 
 int	valid_argv(int argc)
 {
@@ -13,13 +12,14 @@ int	valid_argv(int argc)
 
 void	megaphone(char **str)
 {
-	int index;
-	int index2;
+	std::string	res;
+	int			index;
+	int			index2;
 
 	for (index = 0; str[index]; index++)
 		for (index2 = 0; str[index][index2]; index2++)
-			std::cout << static_cast<char>(toupper(str[index][index2]));
-	std::cout << std::endl;
+			res += static_cast<char>(std::toupper(str[index][index2]));
+	std::cout << res << std::endl;
 }
 
 int	main(int argc, char **argv)

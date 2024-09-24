@@ -2,19 +2,24 @@
 # define PHONEBOOK_HPP
 
 # include "Contact.hpp"
-# define PBMAX 8
+# define PAGE 8
 
 class PhoneBook
 {
 	private:
-		Contact contacts[PBMAX];
-		int		index;
+		std::string	classname;
+		Contact		contacts[PAGE];
+		int			addindex;
 	public:
+		/* CONSTRUCTOR */
 		PhoneBook();
+		/* DESTRUCTOR */
 		~PhoneBook();
-		void	add_phonebook(void);
-		void	display_phonebook(void);
-		void	search_phonebook(void);
+		/* FUNCTION */
+		void		add_phonebook(void);
+		void		display_phonebook(void);
+		void		search_phonebook(void);
+		std::string	get_index(const std::string str);
 };
 
 #endif

@@ -1,8 +1,14 @@
 #include "HumanA.hpp"
 #include "HumanB.hpp"
 
+// void leaks()
+// {
+// 	system("leaks weapon");
+// }
+
 int main()
 {
+	// atexit(leaks);
 	{
 		Weapon club = Weapon("crude spiked club");
 		HumanA bob("Bob", club);
@@ -20,6 +26,5 @@ int main()
 		club.setType("some other type of club");
 		jim.attack();
 	}
-	
 	return 0;
 }

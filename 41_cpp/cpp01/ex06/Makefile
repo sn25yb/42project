@@ -1,7 +1,7 @@
 NAME = harlFilter
 
-CXX = g++
-CXXFLAG = -std=c++98 -pedantic
+CPP = g++
+CPPFLAG = -std=c++98 
 WFALG = -Wall -Wextra -Werror
 
 SRC = \
@@ -12,10 +12,10 @@ OBJ = $(SRC:.cpp=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CXX) $(CXXFLAG) $(WFALG) $^ -o $@
+	$(CPP) $(CPPFLAG) $(WFALG) $^ -o $@
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAG) $(WFALG) -c $< -o $@
+	$(CPP) $(CPPFLAG) $(WFALG) -c $< -o $@
 	
 clean:
 	rm -f $(OBJ)

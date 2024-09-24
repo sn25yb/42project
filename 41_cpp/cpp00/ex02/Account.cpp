@@ -1,10 +1,6 @@
 #include "Account.hpp"
-#include <iostream>
-#include <ctime>
-#include <iomanip>
 
 //awk '{print $2}' test.log > test_column.log
-
 int Account::_nbAccounts;
 int Account::_totalAmount;
 int Account::_totalNbDeposits;
@@ -32,6 +28,7 @@ Account::Account()
 {
 
 }
+
 Account::~Account()
 {
 	_displayTimestamp();
@@ -51,14 +48,17 @@ int	Account::getTotalAmount(void)
 {
 	return (_totalAmount);
 }
+
 int	Account::getNbDeposits(void)
 {
 	return (_totalNbDeposits);
 }
+
 int	Account::getNbWithdrawals(void)
 {
 	return (_totalNbWithdrawals);
 }
+
 void	Account::displayAccountsInfos(void)
 {
 	_displayTimestamp();
@@ -70,6 +70,7 @@ void	Account::displayAccountsInfos(void)
 		<< "withdrawals:" << _totalNbWithdrawals \
 		<< std::endl;
 }
+
 void	Account::makeDeposit(int deposit)
 {
 	int p_amount;
@@ -91,6 +92,7 @@ void	Account::makeDeposit(int deposit)
 		<< std::endl;
 
 }
+
 bool	Account::makeWithdrawal(int withdrawal)
 {
 	int p_amount;
@@ -125,6 +127,7 @@ bool	Account::makeWithdrawal(int withdrawal)
 		<< std::endl;
 	return (0);
 }
+
 int	Account::checkAmount(void) const
 {
 	return (_amount);

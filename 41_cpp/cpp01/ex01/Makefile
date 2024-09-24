@@ -1,7 +1,7 @@
 NAME = zombiehorde
 
-CXX = g++
-CXXFLAG = -std=c++98 -pedantic
+CPP = g++
+CPPFLAG = -std=c++98
 WFALF = -Wall -Wextra -Werror
 
 SRC = \
@@ -13,10 +13,10 @@ OBJ = $(SRC:.cpp=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CXX) $(CXXFLAG) $(WFLAG) $^ -o $@ 
+	$(CPP) $(CPPFLAG) $(WFLAG) $^ -o $@ 
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAG) $(WFLAG) -c $< -o $@
+	$(CPP) $(CPPFLAG) $(WFLAG) -c $< -o $@
 
 clean :
 	rm -rf $(OBJ)

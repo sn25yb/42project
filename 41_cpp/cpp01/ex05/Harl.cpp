@@ -2,10 +2,13 @@
 
 Harl::Harl()
 {
+	this->classname = "[Harl]";
+	std::cout << this->classname << OCCF0 << std::endl;
 }
 
 Harl::~Harl()
 {
+	std::cout << this->classname << OCCF3 << std::endl;
 }
 
 void Harl::debug( void )

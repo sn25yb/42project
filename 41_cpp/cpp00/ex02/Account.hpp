@@ -7,10 +7,13 @@
 //                                                                            //
 // ************************************************************************** //
 
-
 #pragma once
 #ifndef __ACCOUNT_H__
 #define __ACCOUNT_H__
+
+#include <iostream>
+#include <ctime>
+#include <iomanip>
 
 // ************************************************************************** //
 //                               Account Class                                //
@@ -35,22 +38,22 @@ public:
 	void	makeDeposit( int deposit ); //예금 
 	bool	makeWithdrawal( int withdrawal ); //출금
 	int		checkAmount( void ) const; //총액
-	void	displayStatus( void ) const; //상태? 
+	void	displayStatus( void ) const; //상태 display
 
 
 private:
 
-	static int	_nbAccounts; //계좌
-	static int	_totalAmount; //총액
-	static int	_totalNbDeposits; //총 예금액?
-	static int	_totalNbWithdrawals; //총 출금액?
+	static int	_nbAccounts; //계좌 개수
+	static int	_totalAmount; //총 잔액
+	static int	_totalNbDeposits; //총예금횟수
+	static int	_totalNbWithdrawals; //총출금횟수
 
 	static void	_displayTimestamp( void ); //timestamp 찍는 함수 
 
 	int				_accountIndex; //계좌 인덱스
-	int				_amount; //총액
-	int				_nbDeposits; //예금
-	int				_nbWithdrawals; //출금
+	int				_amount; //잔액
+	int				_nbDeposits; //예금횟수
+	int				_nbWithdrawals; //출금횟수
 
 	Account( void );
 

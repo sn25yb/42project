@@ -4,6 +4,12 @@
 # include <iostream>
 # include <iomanip>
 # include <sstream>
+# include <limits>
+
+# define OCCF0 " constructor called."
+# define OCCF3 " destructor called."
+# define NOTICE " ❯ "
+# define NSPACE "   "
 
 //Contact members
 # define FN "FirstName"
@@ -13,9 +19,10 @@
 # define DS "DarkestSecret"
 
 //display column
-# define SEP "|"
-# define FILL ' '
 # define LEN 10
+# define MORE '.'
+# define FILL ' '
+# define SEP "|"
 
 //bool
 # define FALSE 0
@@ -24,20 +31,25 @@
 class Contact
 {
 	private:
-		std::string FirstName;
-		std::string LastName;
-		std::string NickName;
-		std::string PhoneNumber;
-		std::string DarkestSecret;
-		int			index;
+		std::string	classname;
+		std::string	firstname;
+		std::string	lastname;
+		std::string	nickname;
+		std::string	phonenumber;
+		std::string	darkestsecret;
+		int			Cindex;
 	public:
+		/* CONSTRUCTOR */
 		Contact();
+		/* DESTRUCTOR */
 		~Contact();
+		/* FUNCTION */
 		void		add_contact(int index);
 		void		display_contact(int attribute_on);
-		std::string get_contact(const std::string str, int intopt);
+		std::string	get_contact(const std::string str, int num_opt);
 		void		display_column(std::string str);
 		void		display_attribute(void);
+		int			valid_phonenumber(std::string str);
 };
 
 #endif

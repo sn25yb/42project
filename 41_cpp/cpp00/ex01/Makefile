@@ -1,21 +1,19 @@
-NAME = phonebook
+NAME = phone
 
-CXX = g++
-CXXFLAG = -Wall -Wextra -Werror -std=c++98 -pedantic
-###-pedatic###
-#: This flag enables strict adherence to the chosen C language standard, 
-#  providing additional warnings for non-standard or questionable code constructs
+CPP = g++
+CPPFLAG = -std=c++98
+WFLAG = -Wall -Wextra -Werror
 
-SRC = ./PhoneBook.cpp ./Contact.cpp
+SRC = ./PhoneBook.cpp ./Contact.cpp ./main.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CXX) $(CXXFLAG) $^ -o $@
+	$(CPP) $(CPPFLAG) $(WFLAG) $^ -o $@
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAG) -c $< -o $@
+	$(CPP) $(CPPFLAG) $(WFLAG) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

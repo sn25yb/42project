@@ -1,10 +1,5 @@
 #include "HumanA.hpp"
 
-// HumanA::HumanA()
-// {
-
-// }
-
 HumanA::HumanA(std::string name, Weapon &weapon) : name(name), weapon(weapon)
 {
 	this->name = name;
@@ -17,6 +12,7 @@ HumanA::~HumanA()
 {
 	std::cout << " ❯ HumanA [" << this->name << "] is destroyed." << std::endl;
 }
+
 void HumanA::attack()
 {
 	std::cout << this->name << " attacks with their " << this->weapon.getType() << "." << std::endl;

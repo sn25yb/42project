@@ -1,7 +1,7 @@
 NAME = fragtrap
 
 CPP = g++
-CPPFLAGS = -std=c++98 -pedantic
+CPPFLAGS = -std=c++98 
 WFLAGS = -Wall -Wextra -Werror
 
 SRC = \

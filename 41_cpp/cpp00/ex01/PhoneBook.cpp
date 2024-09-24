@@ -1,27 +1,42 @@
 #include "PhoneBook.hpp"
 
+/* ************************************************************************** */
+/*                               CONSTRUCTOR                                  */
+/* ************************************************************************** */
+
 PhoneBook::PhoneBook()
 {
-	std::cout << "PhoneBook class is constructed\n";
+	this->classname = "[PhoneBook]";
+	std::cout << this->classname << OCCF0 << std::endl;
 }
+
+/* ************************************************************************** */
+/*                                DESTRUCTOR                                  */
+/* ************************************************************************** */
 
 PhoneBook::~PhoneBook()
 {
-	std::cout << "PhoneBook class is destructed\n";
+	std::cout << this->classname << OCCF3 << std::endl;
 }
 
+/* ************************************************************************** */
+/*                                  FUNCTION                                  */
+/* ************************************************************************** */
+
+/* add_phonebook */
 void	PhoneBook::add_phonebook(void)
 {
-	this->contacts[this->index % PBMAX].add_contact(index % PBMAX);
-	this->index++;
+	this->contacts[this->addindex % PAGE].add_contact(this->addindex %PAGE);
+	this->addindex++;
 }
 
+/* display_phonebook */
 void	PhoneBook::display_phonebook(void)
 {
 	int index;
 
 	index = 0;
-	while (index < this->index && index < PBMAX)
+	while (index < this->addindex && index < PAGE)
 	{
 		if (index == 0)
 			this->contacts[index].display_contact(TRUE);
@@ -31,51 +46,53 @@ void	PhoneBook::display_phonebook(void)
 	}
 }
 
+/* search_phonebook */
 void	PhoneBook::search_phonebook(void)
 {
-	int	index;
+	std::string str;
+	int			index;
 
 	while (1)
 	{
-		index = std::stoi(this->contacts[0].get_contact("index", TRUE));
-		if (index < this->index && index < PBMAX)
+		str = get_index("index");
+		std::stringstream ss(str);
+		ss >> index;
+		if (ss.eof() && !ss.fail() && 0 <= index && index < PAGE)
 		{
-			this->contacts[index].display_contact(TRUE);
+			if (index < this->addindex)
+				this->contacts[index].display_contact(TRUE);
+			else 
+				std::cerr << "empty index." << std::endl;
 			break ;
 		}
 		else
-			std::cout << "invalid index." << std::endl;
+			std::cerr << "invalid index." << std::endl;
 	}
 }
 
-int main(void)
+std::string	PhoneBook::get_index(const std::string str)
 {
-	PhoneBook	phonebook;
-	std::string command;
+	std::string	index;
 
 	while (1)
 	{
-		std::cout << "Enter Command: 1.ADD 2.SEARCH 3.EXIT" << std::endl;
-		std::cin >> command;
+		std::cout << "Please enter " << str << NOTICE;
+		getline(std::cin, index);
 		if (std::cin.eof())
 		{
 			std::cerr << std::endl << "EOF encountered. Exiting..." << std::endl;
 			exit(0);
 		}
-		// if (std::cin.fail())
-		// {
+		if (std::cin.fail())
+		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		// }
-		if (command == "ADD")
-			phonebook.add_phonebook();
-		else if (command == "SEARCH")
-		{
-			phonebook.display_phonebook();
-			phonebook.search_phonebook();
+			continue;
 		}
-		else if (command == "EXIT")
-			exit(0);
+		if (!index.empty())
+			break;
+		else
+			std::cerr << str << " is empty. Please try again." << std::endl;
 	}
-	return (0);
+	return (index);
 }
