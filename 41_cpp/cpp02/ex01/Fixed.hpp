@@ -7,21 +7,24 @@
 class Fixed
 {
 	private:
-		int					fixed_num;
+		int					fix_num;
 		static const int	frac_bit = 8;
 	public:
+		/* ORTHODOX CANONICAL FORM */
 		Fixed(void);
+		Fixed(const Fixed &fixed);
+		Fixed &operator = (const Fixed &fixed);
+		~Fixed();
+		/* CONSTRUCTOR */
 		Fixed(const int num);
 		Fixed(const float float_num);
-		Fixed(const Fixed &fixed); //복사 생성자
-		Fixed &operator = (const Fixed &fixed); //복사 할당 연산자 오버로드
-		~Fixed();
-		
+		/* FUNCTION */
+		/* [1] get, set */
 		int		getRawBits( void ) const;
 		void	setRawBits( int const raw ); 
-
-		float toFloat( void ) const; //고정 소수점 값을 부동 소수점 값으로 변환
-		int toInt( void ) const; //고정 소수점 값을 정수 값으로 변환
+		/* [2] toFlaot, toInt */
+		float	toFloat( void ) const;
+		int		toInt( void ) const; 
 };
 
 #endif

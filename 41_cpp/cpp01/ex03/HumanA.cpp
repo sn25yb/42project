@@ -2,18 +2,28 @@
 
 HumanA::HumanA(std::string name, Weapon &weapon) : name(name), weapon(weapon)
 {
+	this->classname = "[HumanA]";
 	this->name = name;
 	this->weapon = weapon;
-	std::cout << " ❯ HumanA [" << this->name << "] is created."<< std::endl;
-	std::cout << "   Weapon [" << this->weapon.getType() << "] set up for HumanA [" << this->name << "]." << std::endl;
+	std::cout << this->classname << this->name << OCCF0 << std::endl;
+	std::cout << this->weapon.get_classname() << this->weapon.getType() \
+				<< " set up for " << this->classname << this->name << "." << std::endl;
 }
 
 HumanA::~HumanA()
 {
-	std::cout << " ❯ HumanA [" << this->name << "] is destroyed." << std::endl;
+	std::cout << this->classname << this->name << OCCF3 << std::endl;
 }
 
 void HumanA::attack()
 {
-	std::cout << this->name << " attacks with their " << this->weapon.getType() << "." << std::endl;
+	std::cout << this->classname << this->name << " attacks with their " \
+			<< this->weapon.get_classname() << this->weapon.getType() << std::endl;
+}
+
+void HumanA::setWeapon(Weapon &weapon)
+{
+	this->weapon = weapon;
+	std::cout << this->weapon.get_classname() << this->weapon.getType() \
+				<< " set up for " << this->classname << this->name << "." << std::endl;
 }

@@ -1,5 +1,4 @@
 #include "Zombie.hpp"
-#include <sstream>
 
 Zombie* zombieHorde(int N, std::string name)
 {
@@ -7,7 +6,7 @@ Zombie* zombieHorde(int N, std::string name)
 	std::stringstream	zindex;
 	std::string			zname;
 
-	zhorde = new Zombie[N];	
+	zhorde = new Zombie[N];
 	for (int index = 0; index < N; index++)
 	{
 		zindex.str(std::string());

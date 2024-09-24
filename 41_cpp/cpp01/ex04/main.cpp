@@ -1,11 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 
-#include <stdio.h>
-
-int valid_argv(int argc, char **argv);
-int	ioreplace(char **argv);
+int			valid_argv(int argc, char **argv);
+int			ioreplace(char **argv);
 std::string	replace_string(const std::string str, const std::string old_str, const std::string new_str);
 
 int	main(int argc, char **argv)
@@ -15,7 +12,7 @@ int	main(int argc, char **argv)
 	return (ioreplace(argv + 1));
 }
 
-int valid_argv(int argc, char **argv)
+int	valid_argv(int argc, char **argv)
 {
 	if (argc != 4)
 	{

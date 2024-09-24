@@ -8,7 +8,6 @@ int	main()
 	stack.announce();
 	heap->announce();
 	randomChump("randomChump");
-
 	delete heap;
 	return (0);
 }

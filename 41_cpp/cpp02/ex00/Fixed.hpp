@@ -7,12 +7,15 @@ class Fixed
 {
 	private:
 		int					fixed_point;
-		static const int	bits = 8;
+		static const int	frac_bit = 8;
 	public:
+		/* ORTHODOX CANONICAL FORM */
 		Fixed(void);
-		Fixed(const Fixed &fixed); //복사 생성자
-		Fixed & operator = (const Fixed &fixed); //복사 할당 연산자 오버로드
+		Fixed(const Fixed& fixed);
+		Fixed& operator = (const Fixed& fixed);
 		~Fixed();
+		/* FUNCTION */
+		/* [1] get, set */
 		int		getRawBits( void ) const;
 		void	setRawBits( int const raw ); 
 };

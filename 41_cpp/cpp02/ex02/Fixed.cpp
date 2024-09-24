@@ -2,10 +2,6 @@
 
 /* ************************************************************************** */
 /*                           ORTHODOX CANONICAL FORM                          */
-/* : Default constructor                                                      */
-/* : Copy constructor                                                         */
-/* : Copy assignment operator                                                 */
-/* : Destructor                                                               */
 /* ************************************************************************** */
 
 Fixed::Fixed(void)
@@ -34,8 +30,9 @@ Fixed::~Fixed()
 }
 
 /* ************************************************************************** */
-/*                                                                            */
+/*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
+
 Fixed:: Fixed(const int num)
 {
 	// std::cout << "Int constructor called" << std::endl;
@@ -50,9 +47,6 @@ Fixed:: Fixed(const float float_num)
 
 /* ************************************************************************** */
 /*                                 OPERATORS                                  */
-/* : [1] comparison operators                                                 */
-/* : [2] arithmetic operators                                                 */
-/* : [3] increment/decrement operators                                        */
 /* ************************************************************************** */
 
 /* **************************/
@@ -89,10 +83,10 @@ bool Fixed::operator != (const Fixed& fixed) const
 	return (this->fix_num != fixed.fix_num);
 }
 
-
 /* **************************/
 /* [2] arithmetic operators */
 /* **************************/
+
 Fixed Fixed::operator + (const Fixed& fixed)
 {
 	return (Fixed(this->toFloat() + fixed.toFloat()));
@@ -116,6 +110,7 @@ Fixed Fixed::operator / (const Fixed& fixed)
 /* ***********************************/
 /* [3] increment/decrement operators */
 /* ***********************************/
+
 Fixed& Fixed::operator ++ (void)
 {
 	this->fix_num++;
@@ -147,6 +142,11 @@ const Fixed Fixed::operator -- (int)
 /* ************************************************************************** */
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
+
+/* **************/
+/* [1] get, set */
+/* **************/
+
 int	Fixed::getRawBits( void ) const
 {
 	return (this->fix_num);
@@ -157,17 +157,23 @@ void	Fixed::setRawBits( int const raw )
 	this->fix_num = raw;
 }
 
-//고정 소수점 값을 부동 소수점 값으로 변환
+/* ********************/
+/* [2] toFlaot, toInt */
+/* ********************/
+
 float	Fixed::toFloat( void ) const
 {
 	return (static_cast<float>(this->fix_num) / (1 << this->frac_bit));
 }
 
-//고정 소수점 값을 정수 값으로 변환
 int	Fixed::toInt( void ) const
 {
 	return (this->fix_num >> this->frac_bit);
 }
+
+/* **************/
+/* [3] min, max */
+/* **************/
 
 Fixed& Fixed::min(Fixed& fixed1, Fixed& fixed2)
 {

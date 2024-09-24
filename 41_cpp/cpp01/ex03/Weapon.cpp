@@ -7,13 +7,14 @@ Weapon::Weapon(void)
 
 Weapon::Weapon(std::string weapon)
 {
+	this->classname = "[Weapon]";
 	this->type = weapon;
-	std::cout << " ❯ Weapon [" << this->type << "] is created." << std::endl;
+	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
 Weapon::~Weapon(void)
 {
-	std::cout << " ❯ Weapon [" << this->getType() << "] is destroyed." << std::endl;
+	std::cout << this->classname << this->type << OCCF3 << std::endl;
 }
 
 std::string Weapon::getType(void)
@@ -26,4 +27,9 @@ std::string Weapon::getType(void)
 void Weapon::setType(std::string type)
 {
 	this->type = type;
+}
+
+std::string Weapon::get_classname()
+{
+	return (this->classname);
 }

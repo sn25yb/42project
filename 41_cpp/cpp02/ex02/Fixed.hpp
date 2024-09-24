@@ -11,12 +11,11 @@ class Fixed
 		static const int	frac_bit = 8;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		/* : Default constructor, Copy constructor, Copy assignment operator, Destructor */
 		Fixed(void);
 		Fixed(const Fixed& fixed);
 		Fixed& operator = (const Fixed& fixed);
 		~Fixed();
-		/* */
+		/* CONSTRUCTOR */
 		Fixed(const int num);
 		Fixed(const float float_num);
 
@@ -40,13 +39,13 @@ class Fixed
 		const Fixed operator -- (int);
 
 		/* FUNCTION */
-		/* [2] get/set */
+		/* [1] get, set */
 		int		getRawBits( void ) const;
 		void	setRawBits( int const raw ); 
-		/* [2] toFlaot/toInt */
-		float toFloat( void ) const; //고정 소수점 값을 부동 소수점 값으로 변환
-		int toInt( void ) const; //고정 소수점 값을 정수 값으로 변환
-		/* [3] min/max */
+		/* [2] toFlaot, toInt */
+		float toFloat( void ) const;
+		int toInt( void ) const;
+		/* [3] min, max */
 		static Fixed& min(Fixed& fixed1, Fixed& fixed2);
 		static Fixed& max(Fixed& fixed1, Fixed& fixed2);
 		static const Fixed& min(const Fixed& fixed1, const Fixed& fixed2);

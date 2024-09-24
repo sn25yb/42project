@@ -1,7 +1,7 @@
 NAME = weapon
 
 CPP = g++
-CPPFLAG = -std=c++98 
+CPPFLAG = -std=c++98
 WFLAG = -Wall -Wextra -Werror
 
 SRC = \

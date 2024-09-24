@@ -2,13 +2,13 @@
 # define ZOMBIE_HPP
 
 # include <iostream>
+# include <sstream>
 
 class Zombie
 {
 	private:
 		std::string name;
 	public:
-		//need Zombie(void) when array is allocated.
 		Zombie(void);
 		Zombie(std::string name);
 		~Zombie(void);
