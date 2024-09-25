@@ -4,8 +4,7 @@
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-DiamondTrap::DiamondTrap()
-: ClapTrap("Default_clap_name")
+DiamondTrap::DiamondTrap(): ClapTrap("Default_clap_name")
 {
 	this->classname = "[DiamondTrap]";
 	this->name = "Default";
@@ -16,7 +15,7 @@ DiamondTrap::DiamondTrap()
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap& diamondtrap) : ClapTrap(), FragTrap(), ScavTrap()
+DiamondTrap::DiamondTrap(const DiamondTrap& diamondtrap) : ClapTrap(), ScavTrap(), FragTrap()
 {
 	*this = diamondtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;
@@ -48,8 +47,11 @@ DiamondTrap::DiamondTrap(std::string _name): ClapTrap(_name + "_clap_name")
 	this->classname = "[DiamondTrap]";
 	this->name = _name;
 	this->hit_points = FragTrap::hit_points;
-	this->energy_points = ScavTrap::energy_points;
+	// this->energy_points = ScavTrap::energy_points;
+	ScavTrap	scavtrap;
+	this->energy_points = scavtrap.get_energy_points();
 	this->attack_damage = FragTrap::attack_damage;
+	std::cout << this->hit_points << std::endl;
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 

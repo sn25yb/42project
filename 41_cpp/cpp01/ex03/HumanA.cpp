@@ -4,7 +4,6 @@ HumanA::HumanA(std::string name, Weapon &weapon) : name(name), weapon(weapon)
 {
 	this->classname = "[HumanA]";
 	this->name = name;
-	this->weapon = weapon;
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 	std::cout << this->weapon.get_classname() << this->weapon.getType() \
 				<< " set up for " << this->classname << this->name << "." << std::endl;

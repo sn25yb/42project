@@ -32,6 +32,10 @@ class ClapTrap
 		void	takeDamage(unsigned int amount);
 		void	beRepaired(unsigned int amount);
 		virtual void	getstat();
+		int	get_energy_points()
+		{
+			return (this->energy_points);
+		};
 };
 
 #endif
