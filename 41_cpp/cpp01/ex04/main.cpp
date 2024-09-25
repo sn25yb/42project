@@ -29,7 +29,7 @@ int	valid_argv(int argc, char **argv)
 
 int	ioreplace(char **argv)
 {
-	std::string filename;
+	char		*filename;
 	std::string s1;
 	std::string s2;
 	std::string text;
@@ -47,7 +47,7 @@ int	ioreplace(char **argv)
 		return (1);
 	}
 	//open file for write
-	std::ofstream outfile(filename + ".replace");
+	std::ofstream outfile((std::string(filename) + ".replace").c_str());
 	if (outfile.fail())
 	{
 		std::cerr << "We failed to open the file." << std::endl;

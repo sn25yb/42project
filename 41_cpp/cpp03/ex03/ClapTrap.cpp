@@ -40,10 +40,10 @@ ClapTrap::~ClapTrap()
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
 
-ClapTrap::ClapTrap(std::string name)
+ClapTrap::ClapTrap(std::string _name)
 {
 	this->classname = "[ClapTrap]";
-	this->name = name;
+	this->name = _name;
 	this->hit_points = 10;
 	this->energy_points = 10;
 	this->attack_damage = 0;

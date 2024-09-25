@@ -14,7 +14,7 @@ FragTrap::FragTrap()
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
-FragTrap::FragTrap(const FragTrap& fragtrap)
+FragTrap::FragTrap(const FragTrap& fragtrap) : ClapTrap()
 {
 	*this = fragtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;

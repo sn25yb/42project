@@ -1,3 +1,7 @@
+phone
+fixed
+animal
+diamondtrap
 !*.cpp
 !*.hpp
 !Makefile

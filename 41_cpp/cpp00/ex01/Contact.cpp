@@ -52,7 +52,7 @@ std::string	Contact::get_contact(const std::string str, int num_opt)
 		if (std::cin.eof())
 		{
 			std::cerr << std::endl << "EOF encountered. Exiting..." << std::endl;
-			exit(0);
+			return (NULL);
 		}
 		if (std::cin.fail())
 		{

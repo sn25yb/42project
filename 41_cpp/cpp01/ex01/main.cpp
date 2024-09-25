@@ -16,5 +16,5 @@ int main()
 	for (int index = 0; index < N; index++)
 		zHorde[index].announce();
 	delete []zHorde;
-	return (EXIT_SUCCESS);
+	return (0);
 }

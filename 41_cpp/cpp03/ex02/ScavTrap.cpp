@@ -14,7 +14,7 @@ ScavTrap::ScavTrap()
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
-ScavTrap::ScavTrap(const ScavTrap& scavtrap)
+ScavTrap::ScavTrap(const ScavTrap& scavtrap) : ClapTrap()
 {
 	*this = scavtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;

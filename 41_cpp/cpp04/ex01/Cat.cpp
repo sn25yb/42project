@@ -12,7 +12,7 @@ Cat::Cat()
 	this->brain = new Brain();
 }
 
-Cat::Cat(const Cat& cat)
+Cat::Cat(const Cat& cat) : Animal()
 {
 	*this = cat;
 	std::cout << cat.type << OCCF1 << std::endl;

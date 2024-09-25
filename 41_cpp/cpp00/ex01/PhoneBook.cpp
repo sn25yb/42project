@@ -81,7 +81,7 @@ std::string	PhoneBook::get_index(const std::string str)
 		if (std::cin.eof())
 		{
 			std::cerr << std::endl << "EOF encountered. Exiting..." << std::endl;
-			exit(0);
+			return (NULL);
 		}
 		if (std::cin.fail())
 		{

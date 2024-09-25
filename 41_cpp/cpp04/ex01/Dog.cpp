@@ -12,7 +12,7 @@ Dog::Dog()
 	this->brain = new Brain();
 }
 
-Dog::Dog(const Dog& dog)
+Dog::Dog(const Dog& dog) : Animal()
 {
 	*this = dog;
 	std::cout << dog.type << OCCF1 << std::endl;

@@ -11,7 +11,7 @@ Cat::Cat()
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
-Cat::Cat(const Cat& cat)
+Cat::Cat(const Cat& cat) : Animal()
 {
 	*this = cat;
 	std::cout << cat.type << OCCF1 << std::endl;

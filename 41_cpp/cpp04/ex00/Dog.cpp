@@ -11,7 +11,7 @@ Dog::Dog()
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
-Dog::Dog(const Dog& dog)
+Dog::Dog(const Dog& dog) : Animal()
 {
 	*this = dog;
 	std::cout << dog.type << OCCF1 << std::endl;

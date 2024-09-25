@@ -14,7 +14,7 @@ FragTrap::FragTrap()
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
-FragTrap::FragTrap(const FragTrap& fragtrap)
+FragTrap::FragTrap(const FragTrap& fragtrap) : ClapTrap()
 {
 	*this = fragtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;
@@ -40,10 +40,10 @@ FragTrap::~FragTrap()
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
 
-FragTrap::FragTrap(std::string name)
+FragTrap::FragTrap(std::string _name)
 {
 	this->classname = "[FragTrap]";
-	this->name = name;
+	this->name = _name;
 	this->hit_points = 100;
 	this->energy_points = 100;
 	this->attack_damage = 30;

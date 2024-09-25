@@ -16,7 +16,7 @@ DiamondTrap::DiamondTrap()
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap& diamondtrap)
+DiamondTrap::DiamondTrap(const DiamondTrap& diamondtrap) : ClapTrap(), FragTrap(), ScavTrap()
 {
 	*this = diamondtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;
@@ -43,11 +43,10 @@ DiamondTrap::~DiamondTrap()
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
 
-DiamondTrap::DiamondTrap(std::string name)
-: ClapTrap(name + "_clap_name")
+DiamondTrap::DiamondTrap(std::string _name): ClapTrap(_name + "_clap_name")
 {
 	this->classname = "[DiamondTrap]";
-	this->name = name;
+	this->name = _name;
 	this->hit_points = FragTrap::hit_points;
 	this->energy_points = ScavTrap::energy_points;
 	this->attack_damage = FragTrap::attack_damage;

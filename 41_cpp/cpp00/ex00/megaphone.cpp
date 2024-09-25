@@ -1,13 +1,13 @@
-#include <iostream>
+#include "megaphone.hpp"
 
 int	valid_argv(int argc)
 {
 	if (argc == 1)
 	{
 		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *\n";
-		return (EXIT_FAILURE);
+		return (FALSE);
 	}
-	return (EXIT_SUCCESS);
+	return (TRUE);
 }
 
 void	megaphone(char **str)
@@ -24,8 +24,8 @@ void	megaphone(char **str)
 
 int	main(int argc, char **argv)
 {
-	if (valid_argv(argc))
-		return (EXIT_SUCCESS);
+	if (valid_argv(argc) == FALSE)
+		return (1);
 	megaphone(++argv);
 	return (0);
 }

@@ -11,7 +11,7 @@ WrongCat::WrongCat()
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
-WrongCat::WrongCat(const WrongCat& wrongcat)
+WrongCat::WrongCat(const WrongCat& wrongcat) : WrongAnimal()
 {
 	*this = wrongcat;
 	std::cout << wrongcat.type << OCCF1 << std::endl;

@@ -147,10 +147,18 @@ void	Account::displayStatus(void) const
 
 void	Account::_displayTimestamp(void)
 {
-	time_t	now;
-	std::tm	*time_struct;
+	// time_t	now;
+	// std::tm	*time_struct;
 
-	now = std::time(NULL);
-	time_struct = std::localtime(&now);
-	std::cout << std::put_time(time_struct, "[%Y%m%d_%H%M%S]");
+	// now = std::time(NULL);
+	// time_struct = std::localtime(&now);
+	// std::strftime(buffer, sizeof(buffer), "[%Y%m%d_%H%M%S]", time_struct);
+	// std::cout << std::put_time(time_struct, "[%Y%m%d_%H%M%S]");
+	// C++98에서는 std::put_time 함수가 지원되지 않는다.
+
+    std::time_t t = std::time(NULL);
+    std::tm *time_struct = std::localtime(&t);
+    char buffer[20];
+    std::strftime(buffer, sizeof(buffer), "[%Y%m%d_%H%M%S]", time_struct);
+    std::cout << buffer;
 }

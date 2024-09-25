@@ -26,7 +26,7 @@ static void	Phone()
 			phonebook.search_phonebook();
 		}
 		else if (command == "EXIT")
-			exit(0);
+			return ;
 	}
 }
 
@@ -38,7 +38,7 @@ static std::string	ft_getline()
 	if (std::cin.eof())
 	{
 		std::cerr << std::endl << "EOF encountered. Exiting..." << std::endl;
-		exit(0);
+		return (NULL);
 	}
 	if (std::cin.fail())
 	{
