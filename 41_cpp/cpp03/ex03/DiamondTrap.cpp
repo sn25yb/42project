@@ -24,6 +24,7 @@ DiamondTrap::DiamondTrap(const DiamondTrap& diamondtrap)
 
 DiamondTrap& DiamondTrap::operator= (const DiamondTrap& diamondtrap)
 {
+	this->ClapTrap::name = diamondtrap.ClapTrap::name;
 	this->classname = diamondtrap.classname;
 	this->name = diamondtrap.name;
 	this->hit_points = diamondtrap.hit_points;
@@ -56,11 +57,6 @@ DiamondTrap::DiamondTrap(std::string name)
 /* ************************************************************************** */
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
-
-void DiamondTrap::attack(const std::string& target)
-{
-	ScavTrap::attack(target);
-}
 
 void DiamondTrap::whoAmI()
 {

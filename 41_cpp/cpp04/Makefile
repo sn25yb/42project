@@ -1,16 +1,13 @@
-NAME = animal
+NAME = amateria
 
 CPP = g++
 CPPFLAGS = -std=c++98
 WFLAGS = -Wall -Wextra -Werror
 
 SRC = \
-	./Animal.cpp \
-	./Dog.cpp \
-	./Cat.cpp \
-	./WrongAnimal.cpp \
-	./WrongCat.cpp \
-	./Brain.cpp \
+	./AMateria.cpp \
+	./Ice.cpp \
+	./Cure.cpp \
 	./main.cpp 
 OBJ = $(SRC:.cpp=.o)
 

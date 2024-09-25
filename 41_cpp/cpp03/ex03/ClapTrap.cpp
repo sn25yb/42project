@@ -59,7 +59,7 @@ void ClapTrap::attack(const std::string& target)
 	unsigned int	pre_ep;
 
 	pre_ep = this->energy_points;
-	if (pre_ep)
+	if (pre_ep && this->hit_points) 
 	{
 		this->energy_points--;
 		std::cout << NOTICE << this->classname << this->name << " attacks " << target << "!" << std::endl;
@@ -89,7 +89,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 	pre_ep = this->energy_points;
 	pre_hp = this->hit_points;
-	if (pre_ep)
+	if (pre_ep && pre_hp) 
 	{
 		this->energy_points--;
 		this->hit_points += amount;

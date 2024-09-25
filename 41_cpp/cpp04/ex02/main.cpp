@@ -10,6 +10,12 @@
 int main()
 {
 	// atexit(leaks);
+
+	// Animal A;
+	// A.makeSound();
+	// Animal *a = new Animal();
+	// a->makeSound();
+
 	const Animal* dog = new Dog();
 	const Animal* cat = new Cat();
 	delete dog;

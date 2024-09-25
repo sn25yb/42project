@@ -1,34 +1,31 @@
-#include "Dog.hpp"
+#include "WrongCat.hpp"
 
 /* ************************************************************************** */
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-Dog::Dog()
+WrongCat::WrongCat()
 {
-	this->classname = "[Dog]";
-	this->type = "Dog";
+	this->classname = "[WrongCat]";
+	this->type = "WrongCat";
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
-	this->brain = new Brain();
 }
 
-Dog::Dog(const Dog& dog)
+WrongCat::WrongCat(const WrongCat& wrongcat)
 {
-	*this = dog;
-	std::cout << dog.type << OCCF1 << std::endl;
+	*this = wrongcat;
+	std::cout << wrongcat.type << OCCF1 << std::endl;
 }
 
-Dog& Dog::operator= (const Dog& dog)
+WrongCat& WrongCat::operator= (const WrongCat& wrongcat)
 {
-	this->type = dog.type;
-	this->brain = new Brain(*(dog.brain));
-	std::cout << dog.type << OCCF2 << std::endl;
+	this->type = wrongcat.type;
+	std::cout << wrongcat.type << OCCF2 << std::endl;
 	return (*this);
 }
 
-Dog::~Dog()
+WrongCat::~WrongCat()
 {
-	delete this->brain;
 	std::cout << this->classname << this->type << OCCF3 << std::endl;
 }
 
@@ -36,7 +33,7 @@ Dog::~Dog()
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
 
-void	Dog::makeSound() const
+void	WrongCat::makeSound() const
 {
-	std::cout << this->type << ": Bark Bark!" <<std::endl;
+	std::cout << this->type << ": Meow Meow!" <<std::endl;
 }

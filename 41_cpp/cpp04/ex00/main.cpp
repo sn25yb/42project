@@ -22,13 +22,16 @@ int main()
 	delete cat;
 
 	const WrongAnimal* wronganimal = new WrongAnimal();
-	const WrongCat* wrongcat = new WrongCat();
+	const WrongAnimal* wrongcat = new WrongCat();
+	const WrongCat* wrongcat2 = new WrongCat();
 
 	std::cout << wrongcat->getType() << " " << std::endl;
-	wrongcat->makeSound();
 	wronganimal->makeSound();
+	wrongcat->makeSound();
+	wrongcat2->makeSound();
 
-	delete wrongcat;
 	delete wronganimal;
+	delete wrongcat;
+	delete wrongcat2;
 	return 0;
 }

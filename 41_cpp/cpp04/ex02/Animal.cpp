@@ -1,34 +1,31 @@
-#include "Dog.hpp"
+#include "Animal.hpp"
 
 /* ************************************************************************** */
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-Dog::Dog()
+Animal::Animal()
 {
-	this->classname = "[Dog]";
-	this->type = "Dog";
+	this->classname = "[Animal]";
+	this->type = "Animal";
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
-	this->brain = new Brain();
 }
 
-Dog::Dog(const Dog& dog)
+Animal::Animal(const Animal& animal)
 {
-	*this = dog;
-	std::cout << dog.type << OCCF1 << std::endl;
+	*this = animal;
+	std::cout << animal.type << OCCF1 << std::endl;
 }
 
-Dog& Dog::operator= (const Dog& dog)
+Animal& Animal::operator= (const Animal& animal)
 {
-	this->type = dog.type;
-	this->brain = new Brain(*(dog.brain));
-	std::cout << dog.type << OCCF2 << std::endl;
+	this->type = animal.type;
+	std::cout << animal.type << OCCF2 << std::endl;
 	return (*this);
 }
 
-Dog::~Dog()
+Animal::~Animal()
 {
-	delete this->brain;
 	std::cout << this->classname << this->type << OCCF3 << std::endl;
 }
 
@@ -36,7 +33,12 @@ Dog::~Dog()
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
 
-void	Dog::makeSound() const
+void	Animal::makeSound() const
 {
-	std::cout << this->type << ": Bark Bark!" <<std::endl;
+	std::cout << this->type << ": Animal Animal!" <<std::endl;
+}
+
+std::string	Animal::getType() const
+{
+	return (this->type);
 }
