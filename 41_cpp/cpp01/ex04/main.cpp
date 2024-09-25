@@ -59,6 +59,7 @@ int	ioreplace(char **argv)
 		std::getline(infile, text);
 		if (infile.eof() || infile.fail())
 			break ;
+		//write
 		outfile << replace_string(text, s1, s2) << std::endl;
 	}
 	//write

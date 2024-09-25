@@ -4,6 +4,7 @@ HumanB::HumanB(std::string name)
 {
 	this->classname = "[HumanB]";
 	this->name = name;
+	this->weapon = NULL; //compiler? c++?
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 
@@ -14,13 +15,15 @@ HumanB::~HumanB(void)
 
 void HumanB::attack(void)
 {
-	std::cout << this->classname << this->name << " attacks with their " \
-			<< this->weapon->get_classname() << this->weapon->getType() << std::endl;
+	if (this->weapon)
+		std::cout << this->classname << this->name << " attacks with their " \
+				<< this->weapon->get_classname() << this->weapon->getType() << std::endl;
 }
 
 void HumanB::setWeapon(Weapon &weapon)
 {
 	this->weapon = &weapon;
-	std::cout << this->weapon->get_classname() << this->weapon->getType() \
+	if (this->weapon)
+		std::cout << this->weapon->get_classname() << this->weapon->getType() \
 				<< " set up for " << this->classname << this->name << "." << std::endl;
 }

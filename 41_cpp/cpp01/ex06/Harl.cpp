@@ -50,10 +50,13 @@ void Harl::complain(std::string level)
 	{
 		case 0:
 			this->debug();
+			__attribute__((fallthrough));
 		case 1:
 			this->info();
+			// FALLTHROUGH
 		case 2:
 			this->warning();
+			// FALLTHROUGH
 		case 3:
 			this->error();
 			break ;
@@ -62,4 +65,3 @@ void Harl::complain(std::string level)
 			break ;	
 	}	
 }
-

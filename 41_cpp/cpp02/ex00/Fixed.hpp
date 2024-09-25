@@ -6,7 +6,7 @@
 class Fixed
 {
 	private:
-		int					fixed_point;
+		int					fix_num;
 		static const int	frac_bit = 8;
 	public:
 		/* ORTHODOX CANONICAL FORM */
