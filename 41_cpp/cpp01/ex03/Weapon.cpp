@@ -19,7 +19,7 @@ Weapon::~Weapon(void)
 	std::cout << this->classname << this->type << OCCF3 << std::endl;
 }
 
-std::string Weapon::getType(void)
+const std::string& Weapon::getType(void)
 {
 	const std::string &ref_type = this->type;
 

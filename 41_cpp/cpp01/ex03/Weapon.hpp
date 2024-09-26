@@ -14,12 +14,15 @@ class Weapon
 		std::string classname;
 		std::string type;
 	public:
-					Weapon(void);
-					Weapon(std::string weapon);
-					~Weapon(void);
-		std::string	getType(void);
-		void 		setType(std::string type);
-		std::string get_classname();
+		/* CONSTRUCTOR & DESTRUCTOR */
+							Weapon(void);
+							Weapon(std::string weapon);
+							~Weapon(void);
+		/* FUNCTION (42) */
+		const std::string&	getType(void);
+		void 				setType(std::string type);
+		/* FUNCTION */
+		std::string			get_classname();
 };
 
 

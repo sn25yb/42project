@@ -19,9 +19,9 @@ void HumanA::attack()
 			<< this->weapon.get_classname() << this->weapon.getType() << std::endl;
 }
 
-void HumanA::setWeapon(Weapon &weapon)
-{
-	this->weapon = weapon;
-	std::cout << this->weapon.get_classname() << this->weapon.getType() \
-				<< " set up for " << this->classname << this->name << "." << std::endl;
-}
+// void HumanA::setWeapon(Weapon &weapon)
+// {
+// 	this->weapon = weapon;
+// 	std::cout << this->weapon.get_classname() << this->weapon.getType() \
+// 				<< " set up for " << this->classname << this->name << "." << std::endl;
+// }
