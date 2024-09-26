@@ -53,10 +53,10 @@ void Harl::complain(std::string level)
 			__attribute__((fallthrough));
 		case 1:
 			this->info();
-			// FALLTHROUGH
+			// INTENTIONAL FALL-THRU
 		case 2:
 			this->warning();
-			// FALLTHROUGH
+			// INTENTIONAL FALL-THRU
 		case 3:
 			this->error();
 			break ;

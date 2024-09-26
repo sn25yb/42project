@@ -4,7 +4,7 @@ HumanB::HumanB(std::string name)
 {
 	this->classname = "[HumanB]";
 	this->name = name;
-	this->weapon = NULL; //compiler? c++?
+	this->weapon = NULL;
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
 

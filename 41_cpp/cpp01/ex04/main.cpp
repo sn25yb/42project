@@ -40,17 +40,17 @@ int	ioreplace(char **argv)
 	s2 = *(argv + 2);
 	//open file for read
 	std::ifstream infile;
-	infile.open(filename);
+	infile.open(filename, std::ios::in);
 	if (infile.fail())
 	{
-		std::cerr << "We failed to open the file." << std::endl;
+		std::cerr << "We failed to open the infile." << std::endl;
 		return (1);
 	}
 	//open file for write
-	std::ofstream outfile((std::string(filename) + ".replace").c_str());
+	std::ofstream outfile((std::string(filename) + ".replace").c_str(), std::ios::out | std::ios::trunc);
 	if (outfile.fail())
 	{
-		std::cerr << "We failed to open the file." << std::endl;
+		std::cerr << "We failed to open the outfile." << std::endl;
 		return (1);
 	}
 	//read

@@ -3,9 +3,10 @@
 int	main(void)
 {
 	std::string brain = "HI THIS IS BRAIN";
-	std::string *stringPTR = &brain;
+	std::string *stringPTR = NULL;
 	std::string &stringREF = brain;
 
+	stringPTR = &brain;
 	std::cout << "❯ Print Memory Address." << std::endl;
 	std::cout << "STR Address: " << &brain << std::endl;
 	std::cout << "PTR Address: " << stringPTR << std::endl;

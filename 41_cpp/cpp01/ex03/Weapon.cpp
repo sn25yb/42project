@@ -2,7 +2,9 @@
 
 Weapon::Weapon(void)
 {
-
+	this->classname = "[Weapon]";
+	this->type = "Default";
+	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
 Weapon::Weapon(std::string weapon)
