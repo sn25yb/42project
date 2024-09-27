@@ -9,6 +9,8 @@
 
 int main()
 {
+	// Dog d;
+	// Dog d2 = d;
 	// atexit(leaks);
 	const Animal* dog = new Dog();
 	const Animal* cat = new Cat();

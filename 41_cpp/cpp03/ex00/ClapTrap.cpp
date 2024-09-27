@@ -59,13 +59,15 @@ void ClapTrap::attack(const std::string& target)
 	unsigned int	pre_ep;
 
 	pre_ep = this->energy_points;
-	if (pre_ep)
+	if (!pre_ep || !this->hit_points)
+		std::cout << NOTICE << this->classname << this->name << " can't attack." << std::endl;
+	else
 	{
 		this->energy_points--;
 		std::cout << NOTICE << this->classname << this->name << " attacks " << target << "!" << std::endl;
-	}
-	else
-		std::cout << NOTICE << this->classname << this->name << " can't attack." << std::endl;
+		std::cout  << NSPACE << this->classname << this->name << "attack_damage: " << this->attack_damage << std::endl;
+		
+	}		
 	std::cout  << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
 }
 
@@ -89,14 +91,14 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 	pre_ep = this->energy_points;
 	pre_hp = this->hit_points;
-	if (pre_ep)
+	if (!pre_ep || !pre_hp)
+		std::cout << NOTICE << this->classname << this->name << " can't repair." << std::endl;
+	else
 	{
 		this->energy_points--;
 		this->hit_points += amount;
 		std::cout << NOTICE << this->classname << this->name << " repairs itself." << std::endl;
 	}
-	else
-		std::cout << NOTICE << this->classname << this->name << " can't repair." << std::endl;
 	std::cout << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
 	std::cout << NSPACE << this->classname << this->name << " hit_points: " << pre_hp << " > " << this->hit_points << std::endl;
 }

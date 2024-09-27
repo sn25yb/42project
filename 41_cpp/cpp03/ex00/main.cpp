@@ -10,6 +10,7 @@ int	main(void)
 	B.takeDamage(5);
 	B.beRepaired(10);
 	for (int index = 0; index < 10; index++)
+	// for (int index = 0; index < 9; index++)
 	{
 		A.attack("B");
 		// B.takeDamage(1);

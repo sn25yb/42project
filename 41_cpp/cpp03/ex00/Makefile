@@ -2,7 +2,7 @@ NAME = claptrap
 
 CPP = g++
 CPPFLAGS = -std=c++98 
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS = -Wall -Wextra -Werror -Wshadow
 
 SRC = \
 	./ClapTrap.cpp \
