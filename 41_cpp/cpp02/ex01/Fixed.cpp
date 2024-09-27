@@ -64,15 +64,15 @@ void	Fixed::setRawBits( int const raw )
 }
 
 /* ********************/
-/* [2] toFlaot, toInt */
+/* [2] toInt, toFlaot */
 /* ********************/
-
-float	Fixed::toFloat( void ) const
-{
-	return (static_cast<float>(this->fix_num) / (1 << this->frac_bit));
-}
 
 int	Fixed::toInt( void ) const
 {
 	return (this->fix_num >> this->frac_bit);
+}
+
+float	Fixed::toFloat( void ) const
+{
+	return (static_cast<float>(this->fix_num) / (1 << this->frac_bit));
 }

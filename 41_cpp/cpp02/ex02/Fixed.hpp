@@ -28,11 +28,11 @@ class Fixed
 		bool operator == (const Fixed& fixed) const ;
 		bool operator != (const Fixed& fixed) const ;
 		/* [2] arithmetic operators */
-		Fixed operator + (const Fixed& fixed);
-		Fixed operator - (const Fixed& fixed);
-		Fixed operator * (const Fixed& fixed);
-		Fixed operator / (const Fixed& fixed);
-		/* [3] increment/decrement */
+		Fixed operator + (const Fixed& fixed) const;
+		Fixed operator - (const Fixed& fixed) const;
+		Fixed operator * (const Fixed& fixed) const;
+		Fixed operator / (const Fixed& fixed) const;
+		/* [3] increment/decrement 증감연산자 전위 후위 */
 		Fixed& operator ++ (void);
 		const Fixed operator ++ (int);
 		Fixed& operator -- (void);
@@ -42,7 +42,7 @@ class Fixed
 		/* [1] get, set */
 		int		getRawBits( void ) const;
 		void	setRawBits( int const raw ); 
-		/* [2] toFlaot, toInt */
+		/* [2] toInt, toFloat */
 		float toFloat( void ) const;
 		int toInt( void ) const;
 		/* [3] min, max */

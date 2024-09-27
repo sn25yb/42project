@@ -1,13 +1,11 @@
 #include "Fixed.hpp"
 
-
-std::ostream &operator << (std::ostream &ostream, const Fixed &fixed)
+std::ostream& operator << (std::ostream& ostream, const Fixed &fixed)
 {
 	// ostream << fixed.getRawBits();
 	ostream << fixed.toFloat();
 	return (ostream);
 }
-
 // int main( void )
 // {
 // 	Fixed a;
@@ -66,7 +64,6 @@ int	main(void)
 	std::cout << "a * b = " << a * b << std::endl;
 	std::cout << "a / b = " << a / b << std::endl;
 
-
 	/* ***********************************/
 	/* [3] increment/decrement operators */
 	/* ***********************************/
@@ -82,6 +79,7 @@ int	main(void)
 	std::cout << "    a++: " << (a++).getRawBits() << std::endl;
 	std::cout << "      a: " << a.getRawBits() << std::endl;
 	// std::cout << "(a++)++: " << (a++)++.getRawBits() << std::endl;
+	// std::cout << "(a++)++: " << ++(++a).getRawBits() << std::endl;
 	std::cout << "      a: " << a.getRawBits() << std::endl;
 
 	return (0);

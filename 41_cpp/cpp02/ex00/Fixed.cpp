@@ -13,7 +13,7 @@ Fixed::Fixed(void)
 Fixed:: Fixed(const Fixed& fixed)
 {
 	std::cout << "Copy constructor called." << std::endl;
-	this->fix_num = fixed.getRawBits();
+	*this = fixed;
 }
 
 Fixed& Fixed::operator = (const Fixed& fixed)

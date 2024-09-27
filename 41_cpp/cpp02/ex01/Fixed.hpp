@@ -22,9 +22,9 @@ class Fixed
 		/* [1] get, set */
 		int		getRawBits( void ) const;
 		void	setRawBits( int const raw ); 
-		/* [2] toFlaot, toInt */
-		float	toFloat( void ) const;
+		/* [2] toInt, toFloat */
 		int		toInt( void ) const; 
+		float	toFloat( void ) const;
 };
 
 #endif
