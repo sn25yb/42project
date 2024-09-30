@@ -6,19 +6,18 @@
 class FragTrap : public ClapTrap
 {	
 	private:
-		std::string	classname;
+		std::string		classname;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		FragTrap();
-		FragTrap(const FragTrap& fragtrap);
-		FragTrap& operator = (const FragTrap& fragtrap);
-		~FragTrap();
+						FragTrap();
+						FragTrap(const FragTrap& fragtrap);
+		FragTrap&		operator = (const FragTrap& fragtrap);
+		virtual			~FragTrap();
 		/* CONSTRUCTOR */
-		FragTrap(std::string name);
-
+						FragTrap(std::string name);
 		/* FUNCTION */
-		void highFivesGuys(void);
-		void	getstat();
+		void			highFivesGuys(void);
+		virtual void	getstat();
 };
 
 #endif 

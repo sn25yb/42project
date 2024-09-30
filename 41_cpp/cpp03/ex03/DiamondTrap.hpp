@@ -11,15 +11,15 @@ class DiamondTrap :  public ScavTrap, public FragTrap
 		std::string	name;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		DiamondTrap();
-		DiamondTrap(const DiamondTrap& diamondtrap);
-		DiamondTrap& operator= (const DiamondTrap& diamontrap);
-		~DiamondTrap();
+						DiamondTrap();
+						DiamondTrap(const DiamondTrap& diamondtrap);
+		DiamondTrap&	operator= (const DiamondTrap& diamontrap);
+		virtual			~DiamondTrap();
 		/* CONSTRUCTOR */
-		DiamondTrap(std::string name);
+						DiamondTrap(std::string name);
 		/* FUNCTION */
-		void	whoAmI();
-		void	getstat();
+		void			whoAmI();
+		virtual void	getstat();
 };
 
 #endif

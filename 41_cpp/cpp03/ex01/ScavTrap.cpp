@@ -4,9 +4,8 @@
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-ScavTrap::ScavTrap()
+ScavTrap::ScavTrap() : classname("[ScavTrap]")
 {	
-	this->classname = "[ScavTrap]";
 	this->name = "Default";
 	this->hit_points = 100;
 	this->energy_points = 50;
@@ -19,6 +18,7 @@ ScavTrap::ScavTrap(const ScavTrap& scavtrap) : ClapTrap()
 	*this = scavtrap;
 	std::cout << this->classname << this->name << OCCF1 << std::endl;
 }
+
 ScavTrap& ScavTrap::operator = (const ScavTrap& scavtrap)
 {
 	this->classname = scavtrap.classname;
@@ -48,6 +48,7 @@ ScavTrap::ScavTrap(std::string name)
 	this->attack_damage = 20;
 	std::cout << this->classname << this->name << OCCF0 << std::endl;
 }
+
 /* ************************************************************************** */
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
@@ -57,19 +58,24 @@ void ScavTrap::attack(const std::string& target)
 	unsigned int	pre_ep;
 
 	pre_ep = this->energy_points;
-	if (pre_ep)
+	if (!this->energy_points || !this->hit_points)
+		std::cout << NOTICE << this->classname << this->name << " can't move." << std::endl;
+	else
 	{
 		this->energy_points--;
 		std::cout << NOTICE << this->classname << this->name << " attacks " << target << "!" << std::endl;
-	}
-	else
-		std::cout << NOTICE << this->classname << this->name << " can't attack." << std::endl;
-	std::cout  << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;
+		std::cout  << NSPACE << this->classname << this->name << " attack_damage: " << this->attack_damage << std::endl;
+		
+	}		
+	std::cout  << NSPACE << this->classname << this->name << " energy_points: " << pre_ep << " > " << this->energy_points << std::endl;	
 }
 
 void ScavTrap::guardGate()
 {
-	std::cout << NOTICE << this->classname << this->name << " is now in Gatekeeper mode." << std::endl;
+	if (!this->energy_points || !this->hit_points)
+		std::cout << NOTICE << this->classname << this->name << " can't move." << std::endl;
+	else 
+		std::cout << NOTICE << this->classname << this->name << " is now in Gatekeeper mode." << std::endl;
 }
 
 void ScavTrap::getstat()

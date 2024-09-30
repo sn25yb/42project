@@ -6,17 +6,27 @@ int	main(void)
 	ScavTrap B("B");
 	ScavTrap C(A);
 
-	A.attack("B");
-	B.takeDamage(5);
-	B.beRepaired(10);
+	// getstat (before)
+	A.getstat();
+	B.getstat();
+	C.getstat();
+	// attack, takeDamage
+	B.beRepaired(50);
 	for (int index = 0; index < 50; index++)
 	{
 		A.attack("B");
-		// B.takeDamage(1);
+		B.takeDamage(3);
 	}
-	B.attack("A");
-	A.takeDamage(101);
+	// beRepaired
 	A.beRepaired(10);
+	B.beRepaired(10);
+	// getstat (after)
+	A.getstat();
+	B.getstat();
+	C.getstat();
+	// guardGate
 	A.guardGate();
+	B.guardGate();
+	C.guardGate();
 	return (0);
 }

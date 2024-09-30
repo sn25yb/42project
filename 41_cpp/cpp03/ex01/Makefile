@@ -1,6 +1,6 @@
 NAME = scavtrap
 
-CPP = g++
+CPP = c++
 CPPFLAGS = -std=c++98 
 WFLAGS = -Wall -Wextra -Werror
 

@@ -11,16 +11,16 @@ class ScavTrap : public ClapTrap
 		std::string classname;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		ScavTrap();
-		ScavTrap(const ScavTrap& scavtrap);
-		ScavTrap& operator = (const ScavTrap& scavtrap);
-		~ScavTrap();
+						ScavTrap();
+						ScavTrap(const ScavTrap& scavtrap);
+		ScavTrap&		operator = (const ScavTrap& scavtrap);
+		virtual			~ScavTrap();
 		/* CONSTRUCTOR */
-		ScavTrap(std::string name);
+						ScavTrap(std::string name);
 		/* FUNCTION */
-		void guardGate();
-		void attack(const std::string& target);
-		void	getstat();
+		void			guardGate();
+		virtual void	attack(const std::string& target);
+		virtual void	getstat();
 };
 
 #endif

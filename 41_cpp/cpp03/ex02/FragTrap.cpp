@@ -4,9 +4,8 @@
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-FragTrap::FragTrap()
+FragTrap::FragTrap() : classname("[FragTrap]")
 {
-	this->classname = "[FragTrap]";
 	this->name = "Default";
 	this->hit_points = 100;
 	this->energy_points = 100;
@@ -40,10 +39,10 @@ FragTrap::~FragTrap()
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
 
-FragTrap::FragTrap(std::string name)
+FragTrap::FragTrap(std::string _name)
 {
 	this->classname = "[FragTrap]";
-	this->name = name;
+	this->name = _name;
 	this->hit_points = 100;
 	this->energy_points = 100;
 	this->attack_damage = 30;
@@ -56,7 +55,10 @@ FragTrap::FragTrap(std::string name)
 
 void FragTrap::highFivesGuys(void)
 {
-	std::cout << NOTICE << this->classname << this->name << "request a positive high fives!" << std::endl;
+	if (!this->energy_points || !this->hit_points)
+		std::cout << NOTICE << this->classname << this->name << " can't move." << std::endl;
+	else 
+		std::cout << NOTICE << this->classname << this->name << " request a positive high fives!" << std::endl;
 }
 
 void FragTrap::getstat()

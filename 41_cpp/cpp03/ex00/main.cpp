@@ -6,17 +6,23 @@ int	main(void)
 	ClapTrap B("B");
 	ClapTrap C(A);
 
-	A.attack("B");
-	B.takeDamage(5);
+	// getstat (before)
+	A.getstat();
+	B.getstat();
+	C.getstat();
+	// attack, takeDamage
 	B.beRepaired(10);
 	for (int index = 0; index < 10; index++)
-	// for (int index = 0; index < 9; index++)
 	{
 		A.attack("B");
-		// B.takeDamage(1);
+		B.takeDamage(2);
 	}
-	B.attack("A");
-	A.takeDamage(11);
+	// beRepaired
 	A.beRepaired(10);
+	B.beRepaired(10);
+	// getstat (after)
+	A.getstat();
+	B.getstat();
+	C.getstat();
 	return (0);
 }
