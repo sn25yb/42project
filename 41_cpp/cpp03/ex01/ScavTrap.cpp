@@ -39,10 +39,10 @@ ScavTrap::~ScavTrap()
 /*                               CONSTRUCTOR                                  */
 /* ************************************************************************** */
 
-ScavTrap::ScavTrap(std::string name)
+ScavTrap::ScavTrap(std::string _name)
 {
 	this->classname = "[ScavTrap]";
-	this->name = name;
+	this->name = _name;
 	this->hit_points = 100;
 	this->energy_points = 50;
 	this->attack_damage = 20;
