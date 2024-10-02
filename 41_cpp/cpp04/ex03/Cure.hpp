@@ -1,21 +1,21 @@
 #ifndef CURE_HPP
 # define CURE_HPP
 
-class Cure
+# include "AMateria.hpp"
+
+class Cure : public AMateria
 {
-private:
-	/* data */
-public:
-	Cure(/* args */);
-	~Cure();
+	private:
+		/* data */
+	public:
+		/* ORTHODOX CANONICAL FORM */
+						Cure();
+						Cure(const Cure& cure);
+		Cure&			operator= (const Cure& cure);
+		virtual			~Cure();
+		/* FUNCTION */
+		virtual Cure*	clone() const;
+		virtual void	use(ICharacter& target);
 };
-
-Cure::Cure(/* args */)
-{
-}
-
-Cure::~Cure()
-{
-}
 
 #endif

@@ -2,12 +2,14 @@ NAME = amateria
 
 CPP = g++
 CPPFLAGS = -std=c++98
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS = -Wall -Wextra -Werror -g
 
 SRC = \
+	./MateriaSource.cpp \
 	./AMateria.cpp \
 	./Ice.cpp \
 	./Cure.cpp \
+	./Character.cpp \
 	./main.cpp 
 OBJ = $(SRC:.cpp=.o)
 

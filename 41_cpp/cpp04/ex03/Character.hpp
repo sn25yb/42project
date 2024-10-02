@@ -1,24 +1,34 @@
 #ifndef CHARACTER_HPP
 # define CHARACTER_HPP
 
-#include "ICharacter.hpp"
+# include "ICharacter.hpp"
+# include "AMateria.hpp"
+# include "OCCF.hpp"
 
-class Character
+# define INUMS 4
+
+class Character : public ICharacter
 {
 	private:
-		/* data */
+		std::string					name;
+		AMateria*					inventory[INUMS];
 	public:
-		Character(/* args */);
-		~Character();
+		/* ORTHODOX CANONICAL FORM */
+									Character();
+									Character(const Character& character);
+		Character& 					operator= (const Character& character);
+									~Character();
+		/* CONSTRUCTOR */
+									Character(std::string _name);
+		/* FUNCTION */
+		virtual std::string const & getName() const;
+		virtual void				equip(AMateria* m);
+		virtual void				unequip(int idx);
+		virtual void				use(int idx, ICharacter& target);
 };
 
-Character::Character(/* args */)
-{
-}
 
-Character::~Character()
-{
-}
+
 
 
 #endif

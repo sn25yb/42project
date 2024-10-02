@@ -1,9 +1,15 @@
-#include "IMateriaSource.hpp"
+#include "MateriaSource.hpp"
 #include "Ice.hpp"
 #include "Cure.hpp"
 
-int main()
+void leak()
 {
+	system("leaks amateria");
+}
+
+int	main()
+{
+	atexit(leak);
 	IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());
 	src->learnMateria(new Cure());
@@ -13,6 +19,7 @@ int main()
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+	me->unequip(1);
 	ICharacter* bob = new Character("bob");
 	me->use(0, *bob);
 	me->use(1, *bob);

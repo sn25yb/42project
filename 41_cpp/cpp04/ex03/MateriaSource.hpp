@@ -2,49 +2,23 @@
 # define MATERIASOURCE_HPP
 
 #include "IMateriaSource.hpp"
+# define MNUMS 4
 
-class MateriaSource
+class MateriaSource : public IMateriaSource
 {
 	private:
 		/* data */
+		AMateria		*sources[MNUMS];
+		// AMateria		*unequip[MNUMS];
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		MateriaSource();
-		MateriaSource(const MateriaSource& materia_source);
-		MateriaSource& operator =(const MateriaSource& materia_source);
-		~MateriaSource();
+						MateriaSource();
+						MateriaSource(const MateriaSource& materia_source);
+		MateriaSource&	operator= (const MateriaSource& materia_source);
+						~MateriaSource();
 		/* FUNCTION */
-		void learnMateria(AMateria*);
-		createMateria(std::string const &);
+		void			learnMateria(AMateria* materia);
+		AMateria*		createMateria(std::string const& _type );
 };
-
-MateriaSource::MateriaSource()
-{
-
-}
-
-MateriaSource::MateriaSource(const MateriaSource& materia_source)
-{
-
-}
-
-MateriaSource& MateriaSource::operator =(const MateriaSource& materia_source)
-{
-	
-}
-
-
-MateriaSource::~MateriaSource()
-{
-
-}
-
-void MateriaSource::learnMateria(AMateria*)
-{
-
-}
-
-
-		createMateria(std::string const &);
 
 #endif
