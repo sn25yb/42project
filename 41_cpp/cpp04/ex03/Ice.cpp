@@ -2,26 +2,25 @@
 
 Ice::Ice() : AMateria("ice")
 {
-	std::cout << "[Ice]" << this->type << OCCF0 << std::endl;
+	// std::cout << "[Ice]" << this->type << OCCF0 << std::endl;
 }
 
 Ice::Ice(const Ice& ice) : AMateria("ice")
 {
 	*this = ice;
-	std::cout << "[Ice]" << this->type << OCCF1 << std::endl;
+	// std::cout << "[Ice]" << this->type << OCCF1 << std::endl;
 }
 
 Ice&	Ice::operator= (const Ice* ice)
 {
 	(void) ice;
-	std::cout << "[Ice]" << this->type << OCCF2 << std::endl;
+	// std::cout << "[Ice]" << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 
 Ice::~Ice()
 {
-	// delete this;
-	std::cout << "[Ice]" << this->type << OCCF3 << std::endl;
+	// std::cout << "[Ice]" << this->type << OCCF3 << std::endl;
 }
 
 /* FUNCTION */

@@ -3,7 +3,7 @@
 
 # include <iostream>
 # include "OCCF.hpp"
-# include "Character.hpp"
+# include "ICharacter.hpp"
 
 # define NSPACE "   "
 

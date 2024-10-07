@@ -4,25 +4,25 @@
 AMateria::AMateria()
 {
 	this->type = "Default";
-	std::cout << "[AMateria]" << this->type << OCCF0 << std::endl;
+	// std::cout << "[AMateria]" << this->type << OCCF0 << std::endl;
 }
 
 AMateria::AMateria(const AMateria& amateria)
 {
 	*this = amateria;
-	std::cout << "[AMateria]" << this->type << OCCF1 << std::endl;
+	// std::cout << "[AMateria]" << this->type << OCCF1 << std::endl;
 }
 
 AMateria& AMateria::operator= (const AMateria& amateria)
 {
 	this->type = amateria.type;
-	std::cout << "[AMateria]" << this->type << OCCF2 << std::endl;
+	// std::cout << "[AMateria]" << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 
 AMateria::~AMateria()
 {
-	std::cout << "[AMateria]" << this->type << OCCF3 << std::endl;
+	// std::cout << "[AMateria]" << this->type << OCCF3 << std::endl;
 }
 
 /* CONSTRUCTOR */

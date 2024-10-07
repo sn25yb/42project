@@ -10,6 +10,7 @@ SRC = \
 	./Ice.cpp \
 	./Cure.cpp \
 	./Character.cpp \
+	./Floor.cpp \
 	./main.cpp 
 OBJ = $(SRC:.cpp=.o)
 

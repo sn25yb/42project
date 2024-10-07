@@ -3,18 +3,17 @@
 /* ORTHODOX CANONICAL FORM */
 MateriaSource::MateriaSource()
 {
-	std::cout << "[MateriaSource]" << OCCF0 << std::endl;
+	// std::cout << "[MateriaSource]" << OCCF0 << std::endl;
 }
 
 MateriaSource::MateriaSource(const MateriaSource& materia_source)
 {
 	*this = materia_source;
-	std::cout << "[MateriaSource]" << OCCF1 << std::endl;
+	// std::cout << "[MateriaSource]" << OCCF1 << std::endl;
 }
 
 MateriaSource& MateriaSource::operator= (const MateriaSource& materia_source)
 {
-	//deep copy
 	if (this != &materia_source)
 	{
 		for (int idx = 0; idx < MNUMS; idx++)
@@ -22,7 +21,7 @@ MateriaSource& MateriaSource::operator= (const MateriaSource& materia_source)
 		for (int idx = 0; idx < MNUMS; idx++)
 			this->sources[idx] = materia_source.sources[idx];
 	}
-	std::cout << "[MateriaSource]" << OCCF2 << std::endl;
+	// std::cout << "[MateriaSource]" << OCCF2 << std::endl;
 	return (*this);
 }
 
@@ -30,7 +29,7 @@ MateriaSource::~MateriaSource()
 {
 	for (int idx = 0; idx < MNUMS; idx++)
 		delete this->sources[idx];
-	std::cout << "[MateriaSource]" << OCCF3 << std::endl;
+	// std::cout << "[MateriaSource]" << OCCF3 << std::endl;
 }
 
 /* FUNCTION */
@@ -41,7 +40,7 @@ void	MateriaSource::learnMateria(AMateria* materia)
 		if (!this->sources[idx])
 		{
 			this->sources[idx] = materia;
-			std::cout <<"learnMateria " << this->sources[idx]->getType() << std::endl;
+			// std::cout <<"learnMateria " << this->sources[idx]->getType() << std::endl;
 			break ;
 		}
 		else if (idx + 1 == MNUMS)
@@ -56,13 +55,15 @@ AMateria*	MateriaSource::createMateria(std::string const& _type)
 {
 	AMateria *new_materia;
 
+	if (_type != "cure" && _type != "ice")
+		return (NULL);
 	new_materia = NULL;
 	for (int idx = 0; idx < MNUMS; idx++)
 	{	
 		if (this->sources[idx]->getType() == _type)
 		{	
 			new_materia = this->sources[idx]->clone();
-			std::cout <<"creatMateria " << this->sources[idx]->getType() << std::endl;
+			// std::cout <<"creatMatearia " << this->sources[idx]->getType() << std::endl;
 			break ; 
 		}
 		else if (idx + 1 == MNUMS)

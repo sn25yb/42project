@@ -2,7 +2,6 @@
 # define CHARACTER_HPP
 
 # include "ICharacter.hpp"
-# include "AMateria.hpp"
 # include "OCCF.hpp"
 
 # define INUMS 4
@@ -11,7 +10,7 @@ class Character : public ICharacter
 {
 	private:
 		std::string					name;
-		AMateria*					inventory[INUMS];
+		AMateria					*inventory[INUMS];
 	public:
 		/* ORTHODOX CANONICAL FORM */
 									Character();
@@ -26,9 +25,5 @@ class Character : public ICharacter
 		virtual void				unequip(int idx);
 		virtual void				use(int idx, ICharacter& target);
 };
-
-
-
-
 
 #endif

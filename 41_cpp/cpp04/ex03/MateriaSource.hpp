@@ -7,9 +7,7 @@
 class MateriaSource : public IMateriaSource
 {
 	private:
-		/* data */
 		AMateria		*sources[MNUMS];
-		// AMateria		*unequip[MNUMS];
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						MateriaSource();

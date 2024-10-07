@@ -4,13 +4,13 @@
 Character::Character()
 {
 	this->name = "default";
-	std::cout << "[Character]" << this->name << OCCF0 << std::endl;
+	// std::cout << "[Character]" << this->name << OCCF0 << std::endl;
 }
 
 Character::Character(const Character& character)
 {
 	*this = character;
-	std::cout << "[Character]" << this->name << OCCF1 << std::endl;
+	// std::cout << "[Character]" << this->name << OCCF1 << std::endl;
 }
 
 Character& Character::operator= (const Character& character)
@@ -22,7 +22,7 @@ Character& Character::operator= (const Character& character)
 		for (int idx = 0; idx < INUMS; idx++)
 			this->inventory[idx] = character.inventory[idx]->clone();
 	}
-	std::cout << "[Character]" << this->name << OCCF2 << std::endl;
+	// std::cout << "[Character]" << this->name << OCCF2 << std::endl;
 	return (*this);
 }
 
@@ -30,16 +30,15 @@ Character::~Character()
 {
 	for (int idx = 0; idx < INUMS; idx++)
 		delete inventory[idx];
-	std::cout << "[Character]" << this->name << OCCF3 << std::endl;
+	// std::cout << "[Character]" << this->name << OCCF3 << std::endl;
 }
 
 /* CONSTRUCTOR */
 Character::Character(std::string _name)
 {
 	this->name = _name;
-	std::cout << "[Character]" << this->name << OCCF0 << std::endl;
+	// std::cout << "[Character]" << this->name << OCCF0 << std::endl;
 }
-
 
 /* FUNCTION */
 std::string const& Character::getName() const
@@ -59,15 +58,13 @@ void	Character::equip(AMateria* m)
 		else if (idx + 1 == INUMS)
 			delete m;
 	}
-	//m delete?s
 }
 
 void	Character::unequip(int idx)
 {
-	if (this->inventory[idx])
-		std::cout << this->name << "unequip" << this->inventory;
+	// if (this->inventory[idx])
+		// std::cout << this->name << " unequip " << this->inventory[idx]->getType() << std::endl;
 	this->inventory[idx] = 0;
-	//this->invetory delete?
 }
 
 void	Character::use(int idx, ICharacter& target)
