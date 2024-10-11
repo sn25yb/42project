@@ -1,0 +1,16 @@
+NO ./textures/3d/north.xpm
+SO ./textures/3d/south.xpm
+WE ./textures/3d/west.xpm
+EA ./textures/3d/east.xpm
+
+F 220,100,0
+C 225,30,0
+
+
+111111111111111111
+100000000000000001
+111111110111111101
+       101     1N1
+11111111011111110111
+1AbcdFHkLRw000000001
+11111111111111111111
