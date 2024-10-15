@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+# CFLAGS = -Wall -Werror -Wextra -g
 LDFLAGS = -L./libft \
 		  -L./mlx \
 
@@ -16,6 +16,7 @@ MLXFLAG = -framework OpenGL -framework AppKit
 
 SRCDIR1 = ./srcs/sohykim/
 SRCDIR3 = ./srcs/sohykim/map2d/
+SRCDIR4 = ./srcs/sohykim/validation/
 SRCDIR2 = ./srcs/yubshin/
 BASE = ./base/
 
@@ -25,13 +26,18 @@ SRCS = main.c \
 	   draw.c \
 	   $(SRCDIR1)map.c \
 	   $(SRCDIR1)setting.c \
-	   $(SRCDIR1)valid.c \
 	   $(SRCDIR1)rule.c \
 	   $(SRCDIR3)inventory.c \
 	   $(SRCDIR3)map2d.c \
+	   $(SRCDIR4)arg.c \
+	   $(SRCDIR4)door.c \
+	   $(SRCDIR4)player.c \
+	   $(SRCDIR4)object.c \
+	   $(SRCDIR4)wall.c \
 	   $(SRCDIR3)image2d.c \
-	   $(SRCDIR2)image3d.c \
-	#    $(SRCDIR2)texture3d.c \
+	   $(SRCDIR2)add_image3d.c \
+	   $(SRCDIR2)get_image3d_addr.c \
+	   $(SRCDIR2)rendering.c \
 
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
@@ -53,6 +59,9 @@ $(SRCDIR2)%.o : $(SRCDIR2)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 $(SRCDIR3)%.o : $(SRCDIR3)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+$(SRCDIR4)%.o : $(SRCDIR4)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 %.o : %.c

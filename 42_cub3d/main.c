@@ -22,6 +22,7 @@ int	main (int argc, char *argv[])
 	init(&game);
 	// image 및 지도 add
 	add(&game, argv[1]);
+	init_texture3d(&game);
 
 	/* display */
 	// mlx_clear_window(game.mlx, game.win);
@@ -42,7 +43,7 @@ int	main (int argc, char *argv[])
 	// mlx_put_image_to_window(game.mlx, game.win, game.image.inventory[0], 0, 100);
 	// mlx_put_image_to_window(game.mlx, game.win, game.image.inventory[1], 0, 150);
 	/* hook & loop */
-	draw_images(&game);
+	draw_startscreen(&game);
 	mlx_hook(game.win, KEY_PRESS, 0, &event_wt_user, &game);
 	mlx_hook(game.win, MOUSE_RELEASE, 0, &mouse_release, &game);
 	mlx_hook(game.win, MOUSE_MOVE, 0, &mouse_motion, &game);

@@ -14,7 +14,6 @@
 # include "libft/queue/queue.h"
 # include "libft/base/pair.h"
 # include "srcs/sohykim/map2d/map2d.h"
-# include "srcs/yubshin/image3d.h"
 # include "srcs/yubshin/rendering.h"
 
 # define DESTROY_NOTIFY 17
@@ -31,8 +30,8 @@
 # define KEY_ENTER 36
 # define KEY_ESC 53
 
-# define SCREEN_WIDTH 640
-# define SCREEN_HEIGHT 480
+// # define SCREEN_WIDTH 640
+// # define SCREEN_HEIGHT 480
 
 typedef enum e_objs
 {
@@ -41,23 +40,44 @@ typedef enum e_objs
 	boots,
 	carrot,
 	kangbao,
-	door,
 	LEBAO,
 	AIBAO,
 	FUBAO,
 	HUIBAO,
-	RUIBAO
+	RUIBAO,
+	exit1
 }	t_objs;
 
 // EA 1,0
 // WE -1,0
-// NO 0, 1
-//SO 0, -1
+// NO 0, -1
+//SO 0, 1
+
 typedef struct s_player
 {
 	t_pair_dbl	pos; 
 	t_pair_dbl	dir;
 }	t_player;
+
+typedef struct s_key
+{
+	t_pair_int	pos;
+	t_boolean	on;
+}	t_key;
+
+typedef struct s_lcycle
+{
+	/* data */
+	t_boolean	start_flag;
+	t_boolean	exit_flag;
+	t_pair_int	exit_pos;
+}	t_lcycle;
+
+typedef struct s_keys
+{
+	t_key	mouse;
+	t_key	btn;
+}	t_keys;
 
 typedef struct s_game
 {
@@ -65,12 +85,13 @@ typedef struct s_game
 	void		*win;
 	char		**map;
 	t_player	player;
-	t_image		image;
-	t_texture	texture;
+	t_rnd		rnd;
 	t_inventory	inventory;
-	t_rnd		rendering;
 	t_map		minimap;
+	t_keys		key;
+	t_lcycle	lcycle;
 }	t_game;
+
 
 int		inventory(t_game *game);
 int		is_valid(t_game *game);
@@ -80,7 +101,7 @@ void	check_valid(t_game *game, int argc, char **argv);
 void	free_array(char **arr);
 char    *ft_realloc(char *ptr, size_t size);
 void	add(t_game *game, char *file);
-void	add_image(t_game *game);
+// void	add_image(t_game *game);
 t_err	check_info(t_game *game, char **info);
 int		add_wall(t_game *game, char *file, int index);
 int		destroy_game(t_game *game);
@@ -88,7 +109,7 @@ int 	isit_inventory(t_queues inv, int num);
 void	pop_target(t_queues *inv, int num);
 t_objs	get_num_objs(char c);
 char	**arrcpy(char **arr);
-t_err   check_validmap(char **map);
+t_err   check_validmap(char **map, t_pair_dbl *pos);
 void	add_image_inventory(t_game *game);
 int		event_wt_user(int keycode, t_game *game);
 void    draw_images(t_game *game);
@@ -96,4 +117,23 @@ int		mouse_motion(int x, int y, t_game *game);
 int		mouse_release(int button, int x, int y, t_game *game);
 char	*ft_strchrset(char *str, char *set);
 t_boolean	get_objs(t_queues *inv, t_objs objs);
+void	draw_startscreen(t_game *game);
+t_err	check_door(char **map);
+t_err	check_object(char **map);
+t_pair_int	make_dir(t_pair_int xy, int dir);
+t_boolean	count_objs(int objs[11]);
+t_err		check_player(char **map, t_pair_dbl *pos);
+t_err		is_surrbywall(char **map);
+t_err	check_door(char **map);
+t_err	check_exit(char **map);
+void	pick_objs(int objs[11], char c);
+
+//rendering(3d)
+void	add_imgs3d(t_game *game);
+void	init_texture3d(t_game *game);
+void	draw_3dmap(t_game *game);
+
+
+
+
 #endif

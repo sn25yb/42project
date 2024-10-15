@@ -2,13 +2,13 @@
 
 int	add_wall(t_game *game, char *file, int index)
 {
-	int	size[2];
+	// int	size[2];
 
-	if (game->image.wall[index])
-		return (MAP_FAILED);
-	game->image.wall[index] = mlx_xpm_file_to_image(game->mlx, file, &size[0], &size[1]);
-	if (!game->image.wall[index])
-		return (EXTRA);
+	// if (game->rnd.tex3d.wall[index].img)
+	// 	return (MAP_FAILED);
+	// game->rnd.tex3d.wall[index].img = mlx_xpm_file_to_image(game->mlx, file, &size[0], &size[1]);
+	// if (!game->rnd.tex3d.wall[index].img)
+	// 	return (EXTRA);
 	return (EXIT_SUCCESS);
 }
 
@@ -47,7 +47,7 @@ t_err	add_info(t_game *game, int fd)
 
 t_objs	get_num_objs(char c)
 {
-	const char	id[11] = " dwbckLAFHR";
+	const char	id[11] = " wbckLAFHRe";
 	int			index;
 
 	index = 10;
@@ -120,7 +120,7 @@ void	add_player(t_game *game)
 		if (target)
 		{
 			xy.x = target - game->map[xy.y];
-			game->player.pos = make_pair_dbl(xy.y, xy.x);
+			game->player.pos = make_pair_dbl(xy.x, xy.y);
 			game->player.dir = dir_to_coord(game->map[xy.y][xy.x]);
 			game->map[xy.y][xy.x] = '0';
 			return ;
@@ -158,15 +158,14 @@ void	add(t_game *game, char *file)
 	// printf("info: %d\n", code);
 	if (!code)
 		code = add_map(game, fd);
+	// printf("map load: %d\n", code);
 	close(fd);
-	if (!code)
-		code = check_validmap(game->map);
-	// printf("map: %d\n", code);
+	// if (!code)
+	// 	code = check_validmap(game->map, &game->player.pos);
+	// printf("map valid: %d\n", code);
 	if (code)
 		exit_game(game, code);
 	add_player(game);
-	add_image(game);
 	add_2dmap(game);
 	// printf("img: %d\n", code);
-	// add_image;
 }
