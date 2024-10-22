@@ -12,7 +12,7 @@ Dog::Dog()
 	this->brain = new Brain();
 }
 
-Dog::Dog(const Dog& dog)
+Dog::Dog(const Dog& dog) : AAnimal()
 {
 	*this = dog;
 	std::cout << dog.type << OCCF1 << std::endl;
@@ -20,8 +20,12 @@ Dog::Dog(const Dog& dog)
 
 Dog& Dog::operator= (const Dog& dog)
 {
-	this->type = dog.type;
-	this->brain = new Brain(*(dog.brain));
+	if (this != &dog)
+	{
+		this->classname = dog.classname;
+		this->type = dog.type;
+		this->brain = new Brain(*(dog.brain));	
+	}
 	std::cout << dog.type << OCCF2 << std::endl;
 	return (*this);
 }

@@ -28,10 +28,3 @@ Brain::~Brain()
 {
 	std::cout << this->classname << OCCF3 << std::endl;
 }
-
-void	Brain::print_brain()
-{
-	for (int index = 0; index < 100; index++)
-		std::cout << this->ideas[index];
-	std::cout << std::endl;
-}

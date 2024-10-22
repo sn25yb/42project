@@ -1,23 +1,21 @@
 #ifndef CAT_HPP
 # define CAT_HPP
 
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 #include "Brain.hpp"
 
-class Cat : public Animal
+class Cat : public AAnimal
 {
 	private:
-		std::string classname;
-		Brain		*brain;
+		Brain			*brain;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		Cat();
-		Cat(const Cat& cat);
-		Cat& operator= (const Cat& cat);
-		virtual ~Cat();
+						Cat();
+						Cat(const Cat& cat);
+		Cat&			operator= (const Cat& cat);
+		virtual			~Cat();
 		/* FUNCTION */
 		virtual void	makeSound() const;
-		void	print_brain();
 };
 
 #endif

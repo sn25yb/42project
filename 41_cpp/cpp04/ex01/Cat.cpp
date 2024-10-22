@@ -20,8 +20,12 @@ Cat::Cat(const Cat& cat) : Animal()
 
 Cat& Cat::operator= (const Cat& cat)
 {
-	this->type = cat.type;
-	this->brain = new Brain(*(cat.brain));
+	if (this != &cat)
+	{
+		this->classname = cat.classname;
+		this->type = cat.type;
+		this->brain = new Brain(*(cat.brain));
+	}
 	std::cout << cat.type << OCCF2 << std::endl;
 	return (*this);
 }
@@ -39,10 +43,4 @@ Cat::~Cat()
 void	Cat::makeSound() const
 {
 	std::cout << this->type << ": Meow Meow!" <<std::endl;
-}
-
-
-void	Cat::print_brain()
-{
-	this->brain->print_brain();
 }

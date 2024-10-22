@@ -5,7 +5,7 @@ CPPFLAGS = -std=c++98
 WFLAGS = -Wall -Wextra -Werror
 
 SRC = \
-	./Animal.cpp \
+	./AAnimal.cpp \
 	./Dog.cpp \
 	./Cat.cpp \
 	./WrongAnimal.cpp \

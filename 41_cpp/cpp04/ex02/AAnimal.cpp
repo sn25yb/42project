@@ -1,30 +1,30 @@
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 
 /* ************************************************************************** */
 /*                           ORTHODOX CANONICAL FORM                          */
 /* ************************************************************************** */
 
-Animal::Animal()
+AAnimal::AAnimal()
 {
-	this->classname = "[Animal]";
-	this->type = "Animal";
+	this->classname = "[AAnimal]";
+	this->type = "AAnimal";
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
-Animal::Animal(const Animal& animal)
+AAnimal::AAnimal(const AAnimal& Aanimal)
 {
-	*this = animal;
-	std::cout << animal.type << OCCF1 << std::endl;
+	*this = Aanimal;
+	std::cout << Aanimal.type << OCCF1 << std::endl;
 }
 
-Animal& Animal::operator= (const Animal& animal)
+AAnimal& AAnimal::operator= (const AAnimal& Aanimal)
 {
-	this->type = animal.type;
-	std::cout << animal.type << OCCF2 << std::endl;
+	this->type = Aanimal.type;
+	std::cout << Aanimal.type << OCCF2 << std::endl;
 	return (*this);
 }
 
-Animal::~Animal()
+AAnimal::~AAnimal()
 {
 	std::cout << this->classname << this->type << OCCF3 << std::endl;
 }
@@ -33,12 +33,7 @@ Animal::~Animal()
 /*                                  FUNCTION                                  */
 /* ************************************************************************** */
 
-void	Animal::makeSound() const
-{
-	std::cout << this->type << ": Animal Animal!" <<std::endl;
-}
-
-std::string	Animal::getType() const
+std::string	AAnimal::getType() const
 {
 	return (this->type);
 }

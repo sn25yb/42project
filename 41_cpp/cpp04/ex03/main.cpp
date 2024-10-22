@@ -6,14 +6,14 @@
 #include "MateriaSource.hpp"
 #include "Floor.hpp"
 
-void leak()
-{
-	system("leaks amateria");
-}
+// void leak()
+// {
+// 	system("leaks amateria");
+// }
 
 int	main()
 {
-	atexit(leak);
+	// atexit(leak);
 
 	IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());

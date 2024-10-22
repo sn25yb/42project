@@ -19,6 +19,7 @@ WrongAnimal::WrongAnimal(const WrongAnimal& Wronganimal)
 
 WrongAnimal& WrongAnimal::operator= (const WrongAnimal& wronganimal)
 {
+	this->classname = wronganimal.classname;
 	this->type = wronganimal.type;
 	std::cout << wronganimal.type << OCCF2 << std::endl;
 	return (*this);

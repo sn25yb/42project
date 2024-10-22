@@ -11,11 +11,11 @@ class Floor
 		AMateria	*floor_invetory[FLOORMAX];
 		int			len;
 	public:
-				Floor();
-				Floor(const Floor& floor);
-		Floor&	operator= (const Floor& floor);
-				~Floor();
-		void	add_floor_invetory(AMateria *materia);
+					Floor();
+					Floor(const Floor& floor);
+		Floor&		operator= (const Floor& floor);
+					~Floor();
+		void		add_floor_invetory(AMateria *materia);
 };
 
 #endif

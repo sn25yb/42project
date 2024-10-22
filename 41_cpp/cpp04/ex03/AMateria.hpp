@@ -12,19 +12,19 @@ class ICharacter;
 class AMateria
 {
 	protected:
-		std::string type;
+		std::string			type;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		AMateria();
-		AMateria(const AMateria& amateria);
-		AMateria& operator= (const AMateria& amateria);
-		virtual ~AMateria();
+							AMateria();
+							AMateria(const AMateria& amateria);
+		AMateria&			operator= (const AMateria& amateria);
+		virtual				~AMateria();
 		/* CONSTRUCTOR */
-		AMateria(std::string const& _type);
+							AMateria(std::string const& _type);
 		/* FUNCTION - get, set */
-		std::string const& getType() const;
+		std::string const&	getType() const;
 		/* FUNCTION */
-		virtual AMateria* clone() const = 0;
-		virtual void use(ICharacter& target);
+		virtual				AMateria* clone() const = 0;
+		virtual void		use(ICharacter& target);
 };
 #endif

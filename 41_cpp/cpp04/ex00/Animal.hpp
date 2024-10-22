@@ -12,16 +12,15 @@
 
 class Animal
 {
-	private:
-		std::string	classname;
 	protected:
-		std::string	type;
+		std::string		classname;
+		std::string		type;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		Animal();
-		Animal(const Animal& animal);
-		Animal& operator= (const Animal& animal);
-		virtual ~Animal();
+						Animal();
+						Animal(const Animal& animal);
+		Animal&			operator= (const Animal& animal);
+		virtual			~Animal();
 		/* FUNCTION */
 		virtual void	makeSound() const;
 		std::string		getType() const;

@@ -17,12 +17,10 @@ class Brain
 		std::string	ideas[100];
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		Brain();
-		Brain(const Brain& brain);
-		Brain& operator= (const Brain& brain);
-		virtual ~Brain();
-		/* FUNCTION */
-		void	print_brain();
+					Brain();
+					Brain(const Brain& brain);
+		Brain&		operator= (const Brain& brain);
+		virtual		~Brain();
 };
 
 #endif

@@ -12,16 +12,15 @@
 
 class WrongAnimal
 {
-	private:
-		std::string	classname;
 	protected:
-		std::string	type;
+		std::string		classname;
+		std::string		type;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		WrongAnimal();
-		WrongAnimal(const WrongAnimal& wronganimal);
-		WrongAnimal& operator= (const WrongAnimal& wronganimal);
-		virtual~WrongAnimal();
+						WrongAnimal();
+						WrongAnimal(const WrongAnimal& wronganimal);
+		WrongAnimal&	operator= (const WrongAnimal& wronganimal);
+		virtual			~WrongAnimal();
 		/* FUNCTION */
 		void			makeSound() const;
 		std::string		getType() const;

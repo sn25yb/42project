@@ -7,17 +7,15 @@
 class Cat : public Animal
 {
 	private:
-		std::string classname;
 		Brain		*brain;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		Cat();
-		Cat(const Cat& cat);
-		Cat& operator= (const Cat& cat);
-		virtual ~Cat();
+						Cat();
+						Cat(const Cat& cat);
+		Cat&			operator= (const Cat& cat);
+		virtual			~Cat();
 		/* FUNCTION */
 		virtual void	makeSound() const;
-		void	print_brain();
 };
 
 #endif

@@ -5,17 +5,14 @@
 
 class WrongCat : public WrongAnimal
 {
-	private:
-		std::string classname;
-		/* data */
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		WrongCat();
-		WrongCat(const WrongCat& wrongcat);
-		WrongCat& operator= (const WrongCat& wrongcat);
-		virtual ~WrongCat();
+					WrongCat();
+					WrongCat(const WrongCat& wrongcat);
+		WrongCat&	operator= (const WrongCat& wrongcat);
+		virtual		~WrongCat();
 		/* FUNCTION */
-		void	makeSound() const;
+		void		makeSound() const;
 };
 
 #endif 

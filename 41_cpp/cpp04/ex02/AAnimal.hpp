@@ -1,5 +1,5 @@
-#ifndef ANIMAL_HPP
-# define ANIMAL_HPP
+#ifndef AANIMAL_HPP
+# define AANIMAL_HPP
 
 #include <iostream>
 
@@ -10,22 +10,20 @@
 # define NOTICE " ❯ "
 # define NSPACE "   "
 
-class Animal
+class AAnimal
 {
-	private:
-		std::string	classname;
 	protected:
-		std::string	type;
+		std::string		classname;
+		std::string		type;
 	public:
 		/* ORTHODOX CANONICAL FORM */
-		Animal();
-		Animal(const Animal& animal);
-		Animal& operator= (const Animal& animal);
-		virtual ~Animal();
+						AAnimal();
+						AAnimal(const AAnimal& animal);
+		AAnimal&		operator= (const AAnimal& animal);
+		virtual			~AAnimal();
 		/* FUNCTION */
 		virtual void	makeSound() const = 0;
 		std::string		getType() const;
 };
-
 
 #endif
