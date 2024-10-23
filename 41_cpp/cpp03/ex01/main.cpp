@@ -2,6 +2,7 @@
 
 int	main(void)
 {
+	// Clap -> ScavTRap () virtual 
 	ScavTrap A("A");
 	ScavTrap B("B");
 	ScavTrap C(A);

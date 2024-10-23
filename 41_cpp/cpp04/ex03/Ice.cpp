@@ -7,13 +7,13 @@ Ice::Ice() : AMateria("ice")
 
 Ice::Ice(const Ice& ice) : AMateria("ice")
 {
-	*this = ice;
+	this->type = ice.type;
 	// std::cout << "[Ice]" << this->type << OCCF1 << std::endl;
 }
 
-Ice&	Ice::operator= (const Ice* ice)
+Ice&	Ice::operator= (const Ice& ice)
 {
-	(void) ice;
+	this->type = ice.type;
 	// std::cout << "[Ice]" << this->type << OCCF2 << std::endl;
 	return (*this);
 }

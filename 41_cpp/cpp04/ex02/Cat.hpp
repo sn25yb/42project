@@ -7,6 +7,7 @@
 class Cat : public AAnimal
 {
 	private:
+		std::string		classname;
 		Brain			*brain;
 	public:
 		/* ORTHODOX CANONICAL FORM */

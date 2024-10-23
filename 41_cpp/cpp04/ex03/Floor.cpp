@@ -7,8 +7,13 @@ Floor::Floor()
 
 Floor::Floor(const Floor& floor)
 {
-	*this = floor;
-	// std::cout << "[Floor]" << OCCF1 << std::endl;
+	if (this != &floor)
+	{	
+		this->len = floor.len;
+		for (int idx = 0; idx < this->len; idx++)
+			if (floor.floor_invetory[idx])
+				this->floor_invetory[idx] = floor.floor_invetory[idx]->clone();
+	}	// std::cout << "[Floor]" << OCCF1 << std::endl;
 }
 
 Floor&	Floor::operator= (const Floor& floor)
@@ -17,7 +22,8 @@ Floor&	Floor::operator= (const Floor& floor)
 	{	
 		this->len = floor.len;
 		for (int idx = 0; idx < this->len; idx++)
-			this->floor_invetory[idx] = floor.floor_invetory[idx]->clone();
+			if (floor.floor_invetory[idx])
+				this->floor_invetory[idx] = floor.floor_invetory[idx]->clone();
 	}
 	// std::cout << "[Floor]" << OCCF2 << std::endl;
 	return (*this);

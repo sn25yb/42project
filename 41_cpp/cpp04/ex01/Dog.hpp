@@ -7,7 +7,8 @@
 class Dog : public Animal
 {
 	private:
-		Brain		*brain;
+		std::string		classname;
+		Brain			*brain;
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						Dog();

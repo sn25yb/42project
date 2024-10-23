@@ -5,8 +5,6 @@
 
 class Cure : public AMateria
 {
-	private:
-		/* data */
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						Cure();

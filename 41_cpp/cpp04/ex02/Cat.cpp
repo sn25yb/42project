@@ -14,8 +14,11 @@ Cat::Cat()
 
 Cat::Cat(const Cat& cat) : AAnimal()
 {
-	*this = cat;
-	std::cout << cat.type << OCCF1 << std::endl;
+	this->classname = cat.classname;
+	this->type = cat.type;
+	this->brain = new Brain();
+	*(this->brain) = *(cat.brain);
+	std::cout << this->type << OCCF1 << std::endl;
 }
 
 Cat& Cat::operator= (const Cat& cat)
@@ -24,9 +27,9 @@ Cat& Cat::operator= (const Cat& cat)
 	{
 		this->classname = cat.classname;
 		this->type = cat.type;
-		this->brain = new Brain(*(cat.brain));
+		*(this->brain) = *(cat.brain);
 	}
-	std::cout << cat.type << OCCF2 << std::endl;
+	std::cout << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

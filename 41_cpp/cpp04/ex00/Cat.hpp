@@ -4,7 +4,9 @@
 #include "Animal.hpp"
 
 class Cat : public Animal
-{
+{	
+	private:
+		std::string		classname;
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						Cat();

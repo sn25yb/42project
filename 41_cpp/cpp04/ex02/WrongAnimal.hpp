@@ -12,8 +12,9 @@
 
 class WrongAnimal
 {
-	protected:
+	private:
 		std::string		classname;
+	protected:
 		std::string		type;
 	public:
 		/* ORTHODOX CANONICAL FORM */

@@ -10,6 +10,7 @@
 int main()
 {
 	// atexit(leaks);
+	// const AAnimal A;
 	const AAnimal* dog = new Dog();
 	const AAnimal* cat = new Cat();
 	std::cout << std::endl;

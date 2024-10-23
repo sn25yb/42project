@@ -15,7 +15,7 @@ Cat::Cat()
 Cat::Cat(const Cat& cat) : Animal()
 {
 	*this = cat;
-	std::cout << cat.type << OCCF1 << std::endl;
+	std::cout << this->type << OCCF1 << std::endl;
 }
 
 Cat& Cat::operator= (const Cat& cat)
@@ -26,7 +26,7 @@ Cat& Cat::operator= (const Cat& cat)
 		this->type = cat.type;
 		this->brain = new Brain(*(cat.brain));
 	}
-	std::cout << cat.type << OCCF2 << std::endl;
+	std::cout << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

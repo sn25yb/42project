@@ -7,6 +7,7 @@
 // 	system("leaks animal");
 // }
 
+//깊은 복사 : 확인함수,
 int main()
 {
 	// atexit(leaks);
@@ -38,5 +39,6 @@ int main()
 		delete animal[index];
 	}
 	std::cout << std::endl;
+
 	return (0);
 }

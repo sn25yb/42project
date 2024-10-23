@@ -9,7 +9,7 @@ AMateria::AMateria()
 
 AMateria::AMateria(const AMateria& amateria)
 {
-	*this = amateria;
+	this->type = amateria.type;
 	// std::cout << "[AMateria]" << this->type << OCCF1 << std::endl;
 }
 

@@ -13,14 +13,16 @@ Animal::Animal()
 
 Animal::Animal(const Animal& animal)
 {
-	*this = animal;
-	std::cout << animal.type << OCCF1 << std::endl;
+	this->classname = animal.classname;
+	this->type = animal.type;
+	std::cout << this->type << OCCF1 << std::endl;
 }
 
 Animal& Animal::operator= (const Animal& animal)
 {
+	this->classname = animal.classname;
 	this->type = animal.type;
-	std::cout << animal.type << OCCF2 << std::endl;
+	std::cout << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

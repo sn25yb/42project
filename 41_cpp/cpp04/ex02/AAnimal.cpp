@@ -11,16 +11,18 @@ AAnimal::AAnimal()
 	std::cout << this->classname << this->type << OCCF0 << std::endl;
 }
 
-AAnimal::AAnimal(const AAnimal& Aanimal)
+AAnimal::AAnimal(const AAnimal& animal)
 {
-	*this = Aanimal;
-	std::cout << Aanimal.type << OCCF1 << std::endl;
+	this->classname = animal.classname;
+	this->type = animal.type;
+	std::cout << this->type << OCCF1 << std::endl;
 }
 
-AAnimal& AAnimal::operator= (const AAnimal& Aanimal)
+AAnimal& AAnimal::operator= (const AAnimal& animal)
 {
-	this->type = Aanimal.type;
-	std::cout << Aanimal.type << OCCF2 << std::endl;
+	this->classname = animal.classname;
+	this->type = animal.type;
+	std::cout << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

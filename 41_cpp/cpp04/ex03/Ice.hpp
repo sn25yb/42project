@@ -5,13 +5,11 @@
 
 class Ice : public AMateria 
 {
-	private:
-		/* data */
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						Ice();
 						Ice(const Ice& ice);
-		Ice&			operator= (const Ice* ice);
+		Ice&			operator= (const Ice& ice);
 		virtual			~Ice();
 		/* FUNCTION */
 		virtual Ice*	clone() const;

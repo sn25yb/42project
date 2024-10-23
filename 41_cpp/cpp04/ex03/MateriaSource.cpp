@@ -8,7 +8,14 @@ MateriaSource::MateriaSource()
 
 MateriaSource::MateriaSource(const MateriaSource& materia_source)
 {
-	*this = materia_source;
+	if (this != &materia_source)
+	{
+		for (int idx = 0; idx < MNUMS; idx++)
+			delete this->sources[idx];
+		for (int idx = 0; idx < MNUMS; idx++)
+			if (materia_source.sources[idx])
+				this->sources[idx] = materia_source.sources[idx];
+	}
 	// std::cout << "[MateriaSource]" << OCCF1 << std::endl;
 }
 
@@ -19,7 +26,8 @@ MateriaSource& MateriaSource::operator= (const MateriaSource& materia_source)
 		for (int idx = 0; idx < MNUMS; idx++)
 			delete this->sources[idx];
 		for (int idx = 0; idx < MNUMS; idx++)
-			this->sources[idx] = materia_source.sources[idx];
+			if (materia_source.sources[idx])
+				this->sources[idx] = materia_source.sources[idx];
 	}
 	// std::cout << "[MateriaSource]" << OCCF2 << std::endl;
 	return (*this);
@@ -60,7 +68,7 @@ AMateria*	MateriaSource::createMateria(std::string const& _type)
 	new_materia = NULL;
 	for (int idx = 0; idx < MNUMS; idx++)
 	{	
-		if (this->sources[idx]->getType() == _type)
+		if (this->sources[idx] && this->sources[idx]->getType() == _type)
 		{	
 			new_materia = this->sources[idx]->clone();
 			// std::cout <<"creatMatearia " << this->sources[idx]->getType() << std::endl;

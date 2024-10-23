@@ -11,8 +11,10 @@ Brain::Brain()
 
 Brain::Brain(const Brain& brain)
 {
-	*this = brain;
-	std::cout << brain.classname << OCCF1 << std::endl;
+	this->classname = brain.classname;
+	for (int index = 0; index < 100; index++)
+		this->ideas[index] = brain.ideas[index];
+	std::cout << this->classname << OCCF1 << std::endl;
 }
 
 Brain& Brain::operator= (const Brain& brain)
@@ -20,7 +22,7 @@ Brain& Brain::operator= (const Brain& brain)
 	this->classname = brain.classname;
 	for (int index = 0; index < 100; index++)
 		this->ideas[index] = brain.ideas[index];
-	std::cout << brain.classname << OCCF2 << std::endl;
+	std::cout << this->classname << OCCF2 << std::endl;
 	return (*this);
 }
 
