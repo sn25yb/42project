@@ -18,7 +18,7 @@ Cat::Cat(const Cat& cat) : AAnimal()
 	this->type = cat.type;
 	this->brain = new Brain();
 	*(this->brain) = *(cat.brain);
-	std::cout << this->type << OCCF1 << std::endl;
+	std::cout << this->classname << this->type << OCCF1 << std::endl;
 }
 
 Cat& Cat::operator= (const Cat& cat)
@@ -29,7 +29,7 @@ Cat& Cat::operator= (const Cat& cat)
 		this->type = cat.type;
 		*(this->brain) = *(cat.brain);
 	}
-	std::cout << this->type << OCCF2 << std::endl;
+	std::cout << this->classname << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 
@@ -46,4 +46,9 @@ Cat::~Cat()
 void	Cat::makeSound() const
 {
 	std::cout << this->type << ": Meow Meow!" <<std::endl;
+}
+
+void	Cat::showbrain() const
+{
+	std::cout << "Brain address: " << this->brain << std::endl;
 }

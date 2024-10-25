@@ -39,5 +39,30 @@ int main()
 		delete animal[index];
 	}
 	std::cout << std::endl;
+
+	//deep copy
+	Cat *cat1 = new Cat();
+	Cat *cat2 = new Cat(*cat1);
+	std::cout << std::endl;
+
+	cat1->showbrain();
+	cat2->showbrain();
+	std::cout << std::endl;
+
+	delete cat1;
+	delete cat2;
+
+	Cat *dog1 = new Cat();
+	Cat *dog2 = new Cat(*dog1);
+	std::cout << std::endl;
+
+	dog1->showbrain();
+	dog2->showbrain();
+	std::cout << std::endl;
+
+	delete dog1;
+	delete dog2;
+	std::cout << std::endl;
+	
 	return (0);
 }

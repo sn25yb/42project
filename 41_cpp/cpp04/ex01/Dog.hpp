@@ -17,6 +17,7 @@ class Dog : public Animal
 		virtual			~Dog();
 		/* FUNCTION */
 		virtual void	makeSound() const;
+		void			showbrain() const;
 };
 
 #endif

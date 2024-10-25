@@ -15,14 +15,14 @@ Cat::Cat(const Cat& cat) : Animal()
 {
 	this->classname = cat.classname;
 	this->type = cat.type;
-	std::cout << this->type << OCCF1 << std::endl;
+	std::cout << this->classname << this->type << OCCF1 << std::endl;
 }
 
 Cat& Cat::operator= (const Cat& cat)
 {
 	this->type = cat.classname;
 	this->type = cat.type;
-	std::cout << this->type << OCCF2 << std::endl;
+	std::cout << this->classname << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

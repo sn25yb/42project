@@ -26,7 +26,7 @@ Cure::~Cure()
 /* FUNCTION */
 Cure *Cure::clone() const
 {
-	Cure *new_cure = new Cure;
+	Cure *new_cure = new Cure();
 	return (new_cure);
 }
 

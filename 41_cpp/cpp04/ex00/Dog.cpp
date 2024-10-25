@@ -15,14 +15,14 @@ Dog::Dog(const Dog& dog) : Animal()
 {
 	this->classname = dog.classname;
 	this->type = dog.type;
-	std::cout << this->type << OCCF1 << std::endl;
+	std::cout << this->classname << this->type << OCCF1 << std::endl;
 }
 
 Dog& Dog::operator= (const Dog& dog)
 {
 	this->classname = dog.classname;
 	this->type = dog.type;
-	std::cout << this->type << OCCF2 << std::endl;
+	std::cout << this->classname << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

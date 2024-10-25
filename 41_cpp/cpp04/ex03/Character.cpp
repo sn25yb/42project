@@ -9,10 +9,10 @@ Character::Character()
 
 Character::Character(const Character& character)
 {
+	for (int idx = 0; idx < INUMS; idx++)
+		this->inventory[idx] = 0;
 	if (this != &character)
 	{
-		for (int idx = 0; idx < INUMS; idx++)
-			delete this->inventory[idx];
 		for (int idx = 0; idx < INUMS; idx++)
 			if (character.inventory[idx])
 				this->inventory[idx] = character.inventory[idx]->clone();
@@ -37,7 +37,8 @@ Character& Character::operator= (const Character& character)
 Character::~Character()
 {
 	for (int idx = 0; idx < INUMS; idx++)
-		delete inventory[idx];
+		if (inventory[idx])
+			delete inventory[idx];
 	// std::cout << "[Character]" << this->name << OCCF3 << std::endl;
 }
 
@@ -64,15 +65,19 @@ void	Character::equip(AMateria* m)
 			break ;
 		}
 		else if (idx + 1 == INUMS)
+		{
 			delete m;
+			std::cout << "You equiped 4 materias already." << std::endl;
+			break ;
+		}
 	}
 }
 
 void	Character::unequip(int idx)
 {
-	// if (this->inventory[idx])
+	if (idx < INUMS && this->inventory[idx])
+		this->inventory[idx] = 0;
 	// 	std::cout << this->name << " unequip " << this->inventory[idx]->getType() << std::endl;
-	this->inventory[idx] = 0; //idx 세그폴트 
 }
 
 void	Character::use(int idx, ICharacter& target)

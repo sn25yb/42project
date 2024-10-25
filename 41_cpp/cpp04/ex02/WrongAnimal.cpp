@@ -15,14 +15,14 @@ WrongAnimal::WrongAnimal(const WrongAnimal& wronganimal)
 {
 	this->classname = wronganimal.classname;
 	this->type = wronganimal.type;
-	std::cout << this->type << OCCF1 << std::endl;
+	std::cout << this->classname << this->type << OCCF1 << std::endl;
 }
 
 WrongAnimal& WrongAnimal::operator= (const WrongAnimal& wronganimal)
 {
 	this->classname = wronganimal.classname;
 	this->type = wronganimal.type;
-	std::cout << this->type << OCCF2 << std::endl;
+	std::cout << this->classname << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 

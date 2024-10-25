@@ -18,7 +18,7 @@ Dog::Dog(const Dog& dog) : AAnimal()
 	this->type = dog.type;
 	this->brain = new Brain();
 	*(this->brain) = *(dog.brain);
-	std::cout << dog.type << OCCF1 << std::endl;
+	std::cout << this->classname << this->type << OCCF1 << std::endl;
 }
 
 Dog& Dog::operator= (const Dog& dog)
@@ -29,7 +29,7 @@ Dog& Dog::operator= (const Dog& dog)
 		this->type = dog.type;
 		*(this->brain) = *(dog.brain);
 	}
-	std::cout << dog.type << OCCF2 << std::endl;
+	std::cout << this->classname << this->type << OCCF2 << std::endl;
 	return (*this);
 }
 
@@ -46,4 +46,9 @@ Dog::~Dog()
 void	Dog::makeSound() const
 {
 	std::cout << this->type << ": Bark Bark!" <<std::endl;
+}
+
+void	Dog::showbrain() const
+{
+	std::cout << "Brain address: " << this->brain << std::endl;
 }

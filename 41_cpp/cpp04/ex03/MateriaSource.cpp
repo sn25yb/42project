@@ -8,13 +8,13 @@ MateriaSource::MateriaSource()
 
 MateriaSource::MateriaSource(const MateriaSource& materia_source)
 {
+	for (int idx = 0; idx < MNUMS; idx++)
+		this->sources[idx] = 0;
 	if (this != &materia_source)
 	{
 		for (int idx = 0; idx < MNUMS; idx++)
-			delete this->sources[idx];
-		for (int idx = 0; idx < MNUMS; idx++)
 			if (materia_source.sources[idx])
-				this->sources[idx] = materia_source.sources[idx];
+				this->sources[idx] = materia_source.sources[idx]->clone();
 	}
 	// std::cout << "[MateriaSource]" << OCCF1 << std::endl;
 }
@@ -27,7 +27,7 @@ MateriaSource& MateriaSource::operator= (const MateriaSource& materia_source)
 			delete this->sources[idx];
 		for (int idx = 0; idx < MNUMS; idx++)
 			if (materia_source.sources[idx])
-				this->sources[idx] = materia_source.sources[idx];
+				this->sources[idx] = materia_source.sources[idx]->clone();
 	}
 	// std::cout << "[MateriaSource]" << OCCF2 << std::endl;
 	return (*this);
@@ -36,7 +36,8 @@ MateriaSource& MateriaSource::operator= (const MateriaSource& materia_source)
 MateriaSource::~MateriaSource()
 {
 	for (int idx = 0; idx < MNUMS; idx++)
-		delete this->sources[idx];
+		if (this->sources[idx])
+			delete this->sources[idx];
 	// std::cout << "[MateriaSource]" << OCCF3 << std::endl;
 }
 
@@ -55,6 +56,7 @@ void	MateriaSource::learnMateria(AMateria* materia)
 		{
 			delete materia;
 			std::cout << "You learned 4 materias already." << std::endl;
+			break ;
 		}
 	}
 }
@@ -75,7 +77,10 @@ AMateria*	MateriaSource::createMateria(std::string const& _type)
 			break ; 
 		}
 		else if (idx + 1 == MNUMS)
+		{
 			std::cout << "MateriaSource does not have the type of materia." << std::endl;
+			break ;
+		}
 	}
 	return (new_materia);
 }

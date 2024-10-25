@@ -7,8 +7,8 @@
 class Dog : public AAnimal
 {
 	private:
-		std::string	classname;
-		Brain		*brain;
+		std::string		classname;
+		Brain			*brain;
 	public:
 		/* ORTHODOX CANONICAL FORM */
 						Dog();
@@ -17,6 +17,7 @@ class Dog : public AAnimal
 		virtual			~Dog();
 		/* FUNCTION */
 		virtual void	makeSound() const;
+		void			showbrain() const;
 };
 
 #endif

@@ -6,7 +6,7 @@
 class WrongCat : public WrongAnimal
 {
 	private:
-		std::string classname;
+		std::string	classname;
 	public:
 		/* ORTHODOX CANONICAL FORM */
 					WrongCat();

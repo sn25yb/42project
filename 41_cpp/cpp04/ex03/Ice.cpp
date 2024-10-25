@@ -26,7 +26,7 @@ Ice::~Ice()
 /* FUNCTION */
 Ice	*Ice::clone() const
 {
-	Ice *new_ice = new Ice;
+	Ice *new_ice = new Ice();
 	return (new_ice);
 }
 

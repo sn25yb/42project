@@ -17,6 +17,7 @@ class Cat : public AAnimal
 		virtual			~Cat();
 		/* FUNCTION */
 		virtual void	makeSound() const;
+		void			showbrain() const;
 };
 
 #endif
