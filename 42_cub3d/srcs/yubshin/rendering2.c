@@ -1,301 +1,557 @@
-
 #include "../../cub3d.h"
 
-void	init_rnd(t_rnd *rnd, t_player player)
+void	init_rnd(t_game *game)
 {
-	rnd->pos.x = player.pos.x;
-	rnd->pos.y = player.pos.y;
-	rnd->dir.x = player.dir.x;
-	rnd->dir.y = player.dir.y;
-	rnd->plane.x = 0;
-	rnd->plane.y = 0.66;
-	rnd->cframetime = 0;
-	rnd->pframetime = 0;
-	rnd->pitch = 100;
+	ft_memset(&game->rnd.cal, 0, sizeof(t_cal));
+	game->rnd.cal.pos.x = game->player.pos.x;
+	game->rnd.cal.pos.y = game->player.pos.y;
+	game->rnd.cal.dir.x = game->player.dir.x;
+	game->rnd.cal.dir.y = game->player.dir.y;
+	// // 방향에 따라 평면 벡터를 설정
+	// if (game->rnd.cal.dir.x > 0) // 동쪽
+	// {
+	// 	game->rnd.cal.plane.x = 0; // 동쪽에서 바라볼 때 수직으로
+	// 	game->rnd.cal.plane.y = 0.66; // 동쪽에서 위쪽으로
+	// } 
+	// else if (game->rnd.cal.dir.x < 0) // 서쪽
+	// {
+	// 		game->rnd.cal.plane.x = 0; // 서쪽에서 바라볼 때 수직으로
+	// 	game->rnd.cal.plane.y = -0.66; // 서쪽에서 아래쪽으로
 
-	rnd->buffer = (unsigned int **)ft_calloc(SCREEN_HEIGHT, sizeof(unsigned int *));
+	// } 
+	// else if (game->rnd.cal.dir.y > 0) // 북쪽
+	// {
+	// 	game->rnd.cal.plane.x = -0.66; // 남쪽에서 왼쪽으로
+	// 	game->rnd.cal.plane.y = 0; // 남쪽에서 수평으로
 
-	int idx = 0;
-	while (idx < SCREEN_HEIGHT)
-		rnd->buffer[idx++] = (unsigned int *)ft_calloc(SCREEN_WIDTH, sizeof(unsigned int));
-}
-
-
-void	cal_raydir(t_rnd *rnd, int x)
-{
-	rnd->camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
-	rnd->raydir.x = rnd->dir.x + rnd->plane.x * rnd->camera_x;
-	rnd->raydir.y = rnd->dir.y + rnd->plane.y * rnd->camera_x;
-}
-
-void	cal_deltadist(t_rnd *rnd)
-{
-	rnd->delta_dist.x = fabs(1 / rnd->raydir.x);
-	rnd->delta_dist.y = fabs(1 / rnd->raydir.y);
-	// rnd->delta_dist.x = sqrt(1 + (rnd->raydir.y * rnd->raydir.y) / (rnd->raydir.x * rnd->raydir.x));
-	// rnd->delta_dist.y = sqrt(1 + (rnd->raydir.x * rnd->raydir.x) / (rnd->raydir.y * rnd->raydir.y));
-}
-
-void	cal_step(t_rnd *rnd)
-{
-	if (rnd->raydir.x < 0)
-		rnd->step.x = -1; //동 이동
-	else
-		rnd->step.x = 1; //서 이동
-	if (rnd->raydir.y < 0)
-		rnd->step.y = -1; //남 이동
-	else
-		rnd->step.y = 1; //북 이동
-}
-
-void	cal_sidedist(t_rnd *rnd)
-{
-	if (rnd->raydir.x < 0)
-		rnd->side_dist.x = (rnd->pos.x - rnd->map.x) * rnd->delta_dist.x;
-	else
-		rnd->side_dist.x = (rnd->map.x + 1.0 - rnd->pos.x) * rnd->delta_dist.x;
-	if (rnd->raydir.y < 0)
-		rnd->side_dist.y = (rnd->pos.y - rnd->map.y) * rnd->delta_dist.y;
-	else
-		rnd->side_dist.y = (rnd->map.y + 1.0 - rnd->pos.y) * rnd->delta_dist.y;
-}
-
-void	cal_dist(t_rnd *rnd, int x)
-{
-	cal_raydir(rnd, x);
-	
-	rnd->map.x = (int)rnd->pos.x;
-	rnd->map.y = (int)rnd->pos.y;
-	cal_deltadist(rnd);
-	cal_step(rnd);
-	cal_sidedist(rnd);
-}
-
-void	dda(t_rnd *rnd, char **map)
-{
-	rnd->hit = 0;
-	while (1)
+	// }
+	// else if (game->rnd.cal.dir.y < 0) // 남쪽
+	// {
+	// 	game->rnd.cal.plane.x = 0.66; // 북쪽에서 오른쪽으로
+	// 	game->rnd.cal.plane.y = 0; // 북쪽에서 수평으로
+	// }
+	// else // 방향이 없을 때 기본값
+	// {
+	// 	game->rnd.cal.plane.x = 0;
+	// 	game->rnd.cal.plane.y = 0;
+	// }
+	double dir_length = sqrt(game->rnd.cal.dir.x * game->rnd.cal.dir.x +
+							 game->rnd.cal.dir.y * game->rnd.cal.dir.y);
+		
+	if (dir_length > 0)
 	{
-		if (rnd->side_dist.x < rnd->side_dist.y)
+		// 방향 벡터를 정규화
+		double norm_dir_x = game->rnd.cal.dir.x / dir_length;
+		double norm_dir_y = game->rnd.cal.dir.y / dir_length;
+
+		// 방향에 따른 평면 벡터 계산
+		game->rnd.cal.plane.x = -norm_dir_y * 0.66; // 정규화된 방향 벡터에 따라 수직으로
+		game->rnd.cal.plane.y = norm_dir_x * 0.66;  // 정규화된 방향 벡터에 따라 수평으로
+	}
+	else // 방향이 없을 때 기본값
+	{
+		game->rnd.cal.plane.x = 0;
+		game->rnd.cal.plane.y = 0;
+	}
+}
+
+void	cal_camera_x(t_cal *cal, int x)
+{
+	cal->camera_x = (2 * x / (double)SCREEN_WIDTH - 1);
+}
+
+void	cal_raydir_pair(t_cal *cal)
+{
+	cal->raydir.x = cal->dir.x + cal->plane.x * cal->camera_x;
+	cal->raydir.y = cal->dir.y + cal->plane.y * cal->camera_x;	
+}
+
+void	cal_map_pair(t_cal *cal)
+{
+	cal->map.x= (int)(cal->pos.x);
+	cal->map.y= (int)(cal->pos.y);
+}
+
+void	cal_deltadist_pair(t_cal *cal)
+{
+	// cal->deltadist.x = fabs(1 / cal->raydir.x);
+	// cal->deltadist.y = fabs(1 / cal->raydir.y);
+	cal->deltadist.x = sqrt(1 + (cal->raydir.y * cal->raydir.y) / (cal->raydir.x * cal->raydir.x));
+	cal->deltadist.y = sqrt(1 + (cal->raydir.x * cal->raydir.x) / (cal->raydir.y * cal->raydir.y));
+}
+
+void cal_sidedist_pair(t_cal *cal)
+{
+	if (cal->raydir.x >= 0)
+		cal->sidedist.x = (cal->map.x + 1.0 - cal->pos.x) * cal->deltadist.x;
+	else 
+		cal->sidedist.x = (cal->pos.x - cal->map.x) * cal->deltadist.x;
+	if (cal->raydir.y >= 0)
+		cal->sidedist.y = (cal->map.y + 1.0 - cal->pos.y) * cal->deltadist.y;
+	else
+		cal->sidedist.y = (cal->pos.y - cal->map.y) * cal->deltadist.y;
+}
+
+void cal_step_pair(t_cal *cal)
+{
+	if (cal->raydir.x >= 0)
+		cal->step.x = 1;
+	else 
+		cal->step.x = -1;
+	if (cal->raydir.y >= 0)
+		cal->step.y = 1;
+	else
+		cal->step.y = -1;
+}
+
+int issamedir(t_cal cal)
+{
+	//플레이어는 동쪽을 보고, 오브젝트는 서쪽 이미지
+	if (cal.dir.x > 0 && cal.side == 0 && cal.raydir.x < 0)
+		return (TRUE);
+	//플레이어는 서쪽을 보고, 오브젝트는 동쪽이미지
+	if (cal.dir.x < 0 && cal.side == 0 && cal.raydir.x >= 0)
+		return (TRUE);
+	//플레이어는 북쪽을 보고, 오브젝트는 남쪽이미지
+	if (cal.dir.y > 0 && cal.side && cal.raydir.y >= 0)
+		return (TRUE);
+	//플레이어는 남쪽을 보고, 오브젝트는 북쪽이미지 
+	if (cal.dir.y < 0 && cal.side && cal.raydir.y < 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	ismap3dtexture(t_cal cal, char **map, int y, int x)
+{
+	if (!map[y][x])
+		return (FALSE);
+	if (map[y][x] == '1' || map[y][x] == 'd' || map[y][x] == 'e')
+		return (TRUE);
+	// if (map[y][x] == 'A' && issamedir(cal))
+	// 	return (TRUE);
+	return (FALSE);
+}
+
+void dda(t_cal *cal, char **map)
+{
+	int hit = 0;
+
+	while (hit == 0)
+	{
+		if (cal->sidedist.x <= cal->sidedist.y)
 		{
-			rnd->side_dist.x += rnd->delta_dist.x;
-			rnd->map.x += rnd->step.x;
-			//ns벽을 hit
-			rnd->side = 0;
+			cal->sidedist.x += cal->deltadist.x;
+			cal->map.x += cal->step.x;
+			// if (cal->map.x < 0)
+				// cal->map.x = 0;
+			cal->side = 0; //동서 벽
+			if (cal->map.x < 0 || !map[cal->map.y][cal->map.x])
+				hit = 1;
 		}
 		else
 		{
-			rnd->side_dist.y += rnd->delta_dist.y;
-			rnd->map.y += rnd->step.y;
-			//ew벽을 hit
-			rnd->side = 1;
+			cal->sidedist.y += cal->deltadist.y;
+			cal->map.y += cal->step.y;
+			// if (cal->map.y < 0)
+			// 	cal->map.y = 0;
+			cal->side = 1; //북남 벽
+			if (cal->map.y < 0 || !map[cal->map.y][cal->map.x])
+				hit = 1;
 		}
-		// printf("%d, %d\n", rnd->map.y, rnd->map.x);
-		// printf("%c\n", map[rnd->map.y][rnd->map.x]);
-		if (map[rnd->map.y][rnd->map.x] == '1')
-		{
-			rnd->hit = 1;
-			break ;
-		}
+		if (ismap3dtexture(*cal, map, cal->map.y, cal->map.x))
+				hit = 1;
 	}
 }
 
-void	cal_perp_wall_dist(t_rnd *rnd)
+void	cal_perpwalldist(t_cal *cal, t_cal_sprite *cal_sprite, int x)
 {
-	// if (rnd->side == 3 || rnd->side == 1)
-	// 	rnd->per_wall_dist = rnd->side_dist.x - rnd->delta_dist.x;
-	// else
-	// 	rnd->per_wall_dist = rnd->side_dist.y - rnd->delta_dist.y;
-	if (rnd->side == 0)
-		rnd->per_wall_dist = (rnd->map.x - rnd->pos.x + (1 - rnd->step.x) / 2) / rnd->raydir.x; 
-	else
-		rnd->per_wall_dist = (rnd->map.y - rnd->pos.y + (1 - rnd->step.y) / 2) / rnd->raydir.y; 
-
+	if (cal->side == 0)
+		cal->perpwalldist = (cal->map.x - cal->pos.x + (1 - cal->step.x) / 2) / cal->raydir.x;
+	else 
+		cal->perpwalldist = (cal->map.y - cal->pos.y + (1 - cal->step.y) / 2) / cal->raydir.y;
+	cal_sprite->z_buffer[x] = cal->perpwalldist;
 }
 
-void	cal_lineheight(t_rnd *rnd)
+void	cal_lineheight(t_cal *cal)
 {
-	rnd->line_height = (int)(SCREEN_HEIGHT / rnd->per_wall_dist);
+	cal->lineheight = (int)(SCREEN_HEIGHT / cal->perpwalldist);
 }
 
-void	cal_drawstartend(t_rnd *rnd)
+void	cal_drawstartend(t_cal *cal)
 {
-	rnd->draw_start = -rnd->line_height / 2 + SCREEN_HEIGHT / 2;
-	if (rnd->draw_start < 0)
-		rnd->draw_start = 0;
-	rnd->draw_end = rnd->line_height / 2 + SCREEN_HEIGHT / 2;
-	if (rnd->draw_end >= SCREEN_HEIGHT)
-		rnd->draw_end = SCREEN_HEIGHT - 1;
+	cal->drawstart = (- cal->lineheight / 2) + (SCREEN_HEIGHT / 2);
+	if (cal->drawstart < 0)
+		cal->drawstart = 0;
+	cal->drawend = (cal->lineheight / 2) + (SCREEN_HEIGHT / 2);
+	if (cal->drawend >= SCREEN_HEIGHT)
+		cal->drawend = SCREEN_HEIGHT - 1;
 }
 
-void	cal_textnum(t_rnd *rnd, char **map)
+void	set_texture(t_cal *cal, char **map, t_tex3d tex3d)
 {
-	rnd->texnum = map[rnd->map.y][rnd->map.x] - '0';
-}
-
-void	cal_wall_x(t_rnd *rnd)
-{
-	if (rnd->side == 0)
-		rnd->wall_x = rnd->pos.y + rnd->per_wall_dist * rnd->raydir.y;
-	else
-		rnd->wall_x = rnd->pos.x + rnd->per_wall_dist * rnd->raydir.x;
-	rnd->wall_x -= floor(rnd->wall_x); //?
-}
-
-void	cal_tex_x(t_rnd *rnd)
-{
-	double texwidth = 32;
+	char texnum;
 	
-	cal_wall_x(rnd);
-	rnd->tex_x = (int)(rnd->wall_x * (double)texwidth);
-	// if (((rnd->side == 3 || rnd->side == 1) && rnd->raydir.x > 0) || ((rnd->side == 2 || rnd->side == 0)&& rnd->raydir.y < 0)) 
-	if ((rnd->side == 0 && rnd->raydir.x > 0) || (rnd->side == 1&& rnd->raydir.y < 0)) 
- 		rnd->tex_x = texwidth - rnd->tex_x - 1;
-}
-
-void	cal_onestep(t_rnd *rnd)
-{
-	double	texheight = 32;
-
-	rnd->one_step = 1.0 * texheight / rnd->line_height;
-}
-
-void	cal_texpos(t_rnd *rnd)
-{
-	rnd->tex_pos = (rnd->draw_start - SCREEN_HEIGHT / 2 + rnd->line_height / 2) * rnd->one_step;
-	// printf("draw_start: %d\n", rnd->draw_start);
-	// printf("pitch: %d\n", rnd->pitch);
-	// printf("line_height: %d\n", rnd->line_height);
-	// printf("one_step: %f\n", rnd->one_step);
-	// printf("tex_pos: %d\n", rnd->tex_pos);
-}
-
-int	*find_texture(t_rnd *rnd, t_texture texture)
-{
-	return (texture.wall[3]);
-	if (rnd->texnum == 1)
+	texnum = map[cal->map.y][cal->map.x];
+	if (texnum == '1')
 	{
-		// if(rnd->side == 0 && rnd->raydir.x >= 0)
-		// 	return (texture.wall[0]); // 왼쪽 벽 텍스처
-		// else if(rnd->side == 0 && rnd->raydir.x < 0)
-		// 	return (texture.wall[1]); // 오른쪽 벽 텍스처
-		// else if(rnd->side == 1 && rnd->raydir.y >= 0)
-		// 	return (texture.wall[2]); // 아래 벽 텍스처
-		// else
-			 // 위 벽 텍스처
-		// if (rnd->side == 0) // West
-		// 	return (texture.wall[0]); // 왼쪽 벽 텍스처
-		// else if (rnd->side == 1) // East
-		// 	return (texture.wall[1]); // 오른쪽 벽 텍스처
-		// else if (rnd->side == 2) // South
-		// 	return (texture.wall[2]); // 아래 벽 텍스처
-		// else if (rnd->side == 3) // North
-		// 	return (texture.wall[3]); // 위 벽 텍스처
-	}
-	return (NULL);
-}
-
-void 	set_pixeline(t_rnd *rnd, int *texture, int x)
-{
-	int				y;
-	int				tex_y;
-	int				texheight = 32;
-	unsigned int	color;
-	// char			*dst;
-
-	y = rnd->draw_start;
-	while (y < rnd->draw_end)
-	{
-		tex_y = (int)rnd->tex_pos & (texheight - 1);
-		rnd->tex_pos += rnd->one_step;
-		color = texture[texheight * tex_y + rnd->tex_x];
-		// printf("%d, %d, %d\n", rnd->tex_x, tex_y, color);
-		// if (rnd->side == 1)
-		// 	color = (color >> 1) & 8355711;
-		rnd->buffer[y][x] = color;
-		// dst = *addr + (y * info.size_l + x * (info.bpp/8));
-		// *(unsigned int *)dst = color;
-		y++;
-	}
-}
-void	ready_to_put_image(t_rnd *rnd)
-{
-	int x;
-	int y;
-
-	y = 0;
-	while (y < SCREEN_HEIGHT)
-	{
-		x = 0;
-		while (x < SCREEN_WIDTH)
+		if (cal->side == 0)
 		{
-			rnd->addr[y * SCREEN_WIDTH + x] = rnd->buffer[y][x];
-			x++;
+			if (cal->raydir.x < 0)
+				cal->texture = tex3d.wall[3].addr; //서 
+			else if (cal->raydir.x >= 0) 
+				cal->texture = tex3d.wall[2].addr; //동
 		}
+		else
+		{
+			if (cal->raydir.y < 0)
+				cal->texture = tex3d.wall[0].addr; //북
+			else if (cal->raydir.y >= 0)
+				cal->texture = tex3d.wall[1].addr; //남
+		}
+	}
+	else if (texnum == 'e')
+		cal->texture = tex3d.door[1].addr;
+	else if (texnum == 'd')
+		cal->texture = tex3d.door[0].addr;
+	// else if (texnum == 'A')
+	// 	cal->texture = tex3d.character[3][0].addr;
+	// else 
+		// cal->texture = NULL;
+}
+
+void cal_wall_x(t_cal *cal)
+{
+	if (cal->side == 0)
+		cal->wall_x = cal->pos.y + cal->perpwalldist * cal->raydir.y;
+	else 
+		cal->wall_x = cal->pos.x + cal->perpwalldist * cal->raydir.x;
+	cal->wall_x -= floor(cal->wall_x);
+}
+
+void	drawpixeline(t_cal cal, t_tex3d *tex3d, int x)
+{
+	t_pair_int	tex;
+	double		texpos;
+	double		onestep;
+	int			y;
+	int			pixel;
+
+	tex.x = (int)((tex3d->widtheight.x - cal.wall_x) * (double)tex3d->widtheight.x);
+	tex.x = tex.x % tex3d->widtheight.x; // tex.x를 texwidth로 나눈 나머지로 제한
+	if ((cal.side == 0 && cal.raydir.x > 0) || (cal.side == 1 && cal.raydir.y < 0))
+		tex.x = tex3d->widtheight.x - tex.x - 1;
+	onestep = 1.0 * tex3d->widtheight.y / cal.lineheight;
+	texpos = (cal.drawstart - SCREEN_HEIGHT / 2 + cal.lineheight / 2 ) * onestep;
+	y = cal.drawstart;
+	while (y < cal.drawend && cal.texture)
+	{
+		tex.y = (int)texpos & (tex3d->widtheight.y - 1);
+		tex.y = tex.y % tex3d->widtheight.y;
+		texpos += onestep;
+		pixel = cal.texture[tex3d->widtheight.y * tex.y + tex.x];
+		// if (cal.side == 1)
+		// 	pixel = (pixel >> 1) & 835571;
+		tex3d->display.addr[y * SCREEN_WIDTH + x] = pixel;
 		y++;
 	}
 }
-void debug_rendering(t_rnd *rnd)
-{
-	printf("pos       | %f, %f\n", rnd->pos.x, rnd->pos.y);
-	printf("dir       | %f, %f\n", rnd->dir.x, rnd->dir.y);
-	printf("plane     | %f, %f\n", rnd->plane.x, rnd->plane.y);
-	printf("map       | %d, %d\n", rnd->map.x, rnd->map.y);
-	printf("step      | %d, %d\n", rnd->step.x, rnd->step.y);
-	printf ("camera_x | %f\n", rnd->camera_x );
-	printf("raydir    | %f, %f \n", rnd->raydir.x, rnd->raydir.y);
-	printf("deltadist | %f, %f \n", rnd->delta_dist.x, rnd->delta_dist.y);
-	printf("sidedist  | %f, %f \n", rnd->side_dist.x, rnd->side_dist.y);
-	printf ("per_wall_dist | %f\n\n", rnd->per_wall_dist);
-}
 
-void	cal_loop(t_rnd *rnd, t_player player, t_texture texture, char **map)
+void cal_loop(t_game *game, t_rnd *rnd)
 {
-	(void) texture;
 	int x;
 
 	x = 0;
-	init_rnd(rnd, player); //밖으로 뺴야할듯 
+
 	while (x < SCREEN_WIDTH)
 	{
-		cal_dist(rnd, x);
-		dda(rnd, map);
-		cal_perp_wall_dist(rnd);
-		cal_lineheight(rnd);
-		cal_drawstartend(rnd);
-		cal_textnum(rnd, map);
-		cal_tex_x(rnd);
-		cal_onestep(rnd);
-		cal_texpos(rnd); 
-		// debug_rendering(rnd);
-		set_pixeline(rnd, find_texture(rnd, texture), x);
+		cal_camera_x(&rnd->cal, x);
+		cal_raydir_pair(&rnd->cal);
+		cal_map_pair(&rnd->cal);
+		cal_deltadist_pair(&rnd->cal);
+		cal_sidedist_pair(&rnd->cal);
+		cal_step_pair(&rnd->cal);
+		dda(&rnd->cal, game->map);
+		cal_perpwalldist(&rnd->cal, &rnd->cal_sprite, x);
+		cal_lineheight(&rnd->cal);
+		cal_drawstartend(&rnd->cal);
+		set_texture(&rnd->cal, game->map, rnd->tex3d);
+		cal_wall_x(&rnd->cal);
+		drawpixeline(rnd->cal, &rnd->tex3d, x);
 		x++;
+	}
+
+}
+
+int rgb_to_int(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
+}
+
+void	draw_floor(t_rnd *rnd, t_game *game)
+{
+	int y;
+
+	y = 0; // y 좌표 초기화
+	while (y < SCREEN_HEIGHT) // 화면 높이만큼 반복
+	{
+		// 바닥과 천장의 시작 방향 벡터 계산
+		float raydirx0 = rnd->cal.dir.x - rnd->cal.plane.x;
+		float raydiry0 = rnd->cal.dir.y - rnd->cal.plane.y;
+		float raydirx1 = rnd->cal.dir.x + rnd->cal.plane.x;
+		float raydiry1 = rnd->cal.dir.y + rnd->cal.plane.y;
+
+		int p = y - SCREEN_HEIGHT / 2; // y 중심점으로부터의 거리
+		float posz = 0.2 * SCREEN_HEIGHT; // 카메라 높이 (0.5)
+		float rowdist = posz / p; // 각 행의 거리 계산
+
+		// 바닥 텍스처의 스텝 계산
+		float floorstepx = rowdist * (raydirx1 - raydirx0) / SCREEN_WIDTH;
+		float floorstepy = rowdist * (raydiry1 - raydiry0) / SCREEN_WIDTH;
+
+		// 현재 픽셀에 대한 바닥 좌표 초기화
+		float floorx = rnd->cal.pos.x + rowdist * raydirx0;
+		float floory = rnd->cal.pos.y + rowdist * raydiry0;
+		
+		int x; 
+		int texwidth = 32; // 텍스처의 너비
+		int texheight = 32; // 텍스처의 높이
+
+		x = 0;
+		while (x < SCREEN_WIDTH) // 화면 너비만큼 반복
+		{
+			// 현재 셀의 좌표 계산
+			int cellx = (int)(floorx);
+			int celly = (int)(floory);
+
+			// 텍스처 좌표 계산
+			int tx = (int)(texwidth * (floorx - cellx)) & (texwidth - 1);
+			int ty = (int)(texheight * (floory - celly)) & (texheight - 1);
+
+			// 다음 픽셀의 바닥 좌표로 이동
+			floorx += floorstepx;
+			floory += floorstepy;
+
+			// 바닥 텍스처에서 색상 가져오기
+			int color = rgb_to_int(rnd->tex3d.floor.r, rnd->tex3d.floor.g, rnd->tex3d.floor.b);
+			rnd->tex3d.display.addr[y * SCREEN_WIDTH + x] = color; // 현재 y좌표의 바닥 픽셀에 색상 저장
+
+			// 천장 텍스처에서 색상 가져오기
+			color = rgb_to_int(rnd->tex3d.ceiling.r, rnd->tex3d.ceiling.g, rnd->tex3d.ceiling.b);
+			rnd->tex3d.display.addr[(SCREEN_HEIGHT - y - 1) * SCREEN_WIDTH + x] = color; // 반대 y좌표의 천장 픽셀에 색상 저장
+			x++; // 다음 x좌표로 이동
+		}
+		y++; // 다음 y좌표로 이동
 	}
 }
 
-
-
-
-void	draw_3dmap(t_game *game)
+void	save_sprites_pos(char **map, t_cal_sprite *cal_sprite)
 {
-	game->rnd.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->rnd.addr = mlx_get_data_addr(game->rnd.img, &game->texture.info.bpp, &game->texture.info.size_l, &game->texture.info.endian);
+	cal_sprite->sprites[0].pos.x = 10;
+	cal_sprite->sprites[0].pos.y = 5;
+	cal_sprite->sprites[0].dist = 0;
+}
 
-	cal_loop(&game->rnd, game->player, game->texture, game->map);
-	// draw_floor(&game->rnd, game);
-	ready_to_put_image(&game->rnd);
-	mlx_put_image_to_window(game->mlx, game->win, game->rnd.img, 20, 20);
+void	cal_sprite_distance(t_cal *cal, t_cal_sprite *cal_sprite)
+{
+	int idx;
+	t_pair_dbl dist;
+	
+	idx = 0;
+	while (idx < NUM_SPRITES)
+	{
+		dist.x = cal_sprite->sprites[idx].pos.x - cal->pos.x;
+		dist.y = cal_sprite->sprites[idx].pos.y - cal->pos.y;
+		cal_sprite->sprites[idx].dist = sqrt(dist.x * dist.x + dist.y * dist.y);
+		idx++;
+	}
+}
 
-// while (x < SCREEN_WIDTH)
-	// {
-	// 	y = 0;
-	// 	while (y < SCREEN_HEIGHT)
-	// 	{
-	// 		color = (int)game->rnd.buffer[y][x];
-	// 		printf("%d, %d, %d\n", x, y, color);
-	// 		// mlx_pixel_put(game->mlx, game->win, x, y, color);
-	// 		y++;
-	// 	}
-	// 	x++;
-	// }
+void	sort_sprites(t_cal_sprite *cal_sprite)
+{
+	int i;
+	int j;
+	t_sprite tmp;
+
+	i = 0;
+	while (i < NUM_SPRITES - 1)
+	{
+		j = 0;
+		while (j < NUM_SPRITES - i - 1)
+		{
+			if (cal_sprite->sprites[j].dist < cal_sprite->sprites[j + 1].dist)
+			{
+				tmp = cal_sprite->sprites[j];
+				cal_sprite->sprites[j] = cal_sprite->sprites[j + 1];
+				cal_sprite->sprites[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void rendersprite(t_cal_sprite *cal_sprite, t_cal *cal, t_tex3d *tex3d)
+{
+	t_pair_dbl sprite; 
+	sprite.x = cal_sprite->sprites[0].pos.x - cal->pos.x;
+	sprite.y = cal_sprite->sprites[0].pos.y - cal->pos.y;
+
+	// 스프라이트의 화면상 위치 변환
+	double invdet = 1.0 / (cal->plane.x * cal->dir.y - cal->dir.x * cal->plane.y);
+	t_pair_dbl transform; 
+	transform.x = invdet * (cal->dir.y * sprite.x - cal->dir.x * sprite.y);
+	transform.y = invdet * (-cal->plane.y * sprite.x + cal->plane.x * sprite.y);
+	
+	int spritescreenx = (int)((SCREEN_WIDTH / 2) * (1 + transform.x / transform.y));
+	
+	// 스프라이트 크기 계산
+	int spriteheight = abs((int)(SCREEN_HEIGHT / transform.y));
+	int spritewidth = abs((int)(SCREEN_HEIGHT / transform.y));
+
+	// 스프라이트의 시작과 끝 좌표
+	t_pair_int drawstart;
+	t_pair_int drawend;
+
+	drawstart.y = -spriteheight / 2 + SCREEN_HEIGHT / 2;
+	drawend.y = spriteheight / 2 + SCREEN_HEIGHT / 2;
+	if (drawstart.y < 0) drawstart.y = 0;
+	if (drawend.y >= SCREEN_HEIGHT) drawend.y = SCREEN_HEIGHT - 1;
+
+	drawstart.x = -spritewidth / 2 + spritescreenx;
+	drawend.x = spritewidth / 2 + spritescreenx;
+	if (drawstart.x < 0) drawstart.x = 0;
+	if (drawend.x >= SCREEN_WIDTH) drawend.x = SCREEN_WIDTH - 1;
+
+	// Z_BUFFER를 이용한 깊이 체크 및 스프라이트 그리기
+	for (int stripe = drawstart.x; stripe < drawend.x; stripe++)
+	{
+		int texX = (int)(256 * (stripe - (-spritewidth / 2 + spritescreenx)) * tex3d->widtheight.x / spritewidth) / 256;
+		if (transform.y > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transform.y < cal_sprite->z_buffer[stripe])
+		{
+			for (int y = drawstart.y; y < drawend.y; y++)
+			{
+				int d = (y) * 256 - SCREEN_HEIGHT * 128 + spriteheight * 128;
+				int texY = ((d * tex3d->widtheight.y) / spriteheight) / 256;
+				
+				// 텍스처 픽셀 색상 가져오기
+				int color = tex3d->character[3][0].addr[tex3d->widtheight.y * texY + texX];
+
+				if ((color & 0x00FFFFFF) != 0) // 투명도 처리
+					tex3d->display.addr[y * SCREEN_WIDTH + stripe] = color;
+			}
+		}
+	}
+}
+
+// void	rendersprite(t_cal_sprite *cal_sprite, t_cal *cal)
+// {
+// 	// 카메라 평면에서의 상대 위치를 구한다.
+// 	t_pair_dbl sprite; 
+// 	sprite.x = cal_sprite->sprites[0].pos.x - cal->pos.x;
+// 	sprite.y = cal_sprite->sprites[0].pos.y - cal->pos.y;
+
+// 	// 역행렬을 사용하여 스프라이트의 화면상 위치를 변환
+// 	double invdet = 1.9 / (cal->plane.x * 0.66 - 0.66 * cal->plane.y);
+// 	t_pair_dbl transform; 
+// 	transform.x = invdet * (0.66 * sprite.x - cal->plane.x * sprite.y);
+// 	transform.y= invdet * (- cal->plane.y * sprite.x + 0.66 * sprite.y);
+	
+// 	int spritescreenx = (int)((SCREEN_WIDTH / 2) * (1 + transform.x / transform.y));
+	
+// 	// 스프라이트의 크기 계산
+// 	int spriteheight = abs((int)(SCREEN_HEIGHT / transform.y));
+// 	int spritewidth = abs((int)(SCREEN_HEIGHT /  transform.y));
+
+// 	// 스프라이트의 시작과 끝 좌표
+// 	t_pair_int drawstart;
+// 	t_pair_int drawend;
+
+// 	// 스프라이트의 시작과 끝 y 좌표
+// 	drawstart.y = -spriteheight / 2 + SCREEN_HEIGHT / 2;
+// 	drawend.y = spriteheight / 2 + SCREEN_HEIGHT / 2;
+// 	if (drawstart.y < 0)
+// 		drawstart.y = 0;
+// 	if (drawend.y >= SCREEN_HEIGHT)
+// 		drawend.y = SCREEN_HEIGHT - 1;
+// 	 // 스프라이트의 시작과 끝 x 좌표
+// 	drawstart.x = -spritewidth / 2 + spritescreenx;
+// 	drawend.x = spritewidth / 2 + spritescreenx;
+// 	if (drawstart.x < 0)
+// 		drawstart.x = 0;
+// 	if (drawend.x >= SCREEN_WIDTH)
+// 		drawend.x = SCREEN_WIDTH - 1;
+	
+
+// 	// Z_BUFFER를 이용한 깊이 체크 및 스프라이트 그리기
+// 	// int stripe;
+// 	// stripe = drawstart.x;
+// 	// while (stripe < drawend.x)
+// 	// {
+// 	// 	if (transform.y > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transform.y < cal_sprite->z_buffer[stripe])
+// 	// 	{
+// 	// 		int y;
+			
+// 	// 		y = drawstart.y;
+// 	// 		while (y < drawend.y)
+// 	// 		{
+// 	// 			printf("Drawing pixel at (%d, %d) for sprite at distance %.2f\n", stripe, y, cal_sprite->sprites[0].dist);
+// 	// 			y++;
+// 	// 		}
+// 	// 	}
+// 	// 	stripe++;
+// 	// }
+// 	for (int stripe = drawstart.x; stripe < drawend.x; stripe++)
+// 	{
+// 		int texX = (int)(256 * (stripe - (-spritewidth / 2 + spritescreenx)) * tex3d->widtheight.x / spritewidth) / 256;
+// 		if (transform.y > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transform.y < cal_sprite->z_buffer[stripe])
+// 		{
+// 			for (int y = drawstart.y; y < drawend.y; y++)
+// 			{
+// 				int d = (y) * 256 - SCREEN_HEIGHT * 128 + spriteheight * 128;
+// 				int texY = ((d * tex3d->widtheight.y) / spriteheight) / 256;
+				
+// 				// 텍스처 픽셀 색상 가져오기
+// 				int color = tex3d->character[0][0].addr[tex3d->widtheight.y * texY + texX];
+
+// 				if ((color & 0x00FFFFFF) != 0) // 투명도 처리
+// 					tex3d->display.addr[y * SCREEN_WIDTH + stripe] = color;
+// 			}
+// 		}
+// 	}
+// }
+
+// void	rendering_main(t_game *game)
+// void	draw_3dmap(t_game *game)
+// {
+// 	init_rnd(game);
+// 	draw_floor(&game->rnd, game);
+// 	cal_loop(game, &game->rnd);
+// 	// draw_loop(&game->rnd);
+// 	mlx_put_image_to_window(game->mlx, game->win, game->rnd.tex3d.display.img, 0, 0);
+	
+// 	save_sprites_pos(game->map, &game->rnd.cal_sprite);
+// 	// 1. 플레이어와 스프라이트의 거리 계산
+// 	cal_sprite_distance(&game->rnd.cal, &game->rnd.cal_sprite);
+// 	// 2. 거리 기준으로 스프라이트 정렬
+// 	sort_sprites(&game->rnd.cal_sprite);
+// 	// 3. 각 스프라이트를 렌더링
+// 	rendersprite(&game->rnd.cal_sprite, &game->rnd.cal);
+
+// }
+
+void draw_3dmap(t_game *game)
+{
+	init_rnd(game);
+	draw_floor(&game->rnd, game);
+	cal_loop(game, &game->rnd);
+	mlx_put_image_to_window(game->mlx, game->win, game->rnd.tex3d.display.img, 0, 0);
+	
+	save_sprites_pos(game->map, &game->rnd.cal_sprite);
+
+	// 1. 플레이어와 스프라이트의 거리 계산
+	cal_sprite_distance(&game->rnd.cal, &game->rnd.cal_sprite);
+	// 2. 거리 기준으로 스프라이트 정렬
+	sort_sprites(&game->rnd.cal_sprite);
+	// 3. 각 스프라이트를 렌더링
+	rendersprite(&game->rnd.cal_sprite, &game->rnd.cal, &game->rnd.tex3d);
 }

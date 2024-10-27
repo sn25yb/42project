@@ -1,15 +1,39 @@
 #ifndef TEXTURE3D_H
 # define TEXTURE3D_H
 
-typedef enum e_img_nums
+//텍스처 개수
+typedef enum e_texnum
 {
-	NUMS_SPRITE = 4,
-	NUMS_CHARACTER = 5,
-	NUMS_OBJECT = 4,
-	NUMS_WALL = 4,
-	NUMS_DOOR = 2
-}t_img_nums;
+	N_WALL = 4,
+	N_OBJECT = 9,
+	N_SPRITE = 4,
+	N_DOOR = 2
+}t_texnum;
 
+//벽 인덱스
+typedef enum e_wall_idx
+{
+	I_EAST = 0,
+	I_WEST = 1,
+	I_SOUTH = 2,
+	I_NORTH = 3
+}t_wall_idx;
+
+//오브젝트 인덱스
+typedef enum e_obj_idx
+{
+	I_AIBAO = 0,
+	I_LEBAO = 1,
+	I_FUBAO = 2,
+	I_RUIBAO = 3,
+	I_HUIBAO = 4,
+	I_BOOTS = 5,
+	I_CARROT = 6,
+	I_KANG = 7,
+	I_WOTOU = 8
+}t_obj_idx;
+
+//rgb값
 typedef struct s_rgb
 {
 	int	r;
@@ -24,20 +48,15 @@ typedef struct s_canvas_3d
 	unsigned int	*addr;
 }	t_canvas_3d;
 
-typedef struct s_canvas_rgb
-{
-	t_rgb		rgb;
-	t_canvas_3d	canvas;
-} t_canvas_rgb;
-
 typedef struct s_tex3d
 {
-	t_canvas_3d 	**character;
-	t_canvas_3d 	*object;
 	t_canvas_3d 	*wall;
+	t_canvas_3d 	**object;
 	t_canvas_3d 	*door;
-	t_canvas_rgb	ceiling;
-	t_canvas_rgb	floor;
+
+	t_rgb			ceiling;
+	t_rgb			floor;
+
 	t_canvas_3d		display;
 
 	t_pair_int		widtheight;

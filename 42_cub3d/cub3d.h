@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yubin <yubin@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 16:30:34 by sohykim           #+#    #+#             */
+/*   Updated: 2024/10/27 00:30:09 by yubin            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -9,7 +21,6 @@
 # include "mlx/mlx.h"
 # include "libft/libft/libft.h"
 # include "libft/ft_err.h"
-
 # include "libft/libgnl/get_next_line.h"
 # include "libft/queue/queue.h"
 # include "libft/base/pair.h"
@@ -30,6 +41,10 @@
 # define KEY_ENTER 36
 # define KEY_ESC 53
 
+# define EAST 0
+# define WEST 1
+# define SOUTH 2
+# define NORTH 3
 // # define SCREEN_WIDTH 640
 // # define SCREEN_HEIGHT 480
 
@@ -45,18 +60,13 @@ typedef enum e_objs
 	FUBAO,
 	HUIBAO,
 	RUIBAO,
-	exit1
 }	t_objs;
-
-// EA 1,0
-// WE -1,0
-// NO 0, -1
-//SO 0, 1
 
 typedef struct s_player
 {
-	t_pair_dbl	pos; 
+	t_pair_dbl	pos;
 	t_pair_dbl	dir;
+	double		rad;
 }	t_player;
 
 typedef struct s_key
@@ -67,7 +77,6 @@ typedef struct s_key
 
 typedef struct s_lcycle
 {
-	/* data */
 	t_boolean	start_flag;
 	t_boolean	exit_flag;
 	t_pair_int	exit_pos;
@@ -87,53 +96,84 @@ typedef struct s_game
 	t_player	player;
 	t_rnd		rnd;
 	t_inventory	inventory;
-	t_map		minimap;
+	t_map2d		minimap;
 	t_keys		key;
 	t_lcycle	lcycle;
 }	t_game;
 
+// utils.c
+const char	*numstr(t_objs objs);
+t_pair_dbl	dir_to_coord(int dir);
+double		cal_radian(t_pair_dbl dir);
+void		change_pos(t_player *p, int keycode);
+void		change_dir(t_player *p, double x);
 
-int		inventory(t_game *game);
-int		is_valid(t_game *game);
-void	print_msg(int code);
-void	exit_game(t_game *game, int code);
-void	check_valid(t_game *game, int argc, char **argv);
-void	free_array(char **arr);
-char    *ft_realloc(char *ptr, size_t size);
-void	add(t_game *game, char *file);
-// void	add_image(t_game *game);
-t_err	check_info(t_game *game, char **info);
-int		add_wall(t_game *game, char *file, int index);
-int		destroy_game(t_game *game);
-int 	isit_inventory(t_queues inv, int num);
-void	pop_target(t_queues *inv, int num);
-t_objs	get_num_objs(char c);
-char	**arrcpy(char **arr);
-t_err   check_validmap(char **map, t_pair_dbl *pos);
-void	add_image_inventory(t_game *game);
-int		event_wt_user(int keycode, t_game *game);
-void    draw_images(t_game *game);
-int		mouse_motion(int x, int y, t_game *game);
-int		mouse_release(int button, int x, int y, t_game *game);
-char	*ft_strchrset(char *str, char *set);
-t_boolean	get_objs(t_queues *inv, t_objs objs);
-void	draw_startscreen(t_game *game);
-t_err	check_door(char **map);
-t_err	check_object(char **map);
-t_pair_int	make_dir(t_pair_int xy, int dir);
+// event.c
+t_boolean	is_reachable(char **map, int x, int y);
+
+// rule.c
+t_boolean	is_forbidden_route(char **map, int x, int y);
+t_objs		get_num_objs(char c);
+t_boolean	get_objs(t_game *game, t_objs objs);
+int			check_escape(t_game *game, t_player p);
+
+//map.c
+t_err		set_next_line(char **line, int fd);
+t_err		set_map(t_game *game, char *line);
+t_err		add_line(t_game *game, char **line);
+
+//object.c
+void		pick_exit(char c, int *num);
+t_err		check_object(char **map);
 t_boolean	count_objs(int objs[11]);
+
+// player.c
+void		pick_objs(int objs[11], char c);
 t_err		check_player(char **map, t_pair_dbl *pos);
-t_err		is_surrbywall(char **map);
-t_err	check_door(char **map);
-t_err	check_exit(char **map);
-void	pick_objs(int objs[11], char c);
+
+// story.c
+int			start_game(t_game *game);
+void		outro(t_game *game);
+void		collect_pandas(t_game *game);
+
+// exit.c
+void		exit_game(t_game *game, int code);
+int			destroy_game(t_game *game);
+
+// arg.c
+void		check_valid(t_game *game, int argc, char **argv);
+t_err		check_info(t_game *game, char **info);
+
+// setting.c
+void		add(t_game *game, char *file);
+
+// inventory.c
+int			isit_inventory(t_queues inv, int num);
+void		pop_target(t_queues *inv, int num);
+
+// map.c
+t_err		check_validmap(char **map, t_pair_dbl *pos);
+t_pair_int	make_dir(t_pair_int xy, int dir);
+
+// event.c
+int			event_wt_user(int keycode, t_game *game);
+int			mouse_motion(int x, int y, t_game *game);
+int			mouse_release(int button, int x, int y, t_game *game);
+
+// draw.c
+void		draw_images(t_game *game);
+void		draw_startscreen(t_game *game);
+
+//door.c
+t_err		check_door(char **map);
+t_err		check_exit(char **map);
+
+// wall.c
+t_err		is_surrbywall(char **map, char **cpy);
 
 //rendering(3d)
-void	add_imgs3d(t_game *game);
-void	init_texture3d(t_game *game);
-void	draw_3dmap(t_game *game);
-
-
-
-
+void		add_imgs3d(t_game *game);
+void		init_texture3d(t_game *game);
+void		draw_3dmap(t_game *game);
+void		init_render(t_rnd *rnd, t_player player);
 #endif

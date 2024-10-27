@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arg.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yubin <yubin@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 12:39:59 by sohykim           #+#    #+#             */
+/*   Updated: 2024/10/26 23:57:46 by yubin            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../cub3d.h"
+
+int	add_wall(t_game *game, char *file, int index)
+{
+	if (game->rnd.texfile[index])
+		return (MAP_FAILED);
+	game->rnd.texfile[index] = ft_strdup(file);
+	if (!game->rnd.texfile[index])
+		return (EXTRA);
+	return (EXIT_SUCCESS);
+}
 
 void	check_valid(t_game *game, int argc, char **argv)
 {
@@ -11,7 +33,6 @@ void	check_valid(t_game *game, int argc, char **argv)
 		exit_game(game, ARG_FAILED);
 	if (ft_memcmp(argv[1] + len - 4, ".cub", 5))
 		exit_game(game, ARG_FAILED);
-	
 }
 
 t_err	check_num(int num, char *str)
@@ -64,8 +85,6 @@ t_err	check_info(t_game *game, char **info)
 	int			index;
 
 	index = 0;
-	if (!info[0] || !info[1] || info[2])
-		return (MAP_FAILED);
 	while (index < 4)
 	{
 		if (!ft_memcmp(info[0], id[index], ft_strlen(id[index]) + 1))
@@ -74,17 +93,17 @@ t_err	check_info(t_game *game, char **info)
 	}
 	if (!ft_memcmp(info[0], id[index], 2))
 	{
-		if (game->rnd.tex3d.floor.rgb.flag)
+		if (game->rnd.tex3d.floor.flag)
 			return (MAP_FAILED);
-		game->rnd.tex3d.floor.rgb.flag = 1;
-		return (check_rgb(&game->rnd.tex3d.floor.rgb, info[1]));
+		game->rnd.tex3d.floor.flag = 1;
+		return (check_rgb(&game->rnd.tex3d.floor, info[1]));
 	}
 	if (!ft_memcmp(info[0], id[++index], 2))
 	{
-		if (game->rnd.tex3d.ceiling.rgb.flag)
+		if (game->rnd.tex3d.ceiling.flag)
 			return (MAP_FAILED);
-		game->rnd.tex3d.ceiling.rgb.flag = 1;
-		return (check_rgb(&game->rnd.tex3d.ceiling.rgb, info[1]));
+		game->rnd.tex3d.ceiling.flag = 1;
+		return (check_rgb(&game->rnd.tex3d.ceiling, info[1]));
 	}
 	return (MAP_FAILED);
 }

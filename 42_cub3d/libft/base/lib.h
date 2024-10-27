@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_err.h                                           :+:      :+:    :+:   */
+/*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohykim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 12:32:25 by sohykim           #+#    #+#             */
-/*   Updated: 2024/10/24 12:32:51 by sohykim          ###   ########.fr       */
+/*   Created: 2024/10/24 12:33:34 by sohykim           #+#    #+#             */
+/*   Updated: 2024/10/24 12:34:09 by sohykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef LIB_H
+# define LIB_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include "../libgnl/get_next_line.h"
 
-#ifndef FT_ERR_H
-# define FT_ERR_H
-# define MSG_MAP_FAILED "INVALID MAP FILE"
-# define MSG_ARG_FAILED "INVALID ARGUMENTS"
-
-typedef enum e_err
-{
-	ARG_FAILED = 2,
-	MAP_FAILED,
-	IMG_FAILED,
-	EXTRA
-}	t_err;
+void	free_array(char **arr);
+char	**arrcpy(char **arr);
+char	*ft_strchrset(char *str, char *set);
+int		read_next_line(const char *file, char **line, int *fd);
 
 #endif
