@@ -86,8 +86,8 @@ void	change_pos(t_player *p, int keycode)
 		rad += M_PI / 2L;
 	else if (keycode == KEY_LEFT)
 		rad -= M_PI / 2L;
-	p->pos.y += sin(rad);
-	p->pos.x += cos(rad);
+	p->pos.y += P_STEP * sin(rad);
+	p->pos.x += P_STEP * cos(rad);
 }
 
 void	change_dir(t_player *p, double x)

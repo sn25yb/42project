@@ -24,7 +24,32 @@ void	cal_plane(t_view *view)
 	}
 }
 
-void	init_render(t_rnd *rnd, t_player player)
+void	init_doormap(t_tex3d *tex3d, char **map)
+{
+	t_pair_int	idx;
+
+	if (!tex3d->doormap)
+		tex3d->doormap = arrcpy(map);
+	idx.y = 0;
+	while (map[idx.y])
+	{
+		idx.x = 0;
+		while (map[idx.y][idx.x])
+		{
+			if (map[idx.y][idx.x] == 'e' || map[idx.y][idx.x] == 'd')
+			{
+				if (tex3d->doormap[idx.y][idx.x] == 'e' || tex3d->doormap[idx.y][idx.x] == 'd')
+					tex3d->doormap[idx.y][idx.x] = 0;
+			}
+			else
+				tex3d->doormap[idx.y][idx.x] = N_ANIMATION;
+			idx.x++;
+		}
+		idx.y++;
+	}
+}
+
+void	init_render(t_rnd3d*rnd, t_player player, char **map)
 {
 	// 플레이어 위치와 방향 정보를 rnd 구조체의 view에 설정
 	rnd->view.pos.x = player.pos.x;
@@ -33,4 +58,6 @@ void	init_render(t_rnd *rnd, t_player player)
 	rnd->view.dir.y = player.dir.y;
 	// 평면 벡터 계산을 통해 플레이어의 시야 설정
 	cal_plane(&rnd->view);
+	init_doormap(&rnd->tex3d, map);
+	rnd->tex3d.openclose = 1;
 }

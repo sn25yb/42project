@@ -35,9 +35,10 @@ int	main(int argc, char *argv[])
 	/* hook & loop */
 	draw_startscreen(&game);
 	mlx_hook(game.win, KEY_PRESS, 0, &event_wt_user, &game);
-	mlx_hook(game.win, MOUSE_RELEASE, 0, &mouse_release, &game);
+	// mlx_hook(game.win, MOUSE_RELEASE, 0, &mouse_release, &game);
 	mlx_hook(game.win, MOUSE_MOVE, 0, &mouse_motion, &game);
 	mlx_hook(game.win, DESTROY_NOTIFY, 0, &destroy_game, &game);
 	// mlx_loop_hook(game_info->mlx, &event_wo_user, &game_info);
+	mlx_loop_hook(game.mlx, &draw_images_hook, &game);
 	mlx_loop(game.mlx);
 }

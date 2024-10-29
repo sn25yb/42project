@@ -13,12 +13,11 @@ void	cal_map_pair(t_view view, t_wall *wall)
 {
 	wall->map.x = (int)(view.pos.x);
 	wall->map.y = (int)(view.pos.y);
+	// printf("(%f, %f) -> (%d, %d)\n", view.pos.y, view.pos.x, wall->map.y, wall->map.x);
 }
 
 void	cal_deltadist_pair(t_wall *wall)
 {
-	// wall->deltadist.x = fabs(1 / wall->raydir.x);
-	// wall->deltadist.y = fabs(1 / wall->raydir.y);
 	wall->deltadist.x = sqrt(1 + (wall->raydir.y * wall->raydir.y) / (wall->raydir.x * wall->raydir.x));
 	wall->deltadist.y = sqrt(1 + (wall->raydir.x * wall->raydir.x) / (wall->raydir.y * wall->raydir.y));
 }
@@ -127,9 +126,14 @@ void	set_texture(t_wall *wall, t_tex3d tex3d, char **map)
 		}
 	}
 	else if (texnum == 'e')
-		wall->texture = tex3d.door[1].addr;
+	{
+		wall->texture = tex3d.door[0][(int)tex3d.doormap[wall->map.y][wall->map.x]].addr;
+		// printf("(%d, %d) %d\n", wall->map.y, wall->map.x, tex3d.doormap[wall->map.y][wall->map.x]);
+	}
 	else if (texnum == 'd')
-		wall->texture = tex3d.door[0].addr;
+	{
+		wall->texture = tex3d.door[0][(int)tex3d.doormap[wall->map.y][wall->map.x]].addr;
+	}
 }
 
 void cal_wall_x(t_view view, t_wall *wall)
@@ -150,7 +154,7 @@ void	draw_pixeline_wall(t_wall wall, t_tex3d *tex3d, int x)
 	int			pixel;
 
 	tex.x = (int)((tex3d->widtheight.x - wall.wall_x) * (double)tex3d->widtheight.x);
-	tex.x = tex.x % tex3d->widtheight.x; // tex.x를 texwidth로 나눈 나머지로 제한
+	tex.x = tex.x % tex3d->widtheight.x;
 	if ((wall.side == 0 && wall.raydir.x > 0) || (wall.side == 1 && wall.raydir.y < 0))
 		tex.x = tex3d->widtheight.x - tex.x - 1;
 	onestep = 1.0 * tex3d->widtheight.y / wall.lineheight;
@@ -169,7 +173,7 @@ void	draw_pixeline_wall(t_wall wall, t_tex3d *tex3d, int x)
 	}
 }
 
-void render_wall(t_rnd *rnd, char **map)
+void render_wall(t_rnd3d*rnd, char **map)
 {
 	int x;
 
@@ -199,60 +203,55 @@ int rgb_to_int(int r, int g, int b)
 	return ((r << 16) | (g << 8) | b);
 }
 
-void	render_ceilfloor(t_rnd *rnd)
+void	render_ceilfloor(t_rnd3d*rnd)
 {
 	int y;
 
-	y = 0; // y 좌표 초기화
-	while (y < SCREEN_HEIGHT) // 화면 높이만큼 반복
+	y = 0;
+	while (y < SCREEN_HEIGHT)
 	{
 		// 바닥과 천장의 시작 방향 벡터 계산
-		float raydirx0 = rnd->view.dir.x - rnd->view.plane.x;
-		float raydiry0 = rnd->view.dir.y - rnd->view.plane.y;
-		float raydirx1 = rnd->view.dir.x + rnd->view.plane.x;
-		float raydiry1 = rnd->view.dir.y + rnd->view.plane.y;
+		t_pair_dbl	raydir0;
+		t_pair_dbl	raydir1;
+
+		raydir0.x = rnd->view.dir.x - rnd->view.plane.x;
+		raydir0.y = rnd->view.dir.y - rnd->view.plane.y;
+		raydir1.x = rnd->view.dir.x + rnd->view.plane.x;
+		raydir1.y = rnd->view.dir.y + rnd->view.plane.y;
 
 		int p = y - SCREEN_HEIGHT / 2; // y 중심점으로부터의 거리
-		float posz = 0.2 * SCREEN_HEIGHT; // 카메라 높이 (0.5)
-		float rowdist = posz / p; // 각 행의 거리 계산
+		double posz = 0.2 * SCREEN_HEIGHT; // 카메라 높이 (0.5)
+		double rowdist = posz / p; // 각 행의 거리 계산
+
+		t_pair_dbl floorstep;
+		t_pair_dbl floor;
 
 		// 바닥 텍스처의 스텝 계산
-		float floorstepx = rowdist * (raydirx1 - raydirx0) / SCREEN_WIDTH;
-		float floorstepy = rowdist * (raydiry1 - raydiry0) / SCREEN_WIDTH;
-
+		floorstep.x = rowdist * (raydir1.x - raydir0.x) / SCREEN_WIDTH;
+		floorstep.y = rowdist * (raydir1.y - raydir0.y) / SCREEN_WIDTH;
 		// 현재 픽셀에 대한 바닥 좌표 초기화
-		float floorx = rnd->view.pos.x + rowdist * raydirx0;
-		float floory = rnd->view.pos.y + rowdist * raydiry0;
+		floor.x = rnd->view.pos.x + rowdist * raydir0.x;
+		floor.y = rnd->view.pos.y + rowdist * raydir0.y;
 		
-		int x; 
-		int texwidth = 32; // 텍스처의 너비
-		int texheight = 32; // 텍스처의 높이
-
+		int color;
+		int x;
 		x = 0;
-		while (x < SCREEN_WIDTH) // 화면 너비만큼 반복
+		while (x < SCREEN_WIDTH)
 		{
-			// 현재 셀의 좌표 계산
-			int cellx = (int)(floorx);
-			int celly = (int)(floory);
-
-			// 텍스처 좌표 계산
-			int tx = (int)(texwidth * (floorx - cellx)) & (texwidth - 1);
-			int ty = (int)(texheight * (floory - celly)) & (texheight - 1);
-
 			// 다음 픽셀의 바닥 좌표로 이동
-			floorx += floorstepx;
-			floory += floorstepy;
-
+			floor.x += floorstep.x;
+			floor.y += floorstep.y;
 			// 바닥 텍스처에서 색상 가져오기
-			int color = rgb_to_int(rnd->tex3d.floor.r, rnd->tex3d.floor.g, rnd->tex3d.floor.b);
-			rnd->tex3d.display.addr[y * SCREEN_WIDTH + x] = color; // 현재 y좌표의 바닥 픽셀에 색상 저장
-
+			color = rgb_to_int(rnd->tex3d.floor.r, rnd->tex3d.floor.g, rnd->tex3d.floor.b);
+			// y좌표의 바닥 픽셀에 색상 저장
+			rnd->tex3d.display.addr[y * SCREEN_WIDTH + x] = color;
 			// 천장 텍스처에서 색상 가져오기
 			color = rgb_to_int(rnd->tex3d.ceiling.r, rnd->tex3d.ceiling.g, rnd->tex3d.ceiling.b);
-			rnd->tex3d.display.addr[(SCREEN_HEIGHT - y - 1) * SCREEN_WIDTH + x] = color; // 반대 y좌표의 천장 픽셀에 색상 저장
-			x++; // 다음 x좌표로 이동
+			// y좌표의 천장 픽셀에 색상 저장
+			rnd->tex3d.display.addr[(SCREEN_HEIGHT - y - 1) * SCREEN_WIDTH + x] = color;
+			x++;
 		}
-		y++; // 다음 y좌표로 이동
+		y++;
 	}
 }
 
@@ -271,11 +270,27 @@ int mapcode_to_idx(char mapcode)
 	return (-1);
 }
 
-void	save_sprites_pos(char **map, t_object *object)
+void	init_sprite_pos(t_object *object)
+{
+	int idx;
+
+	idx = 0;
+	while (idx < N_OBJECT)
+	{
+		object->sprites[idx].pos.x = 0;
+		object->sprites[idx].pos.y = 0;
+		object->sprites[idx].dist = 0;
+		object->sprites[idx].idx = 0;
+		idx++;
+	}
+}
+
+void	save_sprite_pos(char **map, t_object *object)
 {
 	t_pair_int	midx; 
 	int			sidx;
 
+	init_sprite_pos(object);
 	midx.y = 0;
 	while (map[midx.y])
 	{
@@ -307,11 +322,9 @@ void cal_sprite_distance(t_view view, t_object *object)
 		dist.x = object->sprites[idx].pos.x - view.pos.x;
 		dist.y = object->sprites[idx].pos.y - view.pos.y;
 		object->sprites[idx].dist = sqrt(dist.x * dist.x + dist.y * dist.y);
-		// printf("Sprite %d distance: %f\n", idx, object->sprites[idx].dist);
 		idx++;
 	}
 }
-
 
 void sort_sprites(t_object *object)
 {
@@ -340,118 +353,199 @@ void sort_sprites(t_object *object)
 
 t_pair_dbl	sprite_to_view(t_sprite sprite, t_view view)
 {
-	t_pair_dbl	transform; // 변환된 스프라이트의 화면상 좌표
-	t_pair_dbl	sprite_rel_pos; // 스프라이트의 위치를 나타내는 변수
-	double		invdet;	// 역행렬 값 저장을 위한 변수
+	t_pair_dbl	transform; // 스프라이트의 화면상 좌표
+	t_pair_dbl	sprite_rel_pos; // 스프라이트의 상대 좌표 (플레이어를 기준으로 한 상대적인 스프라이트의 위치)
+	double		invdet;	// 역행렬 값
 
-	// 스프라이트의 월드 좌표 계산
-	sprite_rel_pos.x = sprite.pos.x - view.pos.x + 0.5; // 스프라이트의 X 좌표에서 플레이어의 X 좌표를 뺀 뒤 0.5를 더함
-	sprite_rel_pos.y = sprite.pos.y - view.pos.y + 0.5; // 스프라이트의 Y 좌표에서 플레이어의 Y 좌표를 뺀 뒤 0.5를 더함
-	// 이 위치 값은 플레이어를 기준으로 한 상대적인 스프라이트의 위치입니다.
-
-	// 변환 행렬의 역행렬 계산
-	// invdet은 3D 좌표계에서 2D 스크린 좌표로 변환하기 위한 값입니다.
-	// 플레이어의 평면(plane) 벡터와 방향(dir) 벡터를 사용하여 역행렬을 구합니다.
+	// 스프라이트의 상대 좌표 계산
+	sprite_rel_pos.x = sprite.pos.x - view.pos.x + 0.5;
+	sprite_rel_pos.y = sprite.pos.y - view.pos.y + 0.5;
+	// invdet: 3D 좌표계에서 2D 스크린 좌표로 변환하기 위한 값
 	invdet = 1.0 / (view.plane.x * view.dir.y - view.dir.x * view.plane.y);
-
-	// 스프라이트의 화면상 X 좌표 변환
+	// 스프라이트의 화면상 x좌표: 플레이어의 방향 벡터에 영향을 받는다.
 	transform.x = invdet * (view.dir.y * sprite_rel_pos.x - view.dir.x * sprite_rel_pos.y);
-	// transform->x는 변환된 스프라이트의 화면상 X 좌표이며, 이 좌표는 플레이어의 방향 벡터에 영향을 받습니다.
-
-	// 스프라이트의 화면상 Y 좌표 변환 (깊이 정보 포함)
+	// 스프라이트의 화면상 y좌표: 깊이 정보가 포함되어 있어 z_buffer에서의 깊이 확인에 사용
 	transform.y = invdet * (-view.plane.y * sprite_rel_pos.x + view.plane.x * sprite_rel_pos.y);
-	// transform->y는 변환된 스프라이트의 Y 좌표를 의미하며, 깊이 정보가 포함되어 있어 Z-Buffer에서의 깊이 확인에 사용됩니다.
-	// 이 변환은 스프라이트가 플레이어 시야에 대해 어느 위치에 있는지 판단할 수 있게 합니다.
 	return (transform);
 }
 
 void	cal_sprite_screen_params(t_sprite sprite, t_view view, t_object *object)
 {
-	// 스프라이트의 변환 및 위치 계산
+	// 스프라이트의 화면상 좌표
 	object->transform = sprite_to_view(sprite, view);
 	// 스프라이트가 화면의 X 좌표에서 위치할 픽셀 계산
 	object->spritescreenx = (int)((SCREEN_WIDTH / 2) * (1 + object->transform.x / object->transform.y));
 	// 스프라이트의 화면상 높이 및 너비 계산
-	object->spriteheight = abs((int)(SCREEN_HEIGHT / object->transform.y)); // 스프라이트 높이, Y 좌표 기준으로 스케일링
-	object->spritewidth = abs((int)(SCREEN_HEIGHT / object->transform.y)); // 스프라이트 너비, Y 좌표 기준으로 스케일링
+	object->spriteheight = abs((int)(SCREEN_HEIGHT / object->transform.y));
+	object->spritewidth = abs((int)(SCREEN_HEIGHT / object->transform.y));
 }
 
 void	cal_sprite_draw_bounds(t_object *object)
 {
-	object->drawstart.y = -object->spriteheight / 2 + SCREEN_HEIGHT / 2; // 시작 Y 좌표
-	object->drawend.y = object->spriteheight / 2 + SCREEN_HEIGHT / 2; // 끝 Y 좌표
+	object->drawstart.y = -object->spriteheight / 2 + SCREEN_HEIGHT / 2; 
+	object->drawend.y = object->spriteheight / 2 + SCREEN_HEIGHT / 2;
 	if (object->drawstart.y < 0)
-		object->drawstart.y = 0; // 화면 경계를 벗어나지 않도록 최소값 설정
+		object->drawstart.y = 0;
 	if (object->drawend.y >= SCREEN_HEIGHT)
-		object->drawend.y = SCREEN_HEIGHT - 1; // 화면 경계를 벗어나지 않도록 최대값 설정
-	// 스프라이트의 X 좌표에서 시작과 끝 설정
-	object->drawstart.x = -object->spritewidth / 2 + object->spritescreenx; // 시작 X 좌표
-	object->drawend.x = object->spritewidth / 2 + object->spritescreenx; // 끝 X 좌표
+		object->drawend.y = SCREEN_HEIGHT - 1; 
+	object->drawstart.x = -object->spritewidth / 2 + object->spritescreenx; 
+	object->drawend.x = object->spritewidth / 2 + object->spritescreenx;
 	if (object->drawstart.x < 0)
-		object->drawstart.x = 0; // 화면 경계를 벗어나지 않도록 최소값 설정
+		object->drawstart.x = 0;
 	if (object->drawend.x >= SCREEN_WIDTH)
-		object->drawend.x = SCREEN_WIDTH - 1; // 화면 경계를 벗어나지 않도록 최대값 설정
+		object->drawend.x = SCREEN_WIDTH - 1;
 }
 
 void draw_pixeline_object(t_object object, t_tex3d *tex3d, t_sprite sprite)
 {
 	t_pair_int	tex;
-	t_pair_int	draw; // 스프라이트의 X, Y 좌표
-	int			d; // 픽셀 위치 계산을 위한 변수
-	int			color; // 텍스처 색상 값
+	t_pair_int	draw;
+	int			pixelpos;
+	int			color;
 
-	draw.x = object.drawstart.x; // 스프라이트의 시작 X 좌표로 draw.x 초기화
-	// 스프라이트의 각 열에 대해
-	while (draw.x < object.drawend.x) // 스프라이트의 끝 X 좌표까지 반복
+	draw.x = object.drawstart.x;
+	while (draw.x < object.drawend.x)
 	{
 		// 텍스처의 X 좌표 계산
 		tex.x = (int)(256 * (draw.x - (-object.spritewidth / 2 + object.spritescreenx)) * tex3d->widtheight.x / object.spritewidth) / 256;
-		// 스프라이트의 깊이 체크 및 화면에 그리기
-		if (object.transform.y > 0 && draw.x > 0 && draw.x < SCREEN_WIDTH && object.transform.y < object.z_buffer[draw.x])
+		if (object.transform.y > 0 && draw.x > 0 && draw.x < SCREEN_WIDTH && object.transform.y < object.z_buffer[draw.x]) // 스프라이트의 깊이 체크 및 화면에 그리기
 		{
-			draw.y = object.drawstart.y; // 스프라이트의 시작 Y 좌표를 초기화
-			// 스프라이트의 각 행에 대해
-			while (draw.y < object.drawend.y) // 스프라이트의 끝 Y 좌표까지 반복
+			draw.y = object.drawstart.y;
+			while (draw.y < object.drawend.y)
 			{
+				// 픽셀 위치
+				pixelpos = draw.y * 256 - SCREEN_HEIGHT * 128 + object.spriteheight * 128;
 				// 텍스처 Y 좌표 계산
-				d = draw.y * 256 - SCREEN_HEIGHT * 128 + object.spriteheight * 128; // 픽셀 위치
-				tex.y = ((d * tex3d->widtheight.y) / object.spriteheight) / 256; // 텍스처의 Y 좌표 계산
+				tex.y = ((pixelpos * tex3d->widtheight.y) / object.spriteheight) / 256;
 				// 텍스처 픽셀 색상 가져오기
-				color = tex3d->object[sprite.idx][0].addr[tex3d->widtheight.y * tex.y + tex.x]; // 텍스처로부터 색상 값 가져오기
+				color = tex3d->object[sprite.idx][tex3d->object[sprite.idx]->animation].addr[tex3d->widtheight.y * tex.y + tex.x];
+
 				// if ((color & 0x00FFFFFF) != 0) // 투명도 처리
 				tex3d->display.addr[draw.y * SCREEN_WIDTH + draw.x] = color; // 최종 픽셀 값 설정
-				draw.y++; // 다음 Y 좌표로 이동
+				draw.y++;
 			}
 		}
-		draw.x++; // 다음 X 좌표로 이동
+		draw.x++;
 	}
 }
 
 
-void render_object(t_rnd *rnd, char **map)
+void render_object(t_rnd3d*rnd, char **map)
 {
 	int idx;
 
 	idx = 0;
-	save_sprites_pos(map, &rnd->object);
+	// 0. 스프라이트 절대 위치 저장
+	save_sprite_pos(map, &rnd->object);
 	// 1. 플레이어와 스프라이트의 거리 계산
 	cal_sprite_distance(rnd->view, &rnd->object);
 	// 2. 거리 기준으로 스프라이트 정렬
 	sort_sprites(&rnd->object);
 	while (idx < N_OBJECT)
 	{
+		// 3. 스프라이트 화면상 좌표 그리기
 		cal_sprite_screen_params(rnd->object.sprites[idx], rnd->view, &rnd->object);
-		// 스프라이트가 화면에 그려질 시작 및 끝 Y 좌표 계산
+		// 스프라이트가 화면에 그려질 시작 및 끝 좌표 계산
 		cal_sprite_draw_bounds(&rnd->object);
-		// Z_BUFFER를 이용한 깊이 체크 및 스프라이트 그리기
+		// z_buffer를 이용한 깊이 체크 및 스프라이트 그리기
 		draw_pixeline_object(rnd->object, &rnd->tex3d, rnd->object.sprites[idx]);
+		idx++;
+	}
+}
+
+int animation_clock(long *pre, double wait)
+{
+	struct timeval	time;
+	long			now_sec;
+	long			now_usec;
+	long			elapsed;
+
+	// 현재 시간 가져오기
+	gettimeofday(&time, NULL);
+	now_sec = (long)(time.tv_sec);
+	now_usec = (long)(time.tv_usec);
+	if (!*pre)
+		*pre = now_sec * 1000000 + now_usec; // 초기화 시점 저장 (마이크로초 단위)
+	else
+	{
+		elapsed = (now_sec * 1000000 + now_usec) - *pre; // 경과 시간 계산 (마이크로초 단위)
+		if (elapsed > wait * 1000000)
+		{
+			*pre = now_sec * 1000000 + now_usec; // 현재 시점 저장 (마이크로초 단위)
+			return (EXIT_SUCCESS);
+		}
+	}
+	return (EXIT_FAILURE);
+}
+
+void animation_door_anidx(t_rnd3d *rnd3d, t_pair_int idx, int offset)
+{
+	t_pair_dbl	relpos;
+	double		dist;
+	int			anidx;
+
+	relpos.x = idx.x - rnd3d->view.pos.x + 0.8;
+	relpos.y = idx.y - rnd3d->view.pos.y + 0.8;
+	dist = sqrt(relpos.x * relpos.x + relpos.y * relpos.y);
+	anidx = offset - dist;
+	if (anidx >= N_ANIMATION)
+		anidx = N_ANIMATION - 1;
+	// printf("%d\n", anidx);
+	if (anidx == 3 || anidx == 0)
+		rnd3d->tex3d.doormap[idx.y][idx.x] = (char)anidx;
+	else if (rnd3d->tex3d.doormap[idx.y][idx.x] >= 0 && rnd3d->tex3d.doormap[idx.y][idx.x] <= 2 \
+			&& animation_clock(&rnd3d->tex3d.time, DOORSPEED) == EXIT_SUCCESS)
+				rnd3d->tex3d.doormap[idx.y][idx.x]++;
+	// printf("(%d, %d) = %f\n", idx.y, idx.x, dist);
+}
+
+// 플레이어의 근접성에 따라 문 애니메이션을 관리하는 함수
+void animation_door(t_rnd3d *rnd3d, char **map)
+{
+	double		offset;
+	t_pair_int	start;
+	t_pair_int	end;
+	t_pair_int	idx;
+
+	// 플레이어 주변을 체크할 거리
+	offset = 4.0;
+	// 플레이어 주변을 체크할 범위 정의
+	start.y = (int)fmax(rnd3d->view.pos.y - offset, 0);
+	end.y = (int)rnd3d->view.pos.y + offset;
+	idx.y = start.y;
+	while (idx.y < end.y && map[idx.y])
+	{
+		start.x = (int)fmax(rnd3d->view.pos.x - offset, 0);
+		end.x = (int)rnd3d->view.pos.x + offset;
+		idx.x = start.x;
+		while (idx.x < end.x && map[idx.y][idx.x])
+		{
+			if (map[idx.y][idx.x]== 'e' || map[idx.y][idx.x] == 'd')
+				animation_door_anidx(rnd3d, idx, offset);
+			idx.x++;
+		}
+		idx.y++;
+	}
+}
+
+void	animation_object(t_game *game)
+{
+	int idx; 
+
+	idx = 0;
+	while (idx < N_OBJECT)
+	{	
+		if (animation_clock(&game->rnd.tex3d.object[idx]->time, OBJSPEED) == EXIT_SUCCESS)
+			game->rnd.tex3d.object[idx]->animation =(game->rnd.tex3d.object[idx]->animation + 1) % N_ANIMATION;
 		idx++;
 	}
 }
 
 void draw_3dmap(t_game *game)
 {
-	init_render(&game->rnd, game->player);
+	init_render(&game->rnd, game->player, game->map);
+	animation_object(game);
+	animation_door(&game->rnd, game->map);
 	render_ceilfloor(&game->rnd);
 	render_wall(&game->rnd, game->map);
 	render_object(&game->rnd, game->map);

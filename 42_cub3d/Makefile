@@ -16,21 +16,24 @@ CPPFLAGS = -I. \
 MLXFLAG = -framework OpenGL -framework AppKit
 
 SRCDIR1 = ./srcs/sohykim/
+SRCDIR2 = ./srcs/yubshin/
 SRCDIR3 = ./srcs/sohykim/map2d/
 SRCDIR4 = ./srcs/sohykim/validation/
-SRCDIR2 = ./srcs/yubshin/
+SRCDIR5 = ./srcs/story/
+SRCDIR6 = ./srcs/sohykim/image2d/
+SRCDIR7 = ./srcs/sohykim/inventory/
+SRCDIR8 = ./srcs/sohykim/object/
+
 BASE = ./base/
 
 SRCS = main.c \
 	   exit.c \
 	   event.c \
 	   draw.c \
-	   story.c \
+	   rule.c \
+	   setting.c \
 	   $(SRCDIR1)map.c \
-	   $(SRCDIR1)setting.c \
 	   $(SRCDIR1)utils.c \
-	   $(SRCDIR1)rule.c \
-	   $(SRCDIR3)inventory.c \
 	   $(SRCDIR3)map2d.c \
 	   $(SRCDIR4)arg.c \
 	   $(SRCDIR4)map.c \
@@ -38,11 +41,14 @@ SRCS = main.c \
 	   $(SRCDIR4)player.c \
 	   $(SRCDIR4)object.c \
 	   $(SRCDIR4)wall.c \
-	   $(SRCDIR3)image2d.c \
 	   $(SRCDIR2)add_image3d.c \
-	   $(SRCDIR2)get_image3d_addr.c \
-	   $(SRCDIR2)rendering.c \
+	   $(SRCDIR2)rnd3d.c \
 	   $(SRCDIR2)init_render.c \
+	   $(SRCDIR5)story.c \
+	   $(SRCDIR5)rule.c \
+	   $(SRCDIR6)image2d.c \
+	   $(SRCDIR7)inventory.c \
+	   $(SRCDIR8)object.c \
 
 OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
@@ -68,6 +74,19 @@ $(SRCDIR3)%.o : $(SRCDIR3)%.c
 
 $(SRCDIR4)%.o : $(SRCDIR4)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+$(SRCDIR5)%.o : $(SRCDIR5)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+$(SRCDIR6)%.o : $(SRCDIR6)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+$(SRCDIR7)%.o : $(SRCDIR7)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
+$(SRCDIR8)%.o : $(SRCDIR8)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+
 
 %.o : %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<

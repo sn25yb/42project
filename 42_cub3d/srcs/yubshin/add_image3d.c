@@ -1,87 +1,106 @@
 #include "../../cub3d.h"
 
-void	add_3d_wall(t_game *game, t_tex3d *tex3d)
+void	get_new_canvas(t_canvas_3d *new, void *mlx)
 {
-	int			w;
-	int			h;
-	int			idx;
+	new->size.x = 32;
+	new->size.y = 32;
+	new->animation = 0;
+	new->img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	new->addr = (unsigned int *)mlx_get_data_addr(new->img, &new->bpp, &new->size_l, &new->endian);
+}
 
-	w = game->rnd.tex3d.widtheight.x;
-	h = game->rnd.tex3d.widtheight.y;
-	tex3d->wall[I_EAST].img = mlx_xpm_file_to_image(game->mlx, game->rnd.texfile[I_EAST], &w, &h);
-	tex3d->wall[I_WEST].img = mlx_xpm_file_to_image(game->mlx, game->rnd.texfile[I_WEST], &w, &h);
-	tex3d->wall[I_SOUTH].img = mlx_xpm_file_to_image(game->mlx, game->rnd.texfile[I_SOUTH], &w, &h);
-	tex3d->wall[I_NORTH].img = mlx_xpm_file_to_image(game->mlx, game->rnd.texfile[I_NORTH], &w, &h);
+int	get_3d_canvas(t_canvas_3d *new, char *filename, void *mlx)
+{
+	new->size.x = 32;
+	new->size.y = 32;
+	new->img = mlx_xpm_file_to_image(mlx, filename, &new->size.x, &new->size.y);
+	if (!new->img)
+		return (IMG_FAILED);
+	new->addr = (unsigned int *)ft_calloc(new->size.x * new->size.y, sizeof(int));
+	new->addr = (unsigned int *)mlx_get_data_addr(new->img, &new->bpp, &new->size_l, &new->endian);
+	return (EXIT_SUCCESS);
+}
+
+int	add_3d_wall(t_game *game, t_tex3d *tex3d, char **filenames)
+{
+	int	idx;
+	int	code;
+
 	idx = 0;
+	code = EXIT_SUCCESS;
 	while (idx < N_WALL)
 	{
-		if (!tex3d->wall[idx].img)
-			exit_game(game, IMG_FAILED);
+		if (get_3d_canvas(&tex3d->wall[idx], filenames[idx], game->mlx))
+			code = IMG_FAILED;
 		idx++;
 	}
+	return (code);
 }
 
-void	add_3d_object(t_game *game, t_tex3d *tex3d)
+int	add_3d_object(t_tex3d *tex3d, void *mlx)
 {
-	int			w;
-	int			h;
-	int			idx;
-
-	w = game->rnd.tex3d.widtheight.x;
-	h = game->rnd.tex3d.widtheight.y;
-	tex3d->object[I_AIBAO][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/aibao.xpm", &w, &h);
-	tex3d->object[I_LEBAO][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/lebao.xpm", &w, &h);
-	tex3d->object[I_FUBAO][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/fubao.xpm", &w, &h);
-	tex3d->object[I_RUIBAO][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/ruibao.xpm", &w, &h);
-	tex3d->object[I_HUIBAO][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/huibao.xpm", &w, &h);
-	tex3d->object[I_BOOTS][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/boots.xpm", &w, &h);
-	tex3d->object[I_CARROT][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/carrot.xpm", &w, &h);
-	tex3d->object[I_KANG][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/kangbao.xpm", &w, &h);
-	tex3d->object[I_WOTOU][0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/wotou.xpm", &w, &h);
-	idx = 0;
-	while (idx < N_OBJECT)
+	char	*file;
+	t_pair_int idx;
+	int		fd;
+	int		code;
+	
+	fd = 0;
+	idx.y = 0;
+	code = EXIT_SUCCESS;
+	while (idx.y < N_OBJECT)
 	{
-		if (!tex3d->object[idx][0].img)
-			exit_game(game, IMG_FAILED);
-		idx++;
+		idx.x = 0;
+		while (idx.x < N_ANIMATION)
+		{
+			if (read_next_line("./textures/imglst/3d_object", &file, &fd))
+				code = EXTRA;
+			if (!code && (!file || get_3d_canvas(&tex3d->object[idx.y][idx.x], file, mlx)))
+				code = IMG_FAILED;
+			free(file);
+			idx.x++;
+		}
+		idx.y++;
 	}
+	if (fd > 0)
+		close(fd);
+	return (code);
 }
 
-void	add_3d_door(t_game *game, t_tex3d *tex3d)
+int	add_3d_door(t_tex3d *tex3d, void *mlx)
 {
-	int			w;
-	int			h;
-	int			idx;
-
-	w = game->rnd.tex3d.widtheight.x;
-	h = game->rnd.tex3d.widtheight.y;
-	tex3d->door[0].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/door.xpm", &w, &h);
-	tex3d->door[1].img = mlx_xpm_file_to_image(game->mlx, "textures/3d/door.xpm", &w, &h);
-	idx = 0;
-	while (idx < N_DOOR)
+	char	*file;
+	t_pair_int idx;
+	int		fd;
+	int		code;
+	
+	fd = 0;
+	idx.y = 0;
+	code = EXIT_SUCCESS;
+	while (idx.y < N_DOOR)
 	{
-		if (!tex3d->door[idx].img)
-			exit_game(game, IMG_FAILED);
-		idx++;
+		idx.x = 0;
+		while (idx.x < N_ANIMATION)
+		{
+			if (read_next_line("./textures/imglst/3d_door", &file, &fd))
+				code = EXTRA;
+			if (!code && (!file || get_3d_canvas(&tex3d->door[idx.y][idx.x], file, mlx)))
+				code = IMG_FAILED;
+			free(file);
+			idx.x++;
+		}
+		idx.y++;
 	}
-}
-
-void	init_3d(t_tex3d *tex3d)
-{
-	int idx;
-
-	tex3d->object = (t_canvas_3d **)ft_calloc(N_OBJECT, sizeof(t_canvas_3d *));
-	idx = 0;
-	while (idx < N_OBJECT)
-		tex3d->object[idx++] = (t_canvas_3d *)ft_calloc(N_SPRITE, sizeof(t_canvas_3d));
-	tex3d->wall = (t_canvas_3d *)ft_calloc(N_WALL, sizeof(t_canvas_3d ));
-	tex3d->door = (t_canvas_3d *)ft_calloc(N_DOOR, sizeof(t_canvas_3d ));
+	if (fd > 0)
+		close(fd);
+	return (code);
 }
 
 void	add_imgs3d(t_game *game)
 {
-	init_3d(&game->rnd.tex3d);
-	add_3d_wall(game, &game->rnd.tex3d);
-	add_3d_object(game, &game->rnd.tex3d);
-	add_3d_door(game, &game->rnd.tex3d);
+	game->rnd.tex3d.widtheight.x = 32;
+	game->rnd.tex3d.widtheight.y = 32;
+	add_3d_wall(game, &game->rnd.tex3d, game->rnd.texfile);
+	add_3d_object(&game->rnd.tex3d, game->mlx);
+	add_3d_door(&game->rnd.tex3d, game->mlx);
+	get_new_canvas(&game->rnd.tex3d.display, game->mlx);
 }

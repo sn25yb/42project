@@ -57,20 +57,46 @@ void	add_player(t_game *game)
 	}
 }
 
-void	add_2dmap(t_game *game)
+int	add_player2d(t_star *p_info, t_player src, void *mlx)
 {
-	game->minimap.mlx = game->mlx;
-	game->minimap.win = game->win;
-	game->minimap.player.dir = make_pair_int(game->player.dir.x, \
-	game->player.dir.y);
-	game->minimap.player.pos = make_pair_int(game->player.pos.x, \
-	game->player.pos.y);
-	if (add_image2d(&game->minimap))
-		exit_game(game, IMG_FAILED);
-	if (add_inventory2d(&game->inventory, game->mlx))
-		exit_game(game, IMG_FAILED);
-	if (add_map2d(&game->minimap, game->map))
-		exit_game(game, EXTRA);
+	t_img2d	*conv;
+
+	p_info->dir = make_pair_int(src.dir.x, src.dir.y);
+	p_info->pos = make_pair_int(src.pos.x, src.pos.y);
+	if (get_image(mlx, &p_info->player, "./textures/2d/player.xpm"))
+		return (IMG_FAILED);
+	conv = &p_info->player_conv;
+	*conv = p_info->player;
+	conv->image = mlx_new_image(mlx, conv->size.x, conv->size.y);
+	if (!conv->image)
+		return (EXTRA);
+	conv->addr = (unsigned int *)mlx_get_data_addr(conv->image, \
+	&conv->bpp, &conv->size_l, &conv->endian);
+	return (EXIT_SUCCESS);
+}
+
+int	add_script(t_script *script, void *mlx)
+{
+	script->scene_num = INTRO;
+	return (get_image(mlx, &script->chat, SCRIPT_IMG));
+}
+
+int	add_rnd2d(t_game *game)
+{
+	int	code;
+
+	game->rnd2d.minimap.mlx = game->mlx;
+	game->rnd2d.minimap.win = game->win;
+	code = add_player2d(&game->rnd2d.minimap.player, game->player, game->mlx);
+	if (!code)
+		code = add_minimap(&game->rnd2d.minimap, game->map);
+	if (!code)
+		code = add_inventory2d(&game->rnd2d.inventory, game->mlx);
+	if (!code)
+		code = get_image(game->mlx, &game->rnd2d.startbg, "./textures/2d/startbg.xpm");
+	if (!code)
+		code = add_script(&game->rnd2d.script, game->mlx);
+	return (code);
 }
 
 t_err	add_map(t_game *game, int fd)
@@ -116,9 +142,10 @@ void	add(t_game *game, char *file)
 	if (!code)
 		code = add_map(game, fd);
 	close(fd);
+	add_player(game);
+	if (!code)
+		code = add_rnd2d(game);
 	if (code)
 		exit_game(game, code);
-	add_player(game);
-	add_2dmap(game);
-	init_texture3d(game);
+	add_imgs3d(game);
 }

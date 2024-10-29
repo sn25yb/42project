@@ -18,6 +18,8 @@
 # include "../../../libft/base/pair.h"
 # include "../../../libft/ft_err.h"
 # include "../../../mlx/mlx.h"
+# include "../image2d/image2d.h"
+# include "../inventory/inventory.h"
 # include <stdio.h>
 # include <fcntl.h>
 // EA 1,0
@@ -29,38 +31,9 @@ typedef struct s_star
 {
 	t_pair_int	pos;
 	t_pair_int	dir;
+	t_img2d		player;
+	t_img2d		player_conv;
 }	t_star;
-
-typedef struct s_img2d
-{
-	void			*image;
-	unsigned int	*addr;
-	int				bpp;
-	int				endian;
-	int				size_l;
-	t_pair_int		size;
-}	t_img2d;
-
-typedef struct s_inventory
-{
-	t_queues	pocket;
-	t_img2d		img;
-}	t_inventory;
-
-typedef struct s_imgs2d
-{
-	t_img2d	wall;
-	t_img2d	empty;
-	t_img2d	way;
-	t_img2d	player;
-	t_img2d	player_conv;
-	t_img2d	door;
-	t_img2d	start;
-	t_img2d	logo;
-	t_img2d	target;
-	t_img2d	exit;
-	t_img2d	object[11];
-}	t_imgs2d;
 
 typedef struct s_map2d
 {
@@ -68,11 +41,15 @@ typedef struct s_map2d
 	void		*win;
 	char		**map;
 	t_star		player;
-	t_imgs2d	image;
+	t_img2d		wall;
+	t_img2d		empty;
+	t_img2d		way;
+	t_img2d		door[2];
+	t_img2d		target;
+	t_img2d		object[11];
 }	t_map2d;
 
-int	add_inventory2d(t_inventory *inv, void *mlx);
-int	add_image2d(t_map2d *map);
-int	add_map2d(t_map2d *map, char **src);
+int	get_image(void *mlx, t_img2d *img, char *filename);
+int	add_minimap(t_map2d *map, char **src);
 
 #endif
