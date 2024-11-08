@@ -9,6 +9,7 @@ BASE = ./base
 LIBFT = ./libft
 GNL = ./libgnl
 QUEUE = ./queue
+ERR = ./error
 
 SRCS1 = $(LIBFT)/ft_isalpha.c \
 	  $(LIBFT)/ft_isdigit.c \
@@ -51,17 +52,20 @@ SRCS2 = $(BASE)/lib.c \
 SRCS3 = $(GNL)/get_next_line.c
 SRCS4 = $(QUEUE)/queue.c \
 		$(QUEUE)/lifecycle.c
+SRCS5 = $(ERR)/ft_err.c
+
 
 OBJS1 = $(patsubst $(LIBFT)/%.c, $(LIBFT)/%.o, $(SRCS1))
 OBJS2 = $(patsubst $(BASE)/%.c, $(BASE)/%.o, $(SRCS2))
 OBJS3 = $(patsubst $(GNL)/%.c, $(GNL)/%.o, $(SRCS3))
 OBJS4 = $(patsubst $(QUEUE)/%.c, $(QUEUE)/%.o, $(SRCS4))
+OBJS5 = $(patsubst $(ERR)/%.c, $(ERR)/%.o, $(SRCS5))
 
 NAME = libft.a
 
 all : $(NAME)
 
-$(NAME) : $(OBJS1) $(OBJS2) $(OBJS3) $(OBJS4)
+$(NAME) : $(OBJS1) $(OBJS2) $(OBJS3) $(OBJS4) $(OBJS5)
 	ar -rcs $@ $^
 
 $(LIBFT)%.o: $(LIBFT)%.c
@@ -76,12 +80,15 @@ $(GNL)%.o: $(GNL)%.c
 $(QUEUE)%.o: $(QUEUE)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $?
 
+$(ERR)%.o: $(ERR)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $?
 
 clean:
 	rm -f $(OBJS1)
 	rm -f $(OBJS2)
 	rm -f $(OBJS3)
 	rm -f $(OBJS4)
+	rm -f $(OBJS5)
 
 fclean: clean
 	rm -f $(NAME)

@@ -16,11 +16,13 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+# include "../error/ft_err.h"
 # include "../libgnl/get_next_line.h"
 
 void	free_array(char **arr);
 char	**arrcpy(char **arr);
 char	*ft_strchrset(char *str, char *set);
 int		read_next_line(const char *file, char **line, int *fd);
+void	free_intarray(int **arr, int size);
 
 #endif

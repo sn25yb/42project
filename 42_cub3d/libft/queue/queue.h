@@ -11,15 +11,14 @@
 /* ************************************************************************** */
 #ifndef QUEUE_H
 # define QUEUE_H
-# include <stdlib.h>
-# include <stdio.h>
-# include "../ft_err.h"
 # include "../base/pair.h"
+# include "../libft/libft.h"
+# include "../error/ft_err.h"
+# include <stdio.h>
 
 typedef struct s_queue
 {
-	t_pair_int		xy;
-	int				num;
+	void			*val;
 	struct s_queue	*next;
 }	t_queue;
 
@@ -28,11 +27,14 @@ typedef struct s_queues
 	struct s_queue	*head;
 }	t_queues;
 
-t_queue		*create_queue(t_pair_int xy);
+t_queue		*create_queue(void *src, size_t size);
 void		free_queues(t_queues *q);
 int			push(t_queues *q, t_pair_int xy);
-void		pop(t_queues *q);
 int			pushnum(t_queues *q, int num);
+void		pop(t_queues *q);
 void		free_queue(t_queue	*q);
-void		print_queue(t_queues *q);
+t_boolean	has_target(t_queues inv, int num);
+void		pop_target(t_queues *inv, int num);
+void		free_node(t_queue *node);
+
 #endif

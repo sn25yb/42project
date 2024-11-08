@@ -73,7 +73,7 @@ int	read_next_line(const char *file, char **line, int *fd)
 	if (*fd == -1)
 	{
 		*line = NULL;
-		return (-1);
+		return (EXTRA);
 	}
 	*line = get_next_line(*fd);
 	if (*line == NULL)
@@ -84,4 +84,16 @@ int	read_next_line(const char *file, char **line, int *fd)
 	else if (ft_strrchr(*line, '\n'))
 		*(ft_strrchr(*line, '\n')) = 0;
 	return (0);
+}
+
+void	free_intarray(int **arr, int size)
+{
+	int	cnt;
+
+	if (!arr)
+		return ;
+	cnt = 0;
+	while (cnt < size)
+		free(arr[cnt++]);
+	free(arr);
 }

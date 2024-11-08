@@ -25,7 +25,7 @@ int	push(t_queues *q, t_pair_int xy)
 	t_queue	*last;
 	t_queue	*new;
 
-	new = create_queue(xy);
+	new = create_queue(&xy, sizeof(t_pair_int));
 	if (!new)
 		return (EXTRA);
 	last = _last(q->head);
@@ -41,8 +41,7 @@ int	pushnum(t_queues *q, int num)
 	t_queue	*last;
 	t_queue	*new;
 
-	new = create_queue(make_pair_int(0, 0));
-	new->num = num;
+	new = create_queue(&num, sizeof(int));
 	if (!new)
 		return (EXTRA);
 	last = _last(q->head);
@@ -60,19 +59,20 @@ void	pop(t_queues *q)
 	if (!q || !q->head)
 		return ;
 	target = q->head->next;
-	free(q->head);
+	free_node(q->head);
 	q->head = target;
 }
 
-void	print_queue(t_queues *q)
+t_boolean	has_target(t_queues inv, int num)
 {
 	t_queue	*node;
 
-	node = q->head;
-	printf("print------queue\n");
+	node = inv.head;
 	while (node)
 	{
-		printf("%d %d\n", node->xy.y, node->xy.x);
+		if (!ft_memcmp(node->val, &num, sizeof(int)))
+			return (TRUE);
 		node = node->next;
 	}
+	return (FALSE);
 }
