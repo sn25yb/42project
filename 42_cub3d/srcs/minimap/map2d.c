@@ -42,9 +42,9 @@ int	add_mapimg2d(t_imgs2d *imgs, void *mlx)
 		return (IMG_FAILED);
 	if (get_canvas(mlx, &imgs->wall, "./texture/2d/wall.xpm"))
 		return (IMG_FAILED);
-	if (get_canvas(mlx, &imgs->door[0], "./texture/2d/door0.xpm"))
+	if (get_canvas(mlx, &imgs->door[0], "./texture/2d/door_v.xpm"))
 		return (IMG_FAILED);
-	if (get_canvas(mlx, &imgs->door[1], "./texture/2d/door1.xpm"))
+	if (get_canvas(mlx, &imgs->door[1], "./texture/2d/door_h.xpm"))
 		return (IMG_FAILED);
 	if (get_canvas(mlx, &imgs->empty, "./texture/2d/empty.xpm"))
 		return (IMG_FAILED);

@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:39:59 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/01 13:21:40 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:22:30 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ t_err	check_rgb(t_rgb *rgb, char *rgb_line)
 	char	**rgb_lines;
 	int		code ;
 
+	if (*rgb_line && (rgb_line[ft_strlen(rgb_line) - 1] == ',' \
+	|| ft_strnstr(rgb_line, ",,", ft_strlen(rgb_line)) || *rgb_line == ','))
+		return (MAP_FAILED);
 	rgb_lines = ft_split(rgb_line, ",");
 	if (!rgb_lines)
 		return (EXTRA);
@@ -68,21 +71,17 @@ t_err	check_info(t_game *game, char **info)
 	index = 0;
 	while (index < 4)
 	{
-		if (!ft_memcmp(info[0], id[index], ft_strlen(id[index]) + 1))
+		if (!ft_memcmp(info[0], id[index], 3))
 			return (add_wall(game, info[1], index));
 		index++;
 	}
-	if (!ft_memcmp(info[0], id[index], 2))
+	if (!ft_memcmp(info[0], id[index], 2) && !game->rnd3d.tex3d.floor.flag)
 	{
-		if (game->rnd3d.tex3d.floor.flag)
-			return (MAP_FAILED);
 		game->rnd3d.tex3d.floor.flag = 1;
 		return (check_rgb(&game->rnd3d.tex3d.floor, info[1]));
 	}
-	if (!ft_memcmp(info[0], id[++index], 2))
+	if (!ft_memcmp(info[0], id[++index], 2) && !game->rnd3d.tex3d.ceil.flag)
 	{
-		if (game->rnd3d.tex3d.ceil.flag)
-			return (MAP_FAILED);
 		game->rnd3d.tex3d.ceil.flag = 1;
 		return (check_rgb(&game->rnd3d.tex3d.ceil, info[1]));
 	}

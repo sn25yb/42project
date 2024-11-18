@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:06:24 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 16:41:57 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:57:59 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 # include "../canvas/canvas.h"
 # include "mlx/mlx.h"
 # include "../object/object.h"
+# include "srcs/utils/utils.h"
 # define UP_MARGIN 50
 # define INV_WIDTH 105
 # define INV_HEIGHT 78
-# define SCREEN_W 1920
-# define SCREEN_H 1080
 # define LEFT_MARGIN 
 
 typedef struct s_inventory

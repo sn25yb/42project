@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   queue.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohykim <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:23:05 by sohykim           #+#    #+#             */
-/*   Updated: 2024/10/24 12:31:54 by sohykim          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:54:38 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef QUEUE_H
 # define QUEUE_H
 # include "../base/pair.h"
 # include "../libft/libft.h"
 # include "../error/ft_err.h"
-# include <stdio.h>
 
 typedef struct s_queue
 {

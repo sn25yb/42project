@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   object.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohykim <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:51:13 by sohykim           #+#    #+#             */
-/*   Updated: 2024/10/24 13:08:10 by sohykim          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:44:43 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "rule.h"
 
 t_boolean	count_objs(int objs[10])
@@ -51,12 +52,12 @@ static t_boolean	is_nonobj(char c)
 	pick_exit(c, &num);
 	if (get_num_objs(c) || num)
 		return (FALSE);
-	if (c == '1' || c == ' ' || c == '0' || c == 'd')
+	if (is_wall(c) || c == ' ' || c == '0' || c == 'd')
 		return (FALSE);
 	return (TRUE);
 }
 
-// object 및 플레이어의 개수가 1개씩인가 확인
+// Make sure the object and player and exit have a count of 1
 t_err	check_object(char **map)
 {
 	t_pair_int	xy;

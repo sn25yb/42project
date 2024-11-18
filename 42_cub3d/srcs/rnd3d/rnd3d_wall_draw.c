@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:32:08 by yubshin           #+#    #+#             */
-/*   Updated: 2024/11/01 16:21:33 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/14 09:16:34 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static void	draw_pxline_wall(t_wall *wall, t_tex3d *tex3d, int x);
 void	draw_canvas_wall(t_wall *wall, t_tex3d *tex3d, int x)
 {
 	wall->tex.x \
-	= (int)((tex3d->bsize.x - wall->wall_x) * (double)tex3d->bsize.x);
-	wall->tex.x = wall->tex.x % tex3d->bsize.x;
+	= ((int)((tex3d->bsize.x - wall->wall_x) \
+		* (double)tex3d->bsize.x)) % tex3d->bsize.x;
 	if ((wall->side == 0 && wall->raydir.x > 0) \
 		|| (wall->side == 1 && wall->raydir.y < 0))
 		wall->tex.x = tex3d->bsize.x - wall->tex.x - 1;
@@ -58,7 +58,8 @@ static void	draw_pxline_wall(t_wall *wall, t_tex3d *tex3d, int x)
 			pxl = set_brightness(pxl, 0.9f);
 		if (wall->side == 0 && wall->raydir.x >= 0)
 			pxl = set_brightness(pxl, 0.7f);
-		tex3d->display.addr[y * SCREEN_W + x] = pxl;
+		if ((pxl & 0x00FFFFFF) != 0)
+			tex3d->display.addr[y * SCREEN_W + x] = pxl;
 		y++;
 	}
 }

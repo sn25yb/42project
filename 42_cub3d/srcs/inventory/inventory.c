@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:28:44 by sohykim           #+#    #+#             */
-/*   Updated: 2024/10/31 10:46:47 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/11 16:33:18 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,24 @@ t_boolean	is_allinventory(t_queues inv)
 
 int	add_inventoryimg(t_inventory *inv, void *mlx)
 {
-	char	**files;
-	int		id;
-	int		fd;
 	int		code;
+	int		fd;
+	int		id;
+	char	*file;
 
+	code = EXIT_SUCCESS;
 	fd = 0;
 	id = 0;
-	files = ft_calloc(TOTAL_NUM + 1, sizeof(char *));
-	code = EXIT_SUCCESS;
-	if (!files || read_next_line("./texture/texlst/invlst", &files[id], &fd))
-		return (EXTRA);
-	while (files[id] && !code && id < TOTAL_NUM)
+	while (id < TOTAL_NUM && !code)
 	{
-		code = get_canvas(mlx, &inv->object[id], files[id]);
-		read_next_line("./texture/texlst/invlst", &files[++id], &fd);
+		code = read_next_line("./texture/texlst/invlst", &file, &fd);
+		if (code == EXIT_SUCCESS)
+			code = get_canvas(mlx, &inv->object[id], file);
+		free(file);
+		id++;
 	}
 	if (fd > 0)
 		close(fd);
-	if ((!code && id != TOTAL_NUM) || fd > 0)
-		code = EXTRA;
-	free_array(files);
 	return (code);
 }
 

@@ -47,7 +47,8 @@ SRCS1 = $(LIBFT)/ft_isalpha.c \
 	  $(LIBFT)/ft_putnbr_fd.c \
 
 SRCS2 = $(BASE)/lib.c \
-	  $(BASE)/pair.c
+	  $(BASE)/pair.c \
+	  $(BASE)/base.c
 
 SRCS3 = $(GNL)/get_next_line.c
 SRCS4 = $(QUEUE)/queue.c \

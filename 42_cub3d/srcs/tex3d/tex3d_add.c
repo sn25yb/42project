@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:45:27 by yubshin           #+#    #+#             */
-/*   Updated: 2024/11/08 16:46:06 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/12 09:50:26 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	add_tex3d_obj(t_tex3d *tex3d, void *mlx)
 	code = EXIT_SUCCESS;
 	fd = 0;
 	idx.y = 0;
-	while (idx.y < N_OBJ)
+	while (idx.y < N_OBJ && code == EXIT_SUCCESS)
 	{
 		idx.x = 0;
 		while (idx.x < N_ANIM && code == EXIT_SUCCESS)
@@ -90,7 +90,7 @@ static int	add_tex3d_door(t_tex3d *tex3d, void *mlx)
 	code = EXIT_SUCCESS;
 	fd = 0;
 	idx.y = 0;
-	while (idx.y < N_DOOR)
+	while (idx.y < N_DOOR && code == EXIT_SUCCESS)
 	{
 		idx.x = 0;
 		while (idx.x < N_ANIM && code == EXIT_SUCCESS)

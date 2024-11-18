@@ -18,7 +18,7 @@ t_boolean	is_reachable(char **map, int x, int y)
 		return (FALSE);
 	if (!map[y] || (int)ft_strlen(map[y]) <= x)
 		return (FALSE);
-	if (map[y][x] == '1')
+	if (is_wall(map[y][x]))
 		return (FALSE);
 	return (TRUE);
 }
@@ -27,8 +27,8 @@ void	init_scriptinfo(t_script *script)
 {
 	free_array(script->lines);
 	script->lines = NULL;
-	script->ing = 0;
-	script->id = 0;
+	script->ing = FALSE;
+	script->id = FALSE;
 }
 
 int	get_scene(t_game *game)
@@ -52,7 +52,7 @@ int	get_scene(t_game *game)
 		start_game(game);
 	if (script->scene_num == OUTRO || script->scene_num == OUTRO2)
 		end_game(game);
-	script->scene_num = 0;
+	script->scene_num = NO_SCENE;
 	return (EXIT_SUCCESS);
 }
 
@@ -63,7 +63,13 @@ void	player_move(t_game *game, int keycode)
 
 	p = game->player;
 	map_pos = make_pair_int(p.pos.x, p.pos.y);
-	change_pos(&p, keycode);
+	if (keycode == KEY_ARROW_L)
+		change_dir(&p, M_PI / 20L);
+	else if (keycode == KEY_ARROW_R)
+		change_dir(&p, -M_PI / 20L);
+	else if (keycode == KEY_LEFT || keycode == KEY_RIGHT || \
+	keycode == KEY_DOWN || keycode == KEY_UP)
+		change_pos(&p, keycode);
 	if (p.pos.y < 0 || p.pos.x < 0)
 		p = game->player;
 	else if (!is_reachable(game->map, p.map_pos.x, p.map_pos.y))

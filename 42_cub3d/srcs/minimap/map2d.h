@@ -6,14 +6,13 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:25:56 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 16:45:48 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:54:22 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP2D_H
 # define MAP2D_H
 
-# include <stdio.h>
 # include <fcntl.h>
 # include "libft/queue/queue.h"
 # include "libft/libft/libft.h"

@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:30:34 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 16:29:40 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/13 12:06:43 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <math.h>
 # include <fcntl.h>
-# include <stdio.h>
-
 # include "mlx/mlx.h"
 # include "libft/libft/libft.h"
 # include "libft/error/ft_err.h"
@@ -37,14 +35,6 @@
 # define MOUSE_PRESS 4
 # define MOUSE_RELEASE 5
 # define MOUSE_MOVE 6
-
-# define KEY_SPACE 49
-# define KEY_UP 13
-# define KEY_DOWN 1
-# define KEY_LEFT 0
-# define KEY_RIGHT 2
-# define KEY_ENTER 36
-# define KEY_ESC 53
 
 typedef struct s_key
 {
@@ -77,11 +67,10 @@ typedef struct s_rnd2d
 typedef struct s_huibao
 {
 	t_pair_int	map_pos;
-	t_pair_dbl	pos;
 	int			mapsize;
 	int			**map;
 	int			speed;
-	t_boolean	flag;
+	t_boolean	block;
 }	t_huibao;
 
 typedef struct s_game
@@ -128,7 +117,7 @@ void		display_images(t_game *game);
 
 // utils.c
 t_err		set_next_line(char **line, int fd);
-t_err		add_line(t_game *game, char **line);
+t_err		add_line(t_game *game, char **line, int *cnt);
 
 // rule.c
 void		start_game(t_game *game);
@@ -139,6 +128,6 @@ int			check_escape(t_game *game);
 
 //rendering(3d)
 int			add_tex3d(t_game *game);
-void		display_3dmap(t_game *game);
+void		display_3ds(t_game *game);
 
 #endif

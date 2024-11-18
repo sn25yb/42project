@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d/cub3d.h"
+#include "utils.h"
 
 int	**make_intarray(t_pair_int size)
 {
@@ -51,7 +51,7 @@ int	bfs(t_queues *q, int ***map_ptr, char **src)
 		npos = make_dir(*pos, index++);
 		if (!is_forbidden_route(src, npos.x, npos.y) && \
 		(!map[npos.y][npos.x] || map[npos.y][npos.x] > \
-		map[pos->y][pos->x] + 1) && src[npos.y][npos.x] != '1')
+		map[pos->y][pos->x] + 1) && !is_wall(src[npos.y][npos.x]))
 		{
 			map[npos.y][npos.x] = map[pos->y][pos->x] + 1;
 			if (push(q, npos))

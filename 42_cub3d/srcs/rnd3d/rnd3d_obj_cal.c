@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 14:24:06 by yubshin           #+#    #+#             */
-/*   Updated: 2024/11/01 14:46:15 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/13 11:05:28 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	mapcode_to_idx(char mapcode)
 	const char	mapcodes[N_OBJ] = {'A', 'L', 'F', 'R', 'H', 'b', 'c', 'k', 'w'};
 
 	idx = 0;
-	while (mapcodes[idx])
+	while (idx < N_OBJ)
 	{
 		if (mapcodes[idx] == mapcode)
 			return (idx);

@@ -31,13 +31,19 @@ void	change_pos(t_view *player, int keycode)
 	*player = p;
 }
 
-void	change_dir(t_view *p, double x)
+double	cal_mouse_dir(double x)
 {
 	double		rad;
+
+	rad = -1 * (x - SCREEN_W / 2) * M_PI / SCREEN_W / 4;
+	return (rad);
+}
+
+void	change_dir(t_view *p, double rad)
+{
 	t_pair_dbl	conv;
 
 	conv = p->dir;
-	rad = -1 * (x - SCREEN_W / 2) * M_PI / SCREEN_W / 4;
 	if (rad < 0)
 	{
 		p->dir.x = conv.x * cos(-1 * rad) + sin(rad) * conv.y;

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohykim <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 12:07:13 by sohykim           #+#    #+#             */
-/*   Updated: 2023/11/21 18:21:47 by sohykim          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:54:33 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 4096
 # endif
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,17 +22,11 @@
 
 typedef struct s_file
 {
+	ssize_t			readbyte;
+	ssize_t			storebyte;
 	int				fd;
-	char			*strs;
-	char			*temp;
-	char			buffer[BUFFER_SIZE + 1];
-	struct s_file	*next;
+	char			buf[BUFFER_SIZE + 1];
 }	t_file;
-
-struct	s_head
-{
-	t_file	*head;
-};
 
 char	*get_next_line(int fd);
 #endif

@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohykim <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:51:00 by sohykim           #+#    #+#             */
-/*   Updated: 2024/10/24 12:53:32 by sohykim          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:45:24 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "rule.h"
 
-// 한쪽 방향은 벽 한쪽 방향은 비어 있을 것.
-// 문은 서로 붙어 있을 수 없다.
-// 문뒤에 출구도 막자.
 t_boolean	is_forbidden_route(char **map, int x, int y)
 {
 	if (x < 0 || y < 0)
@@ -25,6 +23,9 @@ t_boolean	is_forbidden_route(char **map, int x, int y)
 	return (FALSE);
 }
 
+// valid door must be from '0' to '0' (or object/panda)
+// valid door has wall on both sides (inline).
+// valid door must not be with another door or exit.
 t_boolean	is_validdoor(char **map, t_pair_int xy)
 {
 	t_pair_int	nxy;
@@ -39,7 +40,7 @@ t_boolean	is_validdoor(char **map, t_pair_int xy)
 			return (FALSE);
 		else if (map[nxy.y][nxy.x] == 'd' || map[nxy.y][nxy.x] == 'e')
 			return (FALSE);
-		else if (map[nxy.y][nxy.x] == '1')
+		else if (is_wall(map[nxy.y][nxy.x]))
 			wall[index] = 1;
 		else
 			wall[index] = 0;
@@ -51,7 +52,6 @@ t_boolean	is_validdoor(char **map, t_pair_int xy)
 	return (FALSE);
 }
 
-// 외부로 나가는 문이 하나인지
 t_err	check_door(char **map)
 {
 	t_pair_int	xy;
@@ -71,6 +71,8 @@ t_err	check_door(char **map)
 	return (EXIT_SUCCESS);
 }
 
+// valid exit must not be with another door.
+// valid exit must be route to out(' ' or '\0' or invalid index)
 t_boolean	is_validexit(char **map, t_pair_int xy)
 {
 	t_pair_int	nxy;
@@ -86,9 +88,9 @@ t_boolean	is_validexit(char **map, t_pair_int xy)
 		nxy = make_dir(xy, index);
 		if (is_forbidden_route(map, nxy.x, nxy.y))
 			flag = 1;
-		else if (map[nxy.y][nxy.x] == 'd' || map[nxy.y][nxy.x] == 'e')
+		else if (map[nxy.y][nxy.x] == 'd')
 			return (FALSE);
-		else if (map[nxy.y][nxy.x] == '1')
+		else if (is_wall(map[nxy.y][nxy.x]))
 			wall[index] = 1;
 	}
 	if (flag && wall[NORTH] && wall[SOUTH] && !wall[EAST] && !wall[WEST])
@@ -108,7 +110,7 @@ t_err	check_exit(char **map)
 		if (ft_strchr(map[xy.y], 'e'))
 		{
 			xy.x = ft_strchr(map[xy.y], 'e') - map[xy.y];
-			if (is_validexit(map, xy) && !ft_strchr(map[xy.y] + xy.x + 1, 'e'))
+			if (is_validexit(map, xy))
 				return (EXIT_SUCCESS);
 			break ;
 		}

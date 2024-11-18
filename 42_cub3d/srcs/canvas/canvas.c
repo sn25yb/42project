@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:06:00 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 16:41:56 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/11 16:55:40 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	get_canvas(void *mlx, t_canvas *img, char *file)
 {
-	if (!file || !mlx || !img)
-		return (EXTRA);
+	if (!file)
+		return (IMG_FAILED);
 	img->img = mlx_xpm_file_to_image(mlx, file, &img->size.x, &img->size.y);
 	if (!img->img)
 		return (IMG_FAILED);

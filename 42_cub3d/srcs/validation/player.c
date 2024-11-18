@@ -18,13 +18,12 @@ static t_boolean	is_player(char c)
 	return (FALSE);
 }
 
-t_boolean	is_validplayer(char **map, t_pair_int *pos)
+// check sole player in the map is in the function (check_object).
+void	set_player(char **map, t_pair_int *pos)
 {
 	t_pair_int	xy;
-	int			flag;
 
 	xy.y = 0;
-	flag = 0;
 	while (map[xy.y])
 	{
 		xy.x = 0;
@@ -33,26 +32,13 @@ t_boolean	is_validplayer(char **map, t_pair_int *pos)
 			if (is_player(map[xy.y][xy.x]))
 			{
 				*pos = xy;
-				flag++;
+				return ;
 			}
 			xy.x++;
 		}
 		xy.y++;
 	}
-	if (flag != 1)
-		return (FALSE);
-	return (TRUE);
 }
-
-// void	print_array(char **arr)
-// {
-// 	for (int i = 0; arr[i] != 0; i++)
-// 	{
-// 		for (int j = 0; arr[i][j] != 0; j++)
-// 			printf("%c", arr[i][j]);
-// 		printf("\n");
-// 	}
-// }
 
 int	is_allthings(int objs[11])
 {
@@ -61,6 +47,7 @@ int	is_allthings(int objs[11])
 	return (MAP_FAILED);
 }
 
+// player could get exit, all pandas, and all objs.
 t_err	check_route(t_queues *q, char **map, char **cpy)
 {
 	t_pair_int	npos;
@@ -78,7 +65,7 @@ t_err	check_route(t_queues *q, char **map, char **cpy)
 			return (MAP_FAILED);
 		pick_objs(objs, cpy[npos.y][npos.x]);
 		pick_exit(cpy[npos.y][npos.x], &objs[10]);
-		if (cpy[npos.y][npos.x] != 'e' && cpy[npos.y][npos.x] != '1')
+		if (cpy[npos.y][npos.x] != 'e' && !is_wall(cpy[npos.y][npos.x]))
 		{
 			if (push(q, npos))
 				return (EXTRA);
@@ -97,8 +84,7 @@ t_err	check_player(char **map)
 	t_err		code;
 	t_pair_int	pos;
 
-	if (!is_validplayer(map, &pos))
-		return (MAP_FAILED);
+	set_player(map, &pos);
 	cpy = arrcpy(map);
 	q.head = NULL;
 	if (!cpy || push(&q, pos))

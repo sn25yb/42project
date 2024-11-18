@@ -6,33 +6,59 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 14:34:56 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 15:20:26 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:07:13 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_err	add_info(t_game *game, int fd)
+t_err	add_map(t_game *game, int fd)
+{
+	char	*line;
+	char	*gnl;
+	char	*temp;
+	int		code;
+
+	line = NULL;
+	while (!set_next_line(&gnl, fd))
+	{
+		if (!line)
+			line = gnl;
+		else
+		{
+			temp = ft_strjoin(line, gnl);
+			free(line);
+			free(gnl);
+			if (!temp)
+				return (EXTRA);
+			line = temp;
+		}
+	}
+	code = set_map(&game->map, line);
+	free(line);
+	return (code);
+}
+
+t_err	add_info(t_game *game, char *file)
 {
 	int		cnt;
 	char	*line;
 	int		code;
+	int		fd;
 
 	cnt = 0;
+	fd = 0;
 	code = EXIT_SUCCESS;
-	while (cnt < 6)
+	while (cnt < 6 && !code)
 	{
-		line = get_next_line(fd);
-		if (!line)
+		if (read_next_line(file, &line, &fd) || !line)
 			return (MAP_FAILED);
-		code = add_line(game, &line);
-		if (!code)
-			cnt++;
+		code = add_line(game, &line, &cnt);
 		free(line);
-		if (code == MAP_FAILED || code == EXTRA)
-			break ;
 	}
-	return (code);
+	if (code)
+		return (code);
+	return (add_map(game, fd));
 }
 
 void	add_player(t_view *player, char ***map_ptr)
@@ -81,47 +107,11 @@ int	add_rnd2d(t_game *game)
 	return (code);
 }
 
-t_err	add_map(t_game *game, int fd)
-{
-	char	*line;
-	char	*gnl;
-	char	*temp;
-	int		code;
-
-	line = NULL;
-	while (!set_next_line(&gnl, fd))
-	{
-		if (!line)
-			line = gnl;
-		else
-		{
-			temp = ft_strjoin(line, gnl);
-			free(line);
-			free(gnl);
-			if (!temp)
-				return (EXTRA);
-			line = temp;
-		}
-	}
-	code = set_map(&game->map, line);
-	free(line);
-	return (code);
-}
-
 void	add(t_game *game, char *file)
 {
-	int		fd;
-	int		cnt;
 	int		code;
 
-	fd = open(file, O_RDONLY);
-	cnt = 0;
-	if (fd == -1)
-		exit_game(game, EXTRA);
-	code = add_info(game, fd);
-	if (!code)
-		code = add_map(game, fd);
-	close(fd);
+	code = add_info(game, file);
 	if (!code)
 		code = check_validmap(game->map);
 	if (!code)

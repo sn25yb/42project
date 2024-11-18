@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 14:22:52 by yubshin           #+#    #+#             */
-/*   Updated: 2024/11/08 16:29:42 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:27:57 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 # include "../../libft/base/pair.h"
 # include "../tex3d/tex3d.h"
 # include "srcs/view/view.h"
-
-# include <stdio.h>
+# include "srcs/utils/utils.h"
 
 typedef struct s_sprite
 {
@@ -42,7 +41,7 @@ typedef struct s_wall
 	double			wall_x;
 	unsigned int	*texture;
 	t_pair_int		tex;
-
+	char			door_flag;
 }	t_wall;
 
 typedef struct s_obj
@@ -77,8 +76,10 @@ void	rnd_ceilfloor(t_canvas *display, t_rgb ceil, t_rgb floor);
 void	rnd_obj(t_rnd3d*rnd, char **map);
 // rnd3d_wall.c
 void	rnd3d_wall(t_rnd3d *rnd, char **map);
+void	rnd3d_door(t_rnd3d *rnd, char **map);
 // rnd3d_wall_dda.c
 void	dda_wall(t_wall *wall, char **map);
+void	dda_door(t_wall *wall, t_anim anim, char **map);
 // rnd3d_wall_raycal.c
 void	cal_raydir_pair(t_view view, t_wall *wall, int x);
 void	cal_map_pair(t_view view, t_wall *wall);

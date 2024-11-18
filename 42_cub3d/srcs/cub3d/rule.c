@@ -62,7 +62,6 @@ t_boolean	collect_pandas(t_game *game)
 	obj = get_num_objs(game->map[map_pos.y][map_pos.x]);
 	if (obj && get_objs(game, obj))
 	{
-		printf("%s gotten\n", numstr(obj));
 		game->map[map_pos.y][map_pos.x] = '0';
 		game->rnd2d.minimap.map[map_pos.y + 5][map_pos.x + 5] = '0';
 		game->rnd2d.script.scene_num = obj;
@@ -77,14 +76,15 @@ void	end_game(t_game *game)
 	t_pair_int	pos;
 
 	len = ft_strlen("game clear");
-	pos = make_pair_int(SCREEN_W - len / 2, SCREEN_H - len / 2);
+	pos = make_pair_int(SCREEN_W / 2 - len / 2, SCREEN_H / 2 - len / 2);
 	game->set.is_ending = TRUE;
 	mlx_clear_window(game->mlx, game->win);
-	if (game->rnd2d.script.scene_num == OUTRO)
+	if (game->rnd2d.script.scene_num == OUTRO \
+	|| game->rnd2d.script.scene_num == OUTRO2)
 		mlx_string_put(game->mlx, game->win, \
 		pos.x, pos.y, FONT_LIGHT, "game clear");
 	else
 		mlx_string_put(game->mlx, game->win, \
 		pos.x, pos.y, FONT_LIGHT, "game over");
-	game->rnd2d.script.scene_num = 0;
+	game->rnd2d.script.scene_num = NO_SCENE;
 }

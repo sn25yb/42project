@@ -57,7 +57,7 @@ t_canvas	select_image(char *what, t_imgs2d imgs)
 		return (imgs.wall);
 	else if (*what != 'd')
 		return (imgs.target);
-	else if (*what == 'd' && *(what + 1) == '1')
+	else if (*what == 'd' && is_wall(*(what + 1)))
 		return (imgs.door[1]);
 	return (imgs.door[0]);
 }

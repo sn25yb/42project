@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 20:45:49 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 16:47:36 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/12 10:23:47 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,43 @@ int	add_huibao(t_huibao *hui, char **map)
 	return (EXTRA);
 }
 
+int	change_huipos(t_huibao *hui, char ***map, t_pair_int next)
+{
+	char		**set;
+
+	set = *map;
+	if (is_forbidden_route(set, next.x, next.y) || is_door(set[next.y][next.x]) \
+	|| get_num_objs(set[next.y][next.x]) || !hui->map[next.y][next.x])
+		return (EXIT_FAILURE);
+	if (hui->map[next.y][next.x] > hui->map[hui->map_pos.y][hui->map_pos.x])
+	{
+		set[next.y][next.x] = 'H';
+		set[hui->map_pos.y][hui->map_pos.x] = '0';
+		hui->map_pos = next;
+		*map = set;
+		hui->block = FALSE;
+		return (EXIT_SUCCESS);
+	}
+	hui->block = TRUE;
+	return (EXIT_FAILURE);
+}
+
 void	escape_hui(t_huibao *hui, char ***map)
 {
 	int			index;
-	t_pair_int	next;
 	t_pair_int	*pos;
-	char		**set;
+	t_pair_int	next;
 
 	index = 4;
 	pos = &hui->map_pos;
-	set = *map;
+	if (hui->block && hui->map[pos->y][pos->x] >= 2)
+		hui->map[pos->y][pos->x]--;
 	while (--index >= 0)
 	{
-		next = make_dir(hui->map_pos, index);
-		if (is_forbidden_route(set, next.x, next.y) || \
-		get_num_objs(set[next.y][next.x]) || !hui->map[next.y][next.x])
-			continue ;
-		if (hui->map[next.y][next.x] > hui->map[pos->y][pos->x] || hui->flag)
-		{
-			set[next.y][next.x] = 'H';
-			set[pos->y][pos->x] = '0';
-			*pos = next;
-			*map = set;
-			hui->flag = FALSE;
-			return ;
-		}
+		next = make_dir(*pos, index);
+		if (!change_huipos(hui, map, next))
+			break ;
 	}
-	hui->flag = TRUE;
 }
 
 void	free_huibao(t_huibao *hui)

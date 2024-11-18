@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:00:56 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/08 17:59:10 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/11 16:44:39 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	set_script(t_script *script, char *file)
 int	set_scene(t_script *script)
 {
 	const char	*files[13] = {"", "wotou", "boots", "carrot", "kangbao", "lebao"\
-	, "aibao", "fubao", "huibao", "ruibao", "outro1", "outro2", "intro"};
+	, "aibao", "fubao", "huibao", "ruibao", "outro", "outro2", "intro"};
 	const char	*base = "script/";
 	char		*ret;
 
@@ -58,15 +58,16 @@ void	display_msgbox(t_script *script, void *mlx, void *win)
 
 	size = script->chat.size;
 	mlx_put_image_to_window(mlx, win, script->chat.img, SCREEN_W / 2 - \
-	size.x / 2, SCREEN_H - size.y);
+	size.x / 2, SCREEN_H - size.y - MARGIN_T);
 	mlx_string_put(mlx, win, SCREEN_W / 2 - size.x / 2 + MARGIN_L, \
-	SCREEN_H - size.y / 2, FONT_DARK, script->lines[script->id]);
+	SCREEN_H - size.y / 2 - MARGIN_T, FONT_DARK, script->lines[script->id]);
 }
 
 int	get_profile_idx(t_script *script)
 {
 	const char	*name[N_PROFILE] = \
-	{"[Songbao] ", "[Aibao]", "[Lebao]", "[Fubao]", "[Ruibao]", "[Huibao]", "[Kangbao]"};
+	{"[Songbao] ", "[Aibao]", "[Lebao]", "[Fubao]", \
+	"[Ruibao]", "[Huibao]", "[Kangbao]"};
 	int			idx;
 	int			cur_id;
 

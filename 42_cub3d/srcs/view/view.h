@@ -6,7 +6,7 @@
 /*   By: yubshin <yubshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 17:33:20 by sohykim           #+#    #+#             */
-/*   Updated: 2024/11/01 14:42:33 by yubshin          ###   ########.fr       */
+/*   Updated: 2024/11/13 13:59:44 by yubshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # define KEY_RIGHT 2
 # define KEY_ENTER 36
 # define KEY_ESC 53
+# define KEY_ARROW_L 123
+# define KEY_ARROW_R 124
 # define P_STEP 0.25
-# define SCREEN_W 1920
-# define SCREEN_H 1080
 
 typedef struct s_view
 {
@@ -38,7 +38,8 @@ typedef struct s_view
 	double		rad;
 }	t_view;
 
-void	change_dir(t_view *p, double x);
+void	change_dir(t_view *p, double rad);
 void	change_pos(t_view *p, int keycode);
+double	cal_mouse_dir(double x);
 
 #endif

@@ -59,16 +59,16 @@ void	display_bg(t_map2d *info, void *mlx, void *win)
 	t_pair_int	id;
 	char		what;
 
-	id = make_pair_int(0, 0);
+	id.y = 0;
 	what = '0';
 	img = select_image(&what, info->imgs);
-	while (id.y < MAP2D_HEIGHT)
+	while (id.y < MAP2D_HEIGHT - 1)
 	{
 		id.x = 0;
 		while (id.x < MAP2D_WIDTH)
 		{
 			mlx_put_image_to_window(mlx, win, img.img, img.size.x \
-			* id.x, SCREEN_H + (id.y - MAP2D_HEIGHT - 1) * img.size.y);
+			* id.x, SCREEN_H + (id.y - MAP2D_HEIGHT) * img.size.y);
 			id.x++;
 		}
 		id.y++;
